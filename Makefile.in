@@ -1,0 +1,63 @@
+CC=@CC@
+datarootdir=@datarootdir@
+prefix=@prefix@
+exec_prefix=@prefix@
+libdir=@libdir@
+mandir=@mandir@
+includedir=@includedir@
+AR=ar
+LIBS=-lrt -lm -L. -I.
+CFLAGS=-Wall -O3
+VERSION=0.1
+TESTDIR=tests
+LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(shell pwd)
+
+.PHONY: check man
+
+all: shared static
+
+shared: bitfield.c
+	$(CC) $(CFLAGS) -c -fpic bitfield.c -o bf-shared.o -I. $(LIBS)
+	$(CC) $(CFLAGS) -shared -Wl,-soname,libbitfield.so.1 -o libbitfield.so.1.$(VERSION) bf-shared.o $(LIB)
+	for i in libbitfield.so.1 libbitfield.so; do ln -svf libbitfield.so.1.$(VERSION) $$i; done
+
+static: bitfield.c
+	$(CC) $(CFLAGS) -c bitfield.c -o bf-static.o $(LIBS)
+	$(AR) rcs libbitfield.a bf-static.o
+
+check:
+	$(MAKE) -C $(TESTDIR)
+
+install: install-lib install-man install-header
+
+install-lib:
+	mkdir -p $(DESTDIR)$(libdir)
+	for i in libbitfield.so.1 libbitfield.so libbitfield.so.1.$(VERSION) libbitfield.a; do if [ -e $(DESTDIR)$(libdir)/$$i ]; then rm -v $(DESTDIR)$(libdir)/$$i; fi; done
+	install -m 0755 libbitfield.so.1.$(VERSION) $(DESTDIR)$(libdir)
+	ln -sv libbitfield.so.1.$(VERSION) $(DESTDIR)$(libdir)/libbitfield.so.1
+	ln -sv libbitfield.so.1.$(VERSION) $(DESTDIR)$(libdir)/libbitfield.so
+	install -m 0755 libbitfield.a $(DESTDIR)$(libdir)
+#	ldconfig -n $(DESTDIR)$(libdir)
+
+install-man:
+	$(MAKE) -C man install
+
+install-header:
+	mkdir -p $(DESTDIR)$(includedir)
+	install -m 644 bitfield.h $(DESTDIR)$(includedir)/bitfield.h
+
+clean:
+	rm -rvf *.a *.o *.so*
+	$(MAKE) -C tests clean
+
+uninstall: uninstall-lib uninstall-man uninstall-header
+
+uninstall-lib:
+	for i in libbitfield.so.1 libbitfield.so libbitfield.so.1.$(VERSION) libbitfield.a; do if [ -e $(DESTDIR)$(libdir)/$$i ]; then rm -v $(DESTDIR)$(libdir)/$$i; fi; done
+	ldconfig -n $(DESTDIR)$(libdir)
+
+uninstall-man:
+	$(MAKE) -C man uninstall
+
+uninstall-header:
+	if [ -e $(DESTDIR)$(includedir)/bitfield.h ]; then rm -v $(DESTDIR)$(includedir)/bitfield.h; fi

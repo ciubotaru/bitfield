@@ -1,0 +1,32 @@
+.TH bfprint 3 "SEPTEMBER 1, 2015" "bf 0.1" "Bitfield manipulation library"
+.SH NAME
+bfprint \- write the contents of a bitfield to stdout as zeroes and ones.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "void bfprint(const struct bitfield *"instance ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbfprint()\fR function takes a poiinter to bitfield \fIinstance\fR, and writes its bits to \fIstdout\fR as zeroes and ones, followed by a newline.
+.SH "SEE ALSO"
+.BR bfnew (3),
+.BR bfdel (3),
+.BR bfcmp (3),
+.BR bf2char (3),
+.BR char2bf (3),
+.BR bfsub (3),
+.BR bfcat (3),
+.BR bfshift (3)
+.SH COLOPHON
+This page is part of release 0.1 of the 
+.I bf
+project.
+A description of the project can be found at
+.BR
+\%https://github.com/ciubotaru/bf/.
+.SH AUTHOR
+Vitalie CIUBOTARU
+
