@@ -1,0 +1,34 @@
+.TH bf2char 3 "SEPTEMBER 1, 2015" "bf 0.1" "Bitfield manipulation library"
+.SH NAME
+bf2char, cha2bf \- convert bitfields to char strings of zeroes and ones, and vice-versa.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "void bf2char(const struct bitfield *"input ", char *"output ");
+.BI "void char2bf(const char *"input ", struct bitfield *"output ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbf2char()\fR function takes a pointer to bitfield \fIinput\fR, and a char string \fIoutput\fR, and fills \fIoutput\fR with '0' and '1' characters.
+.sp
+The \fBchar2bf()\fR function takes a char string \fIinput\fR, consitsting of ones and zeroes, and a pointer to a properly initialized bitfield \fIoutput\fR, and fills \fIoutput\fR with '0' and '1' bites.
+.SH "SEE ALSO"
+.BR bfnew (3),
+.BR bfdel (3),
+.BR bfcmp (3),
+.BR bfprint (3),
+.BR bfsub (3),
+.BR bfcat (3),
+.BR bfshift (3)
+.SH COLOPHON
+This page is part of release 0.1 of the 
+.I bf
+project.
+A description of the project can be found at
+.BR
+\%https://github.com/ciubotaru/bf/.
+.SH AUTHOR
+Vitalie CIUBOTARU
+
