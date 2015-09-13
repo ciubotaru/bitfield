@@ -1,6 +1,24 @@
 INSTALLATION
+------------
 
-$ ./configure --prefix=PREFIX
+To compile bitfield from source code:
+
+$ autoconf
+$ ./configure --prefix=DIRECTORY
 $ make
+
+This will build both a static and a shared version. To build just one of them, 
+replace "make" with "make static" or "make shared".
+
+To test the compiled library:
+
+$ make check
+
+The generic way to install the compiled files is:
+
 $ make install
 $ ldconfig
+
+However, one might prefer to use distro-specific installation mechanism (like 
+"checkinstall") instead.
+
