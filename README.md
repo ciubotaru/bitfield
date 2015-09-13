@@ -64,6 +64,8 @@ bfand() performs bitwise AND over a pair of bitfields.
 
 bfcat() concatenates two bitfields into one.
 
+bfclone() creates a copy of an existing bitfield.
+
 bfcmp() compares two bitfields and returns 0 if same or non-zero and error 
 message if different.
 
