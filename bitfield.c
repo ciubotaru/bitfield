@@ -278,13 +278,7 @@ struct bitfield *bfor(const struct bitfield *input1,
 	for (i = 0; i < bitnslots; i++)
 		output->field[i] = input1->field[i] | input2->field[i];
 	/* make sure to clear the trailing bits, if there are any */
-	int tail = size % LONG_BIT;
-	if (tail != 0) {
-		/* create a mask for the remaining space in the last slot and align it to the left (end of slot) */
-		unsigned long mask = ((1UL << (LONG_BIT - tail)) - 1UL) << tail;
-		/* clear the extra bits */
-		output->field[bitnslots - 1] &= ~mask;
-	}
+	bfcleartail(output);
 	return output;
 }
 
@@ -300,6 +294,8 @@ struct bitfield *bfand(const struct bitfield *input1,
 	struct bitfield *output = bfnew(size);
 	for (i = 0; i < bitnslots; i++)
 		output->field[i] = input1->field[i] & input2->field[i];
+	/* make sure to clear the trailing bits, if there are any */
+	bfcleartail(output);
 	return output;
 }
 
@@ -316,13 +312,7 @@ struct bitfield *bfxor(const struct bitfield *input1,
 	for (i = 0; i < bitnslots; i++)
 		output->field[i] = input1->field[i] ^ input2->field[i];
 	/* make sure to clear the trailing bits, if there are any */
-	int tail = size % LONG_BIT;
-	if (tail != 0) {
-		/* create a mask for the remaining space in the last slot and align it to the left (end of slot) */
-		unsigned long mask = ((1UL << (LONG_BIT - tail)) - 1UL) << tail;
-		/* clear the extra bits */
-		output->field[bitnslots - 1] &= ~mask;
-	}
+	bfcleartail(output);
 	return output;
 }
 
@@ -333,5 +323,18 @@ struct bitfield *bfnot(const struct bitfield *input)
 	struct bitfield *output = bfnew(input->size);
 	for (i = 0; i < bitnslots; i++)
 		output->field[i] = ~input->field[i];
+	/* make sure to clear the trailing bits, if there are any */
+	bfcleartail(output);
 	return output;
+}
+
+inline void bfcleartail(struct bitfield *input)
+{
+	int tail = input->size % LONG_BIT;
+	if (tail != 0) {
+		/* create a mask for the tail */
+		unsigned long mask = (1UL << tail) - 1UL;
+		/* clear the extra bits */
+		input->field[BITNSLOTS(input->size) - 1] |= mask;
+	}
 }
