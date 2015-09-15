@@ -17,7 +17,29 @@ struct bitfield *bfnew(const int size)
 {
 	struct bitfield *instance = calloc(1, sizeof(struct bitfield));
 	instance->size = size;
-	(instance->field) = calloc(1, BITNSLOTS(size) * sizeof(unsigned long));
+	instance->field = calloc(1, BITNSLOTS(size) * sizeof(unsigned long));
+	return instance;
+}
+
+struct bitfield *bfnew_quick(const int size)
+{
+	struct bitfield *instance = malloc(sizeof(struct bitfield));
+	instance->size = size;
+	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
+	instance->field[BITNSLOTS(size)-1] = 0UL; //because the tail should be zeroed anyway
+	return instance;
+}
+
+struct bitfield *bfnew_ones(const int size)
+{
+	struct bitfield *instance = malloc(sizeof(struct bitfield));
+	instance->size = size;
+	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
+        int i;
+        for (i = 0; i < BITNSLOTS(size); i++)
+	{
+		instance->field[i] = -1UL; //set all bits to ones
+	}
 	return instance;
 }
 
@@ -102,7 +124,6 @@ void char2bf(const char *input, struct bitfield *output)
 
 void bf2char(const struct bitfield *input, char *output)
 {
-
 	int bitnslots = BITNSLOTS(input->size);
 	int i, j;
 	for (i = 0; i < bitnslots - 1; i++) {

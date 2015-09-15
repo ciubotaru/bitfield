@@ -26,7 +26,11 @@ struct bitfield {		/* defines a bitfield */
 	int size;
 };
 
-struct bitfield *bfnew(const int);	/* creates a bitfield structure and returns a pointer to it */
+struct bitfield *bfnew(const int);	/* creates a bitfield structure, sets all its bits to false and returns a pointer to it */
+
+struct bitfield *bfnew_quick(const int);	/* creates a bitfield structure and returns a pointer to it */
+
+struct bitfield *bfnew_ones(const int);		/* creates a bitfield structure, sets all its bits to true with and returns a pointer to it */
 
 struct bitfield *bfclone(struct bitfield *);	/* creates a copy of an existing bitfield */
 
