@@ -13,26 +13,27 @@
 #include <assert.h>
 #include "bitfield.h"
 
-static void inline bfinit(struct bitfield *, const int);
-
 struct bitfield *bfnew(const int size)
 {
 	struct bitfield *instance = calloc(1, sizeof(struct bitfield));
-	bfinit(instance, size);
-	return instance;
-}
-
-static void inline bfinit(struct bitfield *instance, const int size)
-{
 	instance->size = size;
-	(instance->field) =
-	    calloc(1, BITNSLOTS(size) * sizeof(unsigned long));
+	(instance->field) = calloc(1, BITNSLOTS(size) * sizeof(unsigned long));
+	return instance;
 }
 
 void bfdel(struct bitfield *instance)
 {
 	free(instance->field);
 	free(instance);
+}
+
+struct bitfield *bfclone(struct bitfield * input) {
+	int bitnslots = BITNSLOTS(input->size);
+/* not using bfnew, because calloc is slow and 0-ed memory not needed anyway */
+	struct bitfield * output = malloc(sizeof(struct bitfield));
+        output->field = malloc(bitnslots * sizeof(unsigned long));
+        memcpy(output->field, input->field, bitnslots * sizeof(unsigned long));
+	return output;
 }
 
 int bfcmp(const struct bitfield *input1, const struct bitfield *input2, char **errmsg)

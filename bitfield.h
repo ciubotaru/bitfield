@@ -26,7 +26,9 @@ struct bitfield {			/* defines a bitfield */
 	int size;
 };
 
-struct bitfield *bfnew(const int);	/* returns a pointer to struct bitfield */
+struct bitfield *bfnew(const int);	/* creates a bitfield structure and returns a pointer to it */
+
+struct bitfield *bfclone(struct bitfield *);	/* creates a copy of an existing bitfield */
 
 void bfdel(struct bitfield *);	/* destroys a bitfield structure and frees memory */
 
