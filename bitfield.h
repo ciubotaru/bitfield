@@ -21,7 +21,7 @@
 #define BITTEST(a, b) ((a)->field[BITSLOT(b)] & BITMASK(b))
 #define BITNSLOTS(nb) ((nb + LONG_BIT - 1) / LONG_BIT)
 
-struct bitfield {			/* defines a bitfield */
+struct bitfield {		/* defines a bitfield */
 	unsigned long *field;
 	int size;
 };
@@ -44,12 +44,12 @@ struct bitfield *bfsub(const struct bitfield *, const unsigned int, const unsign
 
 struct bitfield *bfcat(const struct bitfield *, const struct bitfield *);	/* concatenates two bitfields into one */
 
-struct bitfield *bfshift(const struct bitfield *, const int); /* circular-shift the contents of a bitfield */
+struct bitfield *bfshift(const struct bitfield *, const int);	/* circular-shift the contents of a bitfield */
 
-struct bitfield *bfor(const struct bitfield *, const struct bitfield *); /* performs bitwise inclusive OR over a pair of bitfields */
+struct bitfield *bfor(const struct bitfield *, const struct bitfield *);	/* performs bitwise inclusive OR over a pair of bitfields */
 
-struct bitfield *bfand(const struct bitfield *, const struct bitfield *); /* performs bitwise AND over a pair of bitfields */
+struct bitfield *bfand(const struct bitfield *, const struct bitfield *);	/* performs bitwise AND over a pair of bitfields */
 
-struct bitfield *bfxor(const struct bitfield *, const struct bitfield *); /* performs bitwise exclusive OR over a pair of bitfields */
+struct bitfield *bfxor(const struct bitfield *, const struct bitfield *);	/* performs bitwise exclusive OR over a pair of bitfields */
 
-struct bitfield *bfnot(const struct bitfield *); /* reverses all bits in a bitfield */
+struct bitfield *bfnot(const struct bitfield *);	/* reverses all bits in a bitfield */

@@ -27,16 +27,18 @@ void bfdel(struct bitfield *instance)
 	free(instance);
 }
 
-struct bitfield *bfclone(struct bitfield * input) {
+struct bitfield *bfclone(struct bitfield *input)
+{
 	int bitnslots = BITNSLOTS(input->size);
 /* not using bfnew, because calloc is slow and 0-ed memory not needed anyway */
-	struct bitfield * output = malloc(sizeof(struct bitfield));
-        output->field = malloc(bitnslots * sizeof(unsigned long));
-        memcpy(output->field, input->field, bitnslots * sizeof(unsigned long));
+	struct bitfield *output = malloc(sizeof(struct bitfield));
+	output->field = malloc(bitnslots * sizeof(unsigned long));
+	memcpy(output->field, input->field, bitnslots * sizeof(unsigned long));
 	return output;
 }
 
-int bfcmp(const struct bitfield *input1, const struct bitfield *input2, char **errmsg)
+int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
+	  char **errmsg)
 {
 	char *msg;
 	if (input1->size != input2->size) {
@@ -121,7 +123,7 @@ void bf2char(const struct bitfield *input, char *output)
 }
 
 struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
-		 const unsigned int end)
+		       const unsigned int end)
 {
     /**
      * this function will extract a sub-bitfield, starting from 'start' bit (included in subfield) and to 'end' bit (not included)
@@ -185,24 +187,24 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 	} else {
 		unsigned long mask = (1UL << (end_offset - start_offset + 1)) - 1UL;	/* +1, because end_offset is the bit _included_ in selection */
 		output->field[(end - start - 1) / LONG_BIT] |=
-		    ((input->
-		      field)[end_slot] & (mask << start_offset)) >>
+		    ((input->field)[end_slot] & (mask << start_offset)) >>
 		    start_offset;
 	}
 	return output;
 }
 
-struct bitfield *bfcat(const struct bitfield *input1, const struct bitfield *input2)
+struct bitfield *bfcat(const struct bitfield *input1,
+		       const struct bitfield *input2)
 {
 	int i;
 	int output_size = input1->size + input2->size;
 	struct bitfield *output = bfnew(output_size);
-    /* copy the first input to output as is */
+	/* copy the first input to output as is */
 	for (i = 0; i < BITNSLOTS(input1->size); i++) {
 		output->field[i] |= input1->field[i];
 	}
 
-    /* find offset bit and offset slot */
+	/* find offset bit and offset slot */
 	int offset_bit = input1->size % LONG_BIT;
 	int offset_slot = input1->size / LONG_BIT;
 
@@ -223,79 +225,92 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset)
 	//positive offset moves the last offset characters to the beginning
 	int bitnslots = BITNSLOTS(input->size);
 	int offset_internal = offset % input->size;	/* removing extra rotations */
-	struct bitfield * output = bfnew(input->size);
+	struct bitfield *output = bfnew(input->size);
 	if (offset_internal == 0) {
-		memcpy(output->field, input->field, bitnslots * sizeof(unsigned long));
+		memcpy(output->field, input->field,
+		       bitnslots * sizeof(unsigned long));
 		return output;	/* nothing to shift */
 	}
 	if (offset < 0)
 		offset_internal += input->size;	/* changing to an equivalent positive offset */
-        struct bitfield * first_chunk = bfsub(input, 0, input->size - offset_internal);
-        struct bitfield * second_chunk = bfsub(input, input->size - offset_internal, input->size);
+	struct bitfield *first_chunk =
+	    bfsub(input, 0, input->size - offset_internal);
+	struct bitfield *second_chunk =
+	    bfsub(input, input->size - offset_internal, input->size);
 
-
-        struct bitfield * tmp = bfcat(second_chunk, first_chunk);
-        memcpy(output->field, tmp->field, bitnslots * sizeof(unsigned long));
-        bfdel(tmp);
-        return output;
+	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
+	memcpy(output->field, tmp->field, bitnslots * sizeof(unsigned long));
+	bfdel(tmp);
+	return output;
 }
 
-struct bitfield *bfor(const struct bitfield *input1, const struct bitfield *input2) {
-    /* If the inputs are different size, take the shorter, and ignore the difference.
-     * This way we'll surely have no error.
-     */
-    int size = input1->size < input2->size ? input1->size : input2->size;
-    int bitnslots = BITNSLOTS(size);
-    int i;
-    struct bitfield *output = bfnew(size);
-    for (i = 0; i < bitnslots; i++) output->field[i] = input1->field[i] | input2->field[i];
-    /* make sure to clear the trailing bits, if there are any */
-    int tail = size % LONG_BIT;
-    if (tail != 0) {
-        /* create a mask for the remaining space in the last slot and align it to the left (end of slot) */
-        unsigned long mask = ((1UL << (LONG_BIT - tail)) - 1UL) << tail;
-        /* clear the extra bits */
-        output->field[bitnslots - 1] &= ~mask;
-    }
-    return output;
+struct bitfield *bfor(const struct bitfield *input1,
+		      const struct bitfield *input2)
+{
+	/* If the inputs are different size, take the shorter, and ignore the difference.
+	 * This way we'll surely have no error.
+	 */
+	int size = input1->size < input2->size ? input1->size : input2->size;
+	int bitnslots = BITNSLOTS(size);
+	int i;
+	struct bitfield *output = bfnew(size);
+	for (i = 0; i < bitnslots; i++)
+		output->field[i] = input1->field[i] | input2->field[i];
+	/* make sure to clear the trailing bits, if there are any */
+	int tail = size % LONG_BIT;
+	if (tail != 0) {
+		/* create a mask for the remaining space in the last slot and align it to the left (end of slot) */
+		unsigned long mask = ((1UL << (LONG_BIT - tail)) - 1UL) << tail;
+		/* clear the extra bits */
+		output->field[bitnslots - 1] &= ~mask;
+	}
+	return output;
 }
 
-struct bitfield *bfand(const struct bitfield *input1, const struct bitfield *input2) {
-    /* If the inputs are different size, take the shorter, and ignore the difference.
-     * This way we'll surely have no error.
-     */
-    int size = input1->size < input2->size ? input1->size : input2->size;
-    int bitnslots = BITNSLOTS(size);
-    int i;
-    struct bitfield *output = bfnew(size);
-    for (i = 0; i < bitnslots; i++) output->field[i] = input1->field[i] & input2->field[i];
-    return output;
+struct bitfield *bfand(const struct bitfield *input1,
+		       const struct bitfield *input2)
+{
+	/* If the inputs are different size, take the shorter, and ignore the difference.
+	 * This way we'll surely have no error.
+	 */
+	int size = input1->size < input2->size ? input1->size : input2->size;
+	int bitnslots = BITNSLOTS(size);
+	int i;
+	struct bitfield *output = bfnew(size);
+	for (i = 0; i < bitnslots; i++)
+		output->field[i] = input1->field[i] & input2->field[i];
+	return output;
 }
 
-struct bitfield *bfxor(const struct bitfield *input1, const struct bitfield *input2) {
-    /* If the inputs are different size, take the shorter, and ignore the difference.
-     * This way we'll surely have no error.
-     */
-    int size = input1->size < input2->size ? input1->size : input2->size;
-    int bitnslots = BITNSLOTS(size);
-    int i;
-    struct bitfield *output = bfnew(size);
-    for (i = 0; i < bitnslots; i++) output->field[i] = input1->field[i] ^ input2->field[i];
-    /* make sure to clear the trailing bits, if there are any */
-    int tail = size % LONG_BIT;
-    if (tail != 0) {
-        /* create a mask for the remaining space in the last slot and align it to the left (end of slot) */
-        unsigned long mask = ((1UL << (LONG_BIT - tail)) - 1UL) << tail;
-        /* clear the extra bits */
-        output->field[bitnslots - 1] &= ~mask;
-    }
-    return output;
+struct bitfield *bfxor(const struct bitfield *input1,
+		       const struct bitfield *input2)
+{
+	/* If the inputs are different size, take the shorter, and ignore the difference.
+	 * This way we'll surely have no error.
+	 */
+	int size = input1->size < input2->size ? input1->size : input2->size;
+	int bitnslots = BITNSLOTS(size);
+	int i;
+	struct bitfield *output = bfnew(size);
+	for (i = 0; i < bitnslots; i++)
+		output->field[i] = input1->field[i] ^ input2->field[i];
+	/* make sure to clear the trailing bits, if there are any */
+	int tail = size % LONG_BIT;
+	if (tail != 0) {
+		/* create a mask for the remaining space in the last slot and align it to the left (end of slot) */
+		unsigned long mask = ((1UL << (LONG_BIT - tail)) - 1UL) << tail;
+		/* clear the extra bits */
+		output->field[bitnslots - 1] &= ~mask;
+	}
+	return output;
 }
 
-struct bitfield *bfnot(const struct bitfield *input) {
-    int bitnslots = BITNSLOTS(input->size);
-    int i;
-    struct bitfield *output = bfnew(input->size);
-    for (i = 0; i < bitnslots; i++) output->field[i] = ~input->field[i];
-    return output;
+struct bitfield *bfnot(const struct bitfield *input)
+{
+	int bitnslots = BITNSLOTS(input->size);
+	int i;
+	struct bitfield *output = bfnew(input->size);
+	for (i = 0; i < bitnslots; i++)
+		output->field[i] = ~input->field[i];
+	return output;
 }
