@@ -1,3 +1,12 @@
+/**
+ * File name: examples/rule30.c
+ * Project name: bitfield, a bit array manipulation library written in C
+ * URL: https://github.com/ciubotaru/bitfield
+ * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
+ * License: General Public License, version 3
+ * Date: September 1, 2015
+**/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
