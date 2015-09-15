@@ -1,0 +1,157 @@
+.TH bitfield 3 "SEPTEMBER 15, 2015" "bitfield 0.1" "Bitfield manipulation library"
+.SH NAME
+bitfield \- API for manipulating bit arrays.
+.SH DESCRIPTION
+A library of functions for creating, modifying and destroying bit arrays, i.e. 
+series of zeroes and ones spread across an array of storage units.
+.SH DATA TYPES
+.B struct bitfield
+is a data structure for storing bit arrays. It has two elements: an array of 
+unsigned long integers \fIfield\fR for storing the values of bits and an 
+integer \fIsize\fR for storing the number of bits in the array.
+.SH EXPORTS
+.LP
+.B
+bf2char()
+.br
+.RS
+.LP
+converts a bitfield into a character string of ones and zeroes. For details, 
+see manual page for
+.BR bf2char (3).
+.RE
+.LP
+.B
+bfand()
+.br
+.RS
+.LP
+performs bitwise AND over a pair of bitfields. For details, 
+see manual page for
+.BR bfand (3).
+.RE
+.LP
+.B
+bfcat()
+.br
+.RS
+.LP
+concatenates two bitfields into one. For details, 
+see manual page for
+.BR bfcat (3).
+.RE
+.LP
+.B
+bfclone()
+.br
+.RS
+.LP
+creates a copy of an existing bitfield. For details, 
+see manual page for
+.BR bfclone (3).
+.RE
+.LP
+.B
+bfcmp()
+.br
+.RS
+.LP
+compares two bitfields and returns 0 if same or non-zero and error 
+message if different. For details, 
+see manual page for
+.BR bfcmp (3).
+.RE
+
+.LP
+.B
+bfdel()
+.br
+.RS
+.LP
+converts a bitfield into a character string of ones and zeroes. For details, 
+see manual page for
+.BR bfdel (3).
+.RE
+.LP
+.B
+bfnew()
+.br
+.RS
+.LP
+creates an empty bitfield structure and returns a pointer to it. For details, 
+see manual page for
+.BR bfnew (3).
+.RE
+.LP
+.B
+bfnot()
+.br
+.RS
+.LP
+reverses all bits in a bitfield. For details, 
+see manual page for
+.BR bfnot (3).
+.RE
+.LP
+.B
+bfor()
+.br
+.RS
+.LP
+performs bitwise inclusive OR over a pair of bitfields. For details, 
+see manual page for
+.BR bfor (3).
+.RE
+.LP
+.B
+bfprint()
+.br
+.RS
+.LP
+prints a bitfield as a series of ones and zeroes. For details, 
+see manual page for
+.BR bfprint (3).
+.RE
+.LP
+.B
+bfshift()
+.br
+.RS
+.LP
+circular-shift the contents of a bitfield. For details, 
+see manual page for
+.BR bfshift (3).
+.RE
+.LP
+.B
+bfsub()
+.br
+.RS
+.LP
+extracts a sub-bitfield from a bitfield. For details, 
+see manual page for
+.BR bfsub (3).
+.RE
+.LP
+.B
+bfxor()
+.br
+.RS
+.LP
+performs bitwise exclusive OR over a pair of bitfields. For details, 
+see manual page for
+.BR bfxor (3).
+.RE
+.LP
+.B
+char2bf()
+.br
+.RS
+.LP
+converts a character string of ones and zeroes into a bitfield. For details, 
+see manual page for
+.BR char2bf (3).
+.RE
+.SH AUTHOR
+Vitalie CIUBOTARU
+
