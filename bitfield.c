@@ -15,7 +15,7 @@
 
 struct bitfield *bfnew(const int size)
 {
-	struct bitfield *instance = calloc(1, sizeof(struct bitfield));
+	struct bitfield *instance = malloc(sizeof(struct bitfield));
 	instance->size = size;
 	instance->field = calloc(1, BITNSLOTS(size) * sizeof(unsigned long));
 	return instance;
@@ -26,7 +26,7 @@ struct bitfield *bfnew_quick(const int size)
 	struct bitfield *instance = malloc(sizeof(struct bitfield));
 	instance->size = size;
 	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
-	instance->field[BITNSLOTS(size)-1] = 0UL; //because the tail should be zeroed anyway
+	instance->field[BITNSLOTS(size) - 1] = 0UL;	//because the tail should be zeroed anyway
 	return instance;
 }
 
@@ -35,10 +35,9 @@ struct bitfield *bfnew_ones(const int size)
 	struct bitfield *instance = malloc(sizeof(struct bitfield));
 	instance->size = size;
 	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
-        int i;
-        for (i = 0; i < BITNSLOTS(size); i++)
-	{
-		instance->field[i] = -1UL; //set all bits to ones
+	int i;
+	for (i = 0; i < BITNSLOTS(size); i++) {
+		instance->field[i] = -1UL;	//set all bits to ones
 	}
 	return instance;
 }
@@ -77,9 +76,10 @@ int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
 			goto differ;
 		}
 	}
+/* comparing the last slot using mask, because the tail bits may differ */
 	unsigned long mask =
 	    ((input1->size % LONG_BIT) ==
-	     0) ? ~0UL : (1UL << input1->size % LONG_BIT) - 1UL;
+	     0) ? -1UL : (1UL << input1->size % LONG_BIT) - 1UL;
 	if ((input1->field[(input1->size - 1) / LONG_BIT] & mask) !=
 	    ((input2->field)[(input2->size - 1) / LONG_BIT] & mask))
 		goto differ;
@@ -159,7 +159,7 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 	int start_slot = start / LONG_BIT;
 	int end_slot = (end - 1) / LONG_BIT;	// the slot storing the last bit included into subfield
 	int output_slots = BITNSLOTS(end - start);
-//    unsigned_long mask_1 = (start_offset = 0) ? ~0UL : (1UL << (LONG_BIT - offset)) - 1UL;
+//    unsigned_long mask_1 = (start_offset = 0) ? -1UL : (1UL << (LONG_BIT - offset)) - 1UL;
 
 	int i;
     /** filling output slots except the last one, because it may be underfull **/
@@ -202,7 +202,7 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 	} else if (start_offset == 0) {
 		unsigned long mask =
 		    (end_offset ==
-		     LONG_BIT - 1) ? ~0UL : (1UL << (end_offset + 1)) - 1UL;
+		     LONG_BIT - 1) ? -1UL : (1UL << (end_offset + 1)) - 1UL;
 		output->field[(end - start - 1) / LONG_BIT] =
 		    (input->field[end_slot] & mask);
 	} else {

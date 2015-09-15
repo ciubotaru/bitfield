@@ -13,9 +13,9 @@
 #ifndef LONG_BIT
 #define LONG_BIT (unsigned int) (sizeof(unsigned long) * CHAR_BIT)
 #endif
-#define BITMASK(b) (1 << ((b) % LONG_BIT))
+#define BITMASK(b) (1UL << ((b) % LONG_BIT))
 #define BITSLOT(b) ((b) / LONG_BIT)
-#define BITGET(a, b) (((a)->field[BITSLOT(b)] >> ((b) % LONG_BIT))  & 1)
+#define BITGET(a, b) (((a)->field[BITSLOT(b)] >> ((b) % LONG_BIT))  & 1UL)
 #define BITSET(a, b) ((a)->field[BITSLOT(b)] |= BITMASK(b))
 #define BITCLEAR(a, b) ((a)->field[BITSLOT(b)] &= ~BITMASK(b))
 #define BITTEST(a, b) ((a)->field[BITSLOT(b)] & BITMASK(b))
@@ -30,7 +30,7 @@ struct bitfield *bfnew(const int);	/* creates a bitfield structure, sets all its
 
 struct bitfield *bfnew_quick(const int);	/* creates a bitfield structure and returns a pointer to it */
 
-struct bitfield *bfnew_ones(const int);		/* creates a bitfield structure, sets all its bits to true with and returns a pointer to it */
+struct bitfield *bfnew_ones(const int);	/* creates a bitfield structure, sets all its bits to true with and returns a pointer to it */
 
 struct bitfield *bfclone(struct bitfield *);	/* creates a copy of an existing bitfield */
 
