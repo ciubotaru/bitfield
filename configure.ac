@@ -12,9 +12,9 @@ AC_PROG_LN_S
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lm':
-AC_CHECK_LIB([m], [main])
+#AC_CHECK_LIB([m], [main])
 # FIXME: Replace `main' with a function in `-lrt':
-AC_CHECK_LIB([rt], [main])
+#AC_CHECK_LIB([rt], [main])
 
 # Checks for header files.
 AC_CHECK_HEADERS([limits.h stdlib.h string.h])

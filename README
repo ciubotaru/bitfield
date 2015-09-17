@@ -79,7 +79,10 @@ bfor() performs bitwise inclusive OR over a pair of bitfields.
 
 bfprint() prints a bitfield as a series of ones and zeroes.
 
-bfshift() circular-shift the contents of a bitfield.
+bfshift() circular-shifts the contents of a bitfield and return the result in 
+new bitfield.
+
+bfshift_ip() circular-shifts the contents of a bitfield "in place".
 
 bfsub() extracts a sub-bitfield from a bitfield.
 

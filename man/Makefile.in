@@ -7,7 +7,10 @@ install:
 	mkdir -p $(DESTDIR)$(mandir)/man3
 	for i in $(man_MANS); do install -m 644 $$i $(DESTDIR)$(mandir)/man3/$$i; done
 	ln -s bfnew.3 $(DESTDIR)$(mandir)/man3/bfdel.3
+	ln -s bfnew.3 $(DESTDIR)$(mandir)/man3/bfnew_quick.3
+	ln -s bfnew.3 $(DESTDIR)$(mandir)/man3/bfnew_ones.3
 	ln -s bf2char.3 $(DESTDIR)$(mandir)/man3/char2bf.3
+	ln -s bfshift.3 $(DESTDIR)$(mandir)/man3/bfshift_ip.3
 	ln -s bfand.3 $(DESTDIR)$(mandir)/man3/bfnot.3
 	ln -s bfand.3 $(DESTDIR)$(mandir)/man3/bfor.3
 	ln -s bfand.3 $(DESTDIR)$(mandir)/man3/bfxor.3

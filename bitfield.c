@@ -243,17 +243,19 @@ struct bitfield *bfcat(const struct bitfield *input1,
 
 struct bitfield *bfshift(const struct bitfield *input, const int offset)
 {
-	//positive offset moves the last offset characters to the beginning
+	/* positive offset moves the last offset characters to the beginning */
 	int bitnslots = BITNSLOTS(input->size);
-	int offset_internal = offset % input->size;	/* removing extra rotations */
+	/* removing extra rotations */
+	int offset_internal = offset % input->size;
 	struct bitfield *output = bfnew(input->size);
 	if (offset_internal == 0) {
 		memcpy(output->field, input->field,
 		       bitnslots * sizeof(unsigned long));
 		return output;	/* nothing to shift */
 	}
+	/* changing a negative offset to a positive equivalent */
 	if (offset < 0)
-		offset_internal += input->size;	/* changing to an equivalent positive offset */
+		offset_internal += input->size;
 	struct bitfield *first_chunk =
 	    bfsub(input, 0, input->size - offset_internal);
 	struct bitfield *second_chunk =
@@ -263,6 +265,31 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset)
 	memcpy(output->field, tmp->field, bitnslots * sizeof(unsigned long));
 	bfdel(tmp);
 	return output;
+}
+
+void bfshift_ip(struct bitfield *input, const int offset)
+{
+	/* positive offset moves the last offset characters to the beginning */
+	int bitnslots = BITNSLOTS(input->size);
+	/* removing extra rotations */
+	int offset_internal = offset % input->size;
+	struct bitfield *output = bfnew(input->size);
+	if (offset_internal == 0) {
+		memcpy(output->field, input->field,
+		       bitnslots * sizeof(unsigned long));
+		return;	/* nothing to shift */
+	}
+	/* changing a negative offset to a positive equivalent */
+	if (offset < 0)
+		offset_internal += input->size;
+	struct bitfield *first_chunk =
+	    bfsub(input, 0, input->size - offset_internal);
+	struct bitfield *second_chunk =
+	    bfsub(input, input->size - offset_internal, input->size);
+
+	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
+	memcpy(input->field, tmp->field, bitnslots * sizeof(unsigned long));
+	bfdel(tmp);
 }
 
 struct bitfield *bfor(const struct bitfield *input1,
