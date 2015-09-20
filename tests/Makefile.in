@@ -1,10 +1,11 @@
+CC=@CC@
 TESTFILES=test1 test2 test3
-LIBS=-lrt -lm -L.. -I..
+LIBS=-L.. -I..
 
 tests: build-tests run-tests
 build-tests:
 	for i in $(TESTFILES); do \
-	$(CC) $(CFLAGS) -Wl,-rpath=$(CURDIR) -o $$i $$i.c -I. $(LIBS) -lbitfield; done
+	$(CC) $(CFLAGS) -Wl,-rpath=$(CURDIR) -o $$i $$i.c $(LIBS) -lbitfield; done
 
 run-tests:
 	for i in $(TESTFILES); do \

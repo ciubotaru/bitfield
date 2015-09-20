@@ -1,19 +1,25 @@
-.TH bfnew 3 "SEPTEMBER 1, 2015" "bf 0.1" "Bitfield manipulation library"
+.TH bfnew 3 "SEPTEMBER 20, 2015" "bitfield 0.1.1" "Bitfield manipulation library"
 .SH NAME
-bfnew, bfdel \- create and delete bitfields.
+bfnew, bfnew_quick, bfnew_ones, bfdel \- create and delete bitfields.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
 .sp
 .BI "struct bitfield *bfnew(const int "size ");
+.BI "struct bitfield *bfnew_quick(const int "size ");
+.BI "struct bitfield *bfnew_ones(const int "size ");
 .BI "void bfdel(struct bitfield *"instance ");
 .fi
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
 .sp
-The \fBbfnew()\fR function initializes a bitfield of specified \fIsize\fR (i.e. long enough to host a series of bits of length equal to \fIsize\fR), and returns a pointer to it. This pointer can later be successfully passed to \fBbfnew()\fR.
+The \fBbfnew()\fR function initializes a bitfield of specified \fIsize\fR (i.e. long enough to host a series of bits of length equal to \fIsize\fR) and returns a pointer to it. This pointer can later be successfully passed to \fBbfdel()\fR. The bitfield is guaranteed to be empty (i.e. contain only zeroes).
 .sp
-The \fBbfnew()\fR function frees the memory space pointed to by \fIinstance\fR, which must have been returned by a previous call to \fBbfnew()\fR.
+The \fBbfnew_quick()\fR function does the same thing as \fBbfnew()\fR, except that it does not clear the bits.
+.sp
+The \fBbfnew_quick()\fR function does the same thing as \fBbfnew()\fR,  except that it sets the bits to true (i.e. it contains only ones).
+.sp
+The \fBbfdel()\fR function frees the memory space pointed to by \fIinstance\fR, which must have been returned by a previous call to \fBbfnew()\fR or another similar function.
 .SH EXAMPLES
 The following code
 .sp
@@ -34,13 +40,6 @@ will delete the memory taken by a bitfield called \fImybitfield\fR, effectively 
 .BR bfsub (3),
 .BR bfcat (3),
 .BR bfshift (3)
-.SH COLOPHON
-This page is part of release 0.1 of the 
-.I bf
-project.
-A description of the project can be found at
-.BR
-\%https://github.com/ciubotaru/bf/.
 .SH AUTHOR
 Vitalie CIUBOTARU
 

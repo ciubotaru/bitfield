@@ -1,23 +1,39 @@
+/**
+ * File name: bitfield.h
+ * Project name: bitfield, a bit array manipulation library written in C
+ * URL: https://github.com/ciubotaru/bitfield
+ * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
+ * License: General Public License, version 3
+ * Date: September 1, 2015
+**/
+
 #ifndef CHAR_BIT
 #include <limits.h>
 #endif
 #ifndef LONG_BIT
 #define LONG_BIT (unsigned int) (sizeof(unsigned long) * CHAR_BIT)
 #endif
-#define BITMASK(b) (1 << ((b) % LONG_BIT))
+#define BITMASK(b) (1UL << ((b) % LONG_BIT))
 #define BITSLOT(b) ((b) / LONG_BIT)
-#define BITGET(a, b) (((a)->field[BITSLOT(b)] >> ((b) % LONG_BIT))  & 1)
+#define BITGET(a, b) (((a)->field[BITSLOT(b)] >> ((b) % LONG_BIT))  & 1UL)
 #define BITSET(a, b) ((a)->field[BITSLOT(b)] |= BITMASK(b))
 #define BITCLEAR(a, b) ((a)->field[BITSLOT(b)] &= ~BITMASK(b))
 #define BITTEST(a, b) ((a)->field[BITSLOT(b)] & BITMASK(b))
+#define BITTOGGLE(a, b) ((a)->field[BITSLOT(b)] ^= BITMASK(b))
 #define BITNSLOTS(nb) ((nb + LONG_BIT - 1) / LONG_BIT)
 
-struct bitfield {			/* defines a bitfield */
+struct bitfield {		/* defines a bitfield */
 	unsigned long *field;
 	int size;
 };
 
-struct bitfield *bfnew(const int);	/* returns a pointer to struct bitfield */
+struct bitfield *bfnew(const int);	/* creates a bitfield structure, sets all its bits to false and returns a pointer to it */
+
+struct bitfield *bfnew_quick(const int);	/* creates a bitfield structure and returns a pointer to it */
+
+struct bitfield *bfnew_ones(const int);	/* creates a bitfield structure, sets all its bits to true with and returns a pointer to it */
+
+struct bitfield *bfclone(struct bitfield *);	/* creates a copy of an existing bitfield */
 
 void bfdel(struct bitfield *);	/* destroys a bitfield structure and frees memory */
 
@@ -33,12 +49,24 @@ struct bitfield *bfsub(const struct bitfield *, const unsigned int, const unsign
 
 struct bitfield *bfcat(const struct bitfield *, const struct bitfield *);	/* concatenates two bitfields into one */
 
-struct bitfield *bfshift(const struct bitfield *, const int); /* circular-shift the contents of a bitfield */
+struct bitfield *bfshift(const struct bitfield *, const int);	/* circular-shifts the contents of a bitfield and return the result in new bitfield */
 
-struct bitfield *bfor(const struct bitfield *, const struct bitfield *); /* performs bitwise inclusive OR over a pair of bitfields */
+void bfshift_ip(struct bitfield *, const int);	/* circular-shifts the contents of a bitfield */
 
-struct bitfield *bfand(const struct bitfield *, const struct bitfield *); /* performs bitwise AND over a pair of bitfields */
+struct bitfield *bfor(const struct bitfield *, const struct bitfield *);	/* performs bitwise inclusive OR over a pair of bitfields */
 
-struct bitfield *bfxor(const struct bitfield *, const struct bitfield *); /* performs bitwise exclusive OR over a pair of bitfields */
+struct bitfield *bfand(const struct bitfield *, const struct bitfield *);	/* performs bitwise AND over a pair of bitfields */
 
-struct bitfield *bfnot(const struct bitfield *); /* reverses all bits in a bitfield */
+struct bitfield *bfxor(const struct bitfield *, const struct bitfield *);	/* performs bitwise exclusive OR over a pair of bitfields */
+
+struct bitfield *bfnot(const struct bitfield *);	/* reverses all bits in a bitfield and return the result in new bitfield */
+
+void bfnot_ip(struct bitfield *);	/* reverses all bits in a bitfield */
+
+inline void bfcleartail(struct bitfield *);	/* sets unused bits to zero */
+
+int bfcpy(const struct bitfield *, struct bitfield *);	/* copies the contents of a bitfield into another pre-existing bitfield */
+
+void bfzero(struct bitfield *);	/* fills a bitfield with zeroes */
+
+void bfone(struct bitfield *);	/* fills a bitfield with ones */

@@ -1,16 +1,19 @@
-.TH bfshift 3 "SEPTEMBER 1, 2015" "bf 0.1" "Bitfield manipulation library"
+.TH bfshift 3 "SEPTEMBER 20, 2015" "bitfield 0.1.1" "Bitfield manipulation library"
 .SH NAME
-bfshift \- circular-shift the contents of a bitfield.
+bfshift, bifshift_ip \- circular-shift the contents of a bitfield.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
 .sp
 .BI "struct bitfield *bfshift(const struct bitfield *"input ", const int "offset ");
+.BI "void *bfshift_ip(struct bitfield *"input ", const int "offset ");
 .fi
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
 .sp
-The \fBbfshift()\fR function takes a pointer to bitfield \fIinput\fR and an integer \fIoffset\fR, and circular-shift the bits by \fIinput\fR positions from the origin.The function returns a pointer to the new, circular-shifted, bitfield.
+The \fBbfshift()\fR function takes a pointer to bitfield \fIinput\fR and an integer \fIoffset\fR, and circular-shifts the bits by \fIinput\fR positions from the origin.The function returns a pointer to the new, circular-shifted, bitfield.
+.sp
+The \fBbfshift_ip()\fR function takes a pointer to bitfield \fIinput\fR and an integer \fIoffset\fR, and circular-shifts the bits by \fIinput\fR positions from the origin. The changes are made "in place", in the original bitfield.
 .sp
 .SH "SEE ALSO"
 .BR bfnew (3),
@@ -21,13 +24,6 @@ The \fBbfshift()\fR function takes a pointer to bitfield \fIinput\fR and an inte
 .BR bf2char (3),
 .BR bfsub (3),
 .BR bfcat (3)
-.SH COLOPHON
-This page is part of release 0.1 of the 
-.I bf
-project.
-A description of the project can be found at
-.BR
-\%https://github.com/ciubotaru/bf/.
 .SH AUTHOR
 Vitalie CIUBOTARU
 

@@ -1,6 +1,6 @@
-.TH bfand 3 "SEPTEMBER 1, 2015" "bitfield 0.1" "Bitfield manipulation library"
+.TH bfand 3 "SEPTEMBER 20, 2015" "bitfield 0.1.1" "Bitfield manipulation library"
 .SH NAME
-bfand, bfnot, bfor, bfxor \- perform logical operations over bitmaps.
+bfand, bfnot, bfnot_ip, bfor, bfxor \- perform logical operations over bitmaps.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
@@ -8,6 +8,7 @@ bfand, bfnot, bfor, bfxor \- perform logical operations over bitmaps.
 .BI "struct bitfield *bfand(const struct bitfield *"input1 ", const struct bitfield *"input2 ");
 .BI "struct bitfield *bfor(const struct bitfield *"input1 ", const struct bitfield *"input2 ");
 .BI "struct bitfield *bfnot(const struct bitfield *"input ");
+.BI "void bfnot_ip(const struct bitfield *"instance ");
 .BI "struct bitfield *bfxor(const struct bitfield *"input1 ", const struct bitfield *"input2 ");
 .fi
 .SH DESCRIPTION
@@ -26,7 +27,7 @@ input1 input2 output
   1      1      1
 .fi
 .sp
-The \fBbnot()\fR function takes pointer to a bitfield, \fIinput\fR, reverses all its bits and stores the result in a new bitfield. The function returns a pointer to the new bitfield. The following table illustrates input and result of logical NOT:
+The \fBbfnot()\fR function takes pointer to a bitfield, \fIinput\fR, reverses all its bits and stores the result in a new bitfield, \fIoutput\fR. The function returns a pointer to the new bitfield. The following table illustrates input and result of logical NOT:
 .sp
 .nf
 input output
@@ -34,6 +35,8 @@ input output
   0      1
   1      0
 .fi
+.sp
+The \fBbfnot_ip()\fR function is an "in-place" version of the \fBbnot()\fR.
 .sp
 The \fBbfor()\fR function takes pointers to two bitfields, \fIinput1\fR and \fIinput2\fR, and performs bitwise inclusive OR over pairs of bits from \fIinput1\fR and \fIinput2\fR and stores the result in a new bitfield. The function returns a pointer to the new bitfield.
 .sp

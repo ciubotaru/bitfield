@@ -1,0 +1,7 @@
+Changelog
+
+0.1
+* Initial release.
+
+0.1.1
+* Added bfnew_quick(), bfnew_ones(), bfclone(), bfcat(), bfshift_ip(), bfnot_ip(), bfcleartail(), bfcpy().
