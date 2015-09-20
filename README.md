@@ -58,7 +58,8 @@ Functions
 For function syntax, see "bitfield.h". For details on every function, see its 
 manual page.
 
-bf2char() converts a bitfield into a character string of ones and zeroes.
+bf2char() converts a bitfield into a character string of ones and zeroes, 
+starting from the least significant bit.
 
 bfand() performs bitwise AND over a pair of bitfields.
 
@@ -90,7 +91,8 @@ bfsub() extracts a sub-bitfield from a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
 
-char2bf() converts a character string of ones and zeroes into a bitfield.
+char2bf() converts a character string of ones and zeroes into a bitfield, 
+starting from the least significant bit.
 
 Please, see "examples" directory for working examples.
 
