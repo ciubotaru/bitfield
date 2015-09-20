@@ -372,6 +372,6 @@ inline void bfcleartail(struct bitfield *input)
 		/* create a mask for the tail */
 		unsigned long mask = (1UL << tail) - 1UL;
 		/* clear the extra bits */
-		input->field[BITNSLOTS(input->size) - 1] |= mask;
+		input->field[BITNSLOTS(input->size) - 1] &= mask;
 	}
 }
