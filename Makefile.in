@@ -8,7 +8,7 @@ includedir=@includedir@
 AR=ar
 LIBS=-I.
 CFLAGS=-Wall -O3
-VERSION=0.1
+VERSION=0.1.1
 TESTDIR=tests
 LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(shell pwd)
 
