@@ -35,10 +35,7 @@ struct bitfield *bfnew_ones(const int size)
 	struct bitfield *instance = malloc(sizeof(struct bitfield));
 	instance->size = size;
 	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
-	int i;
-	for (i = 0; i < BITNSLOTS(size); i++) {
-		instance->field[i] = -1UL;	//set all bits to ones
-	}
+	bfone(instance);
 	return instance;
 }
 
@@ -273,10 +270,7 @@ void bfshift_ip(struct bitfield *input, const int offset)
 	int bitnslots = BITNSLOTS(input->size);
 	/* removing extra rotations */
 	int offset_internal = offset % input->size;
-	struct bitfield *output = bfnew(input->size);
 	if (offset_internal == 0) {
-		memcpy(output->field, input->field,
-		       bitnslots * sizeof(unsigned long));
 		return;	/* nothing to shift */
 	}
 	/* changing a negative offset to a positive equivalent */
@@ -355,23 +349,44 @@ struct bitfield *bfnot(const struct bitfield *input)
 	return output;
 }
 
-void bfnot_ip(struct bitfield *input)
+void bfnot_ip(struct bitfield *instance)
 {
-	int bitnslots = BITNSLOTS(input->size);
+	int bitnslots = BITNSLOTS(instance->size);
 	int i;
 	for (i = 0; i < bitnslots; i++)
-		input->field[i] = ~input->field[i];
+		instance->field[i] = ~instance->field[i];
 	/* make sure to clear the trailing bits, if there are any */
-	bfcleartail(input);
+	bfcleartail(instance);
 }
 
-inline void bfcleartail(struct bitfield *input)
+inline void bfcleartail(struct bitfield *instance)
 {
-	int tail = input->size % LONG_BIT;
+	int tail = instance->size % LONG_BIT;
 	if (tail != 0) {
 		/* create a mask for the tail */
 		unsigned long mask = (1UL << tail) - 1UL;
 		/* clear the extra bits */
-		input->field[BITNSLOTS(input->size) - 1] &= mask;
+		instance->field[BITNSLOTS(instance->size) - 1] &= mask;
 	}
+}
+
+int bfcpy(const struct bitfield *src, struct bitfield *dest)
+{
+	if (src->size > dest->size) return 1;
+	int i;
+	for (i = 0; i < BITNSLOTS(src->size); i++) dest->field[i] = dest->field[i];
+	return 0;
+}
+
+void bfzero(struct bitfield *instance)
+{
+	int i;
+	for (i = 0; i < BITNSLOTS(instance->size); i++) instance->field[i] = 0UL;
+}
+
+void bfone(struct bitfield *instance)
+{
+	int i;
+	for (i = 0; i < BITNSLOTS(instance->size); i++) instance->field[i] = -1UL;
+	bfcleartail(instance);
 }
