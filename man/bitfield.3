@@ -26,8 +26,7 @@ bfand()
 .br
 .RS
 .LP
-performs bitwise AND over a pair of bitfields. For details, 
-see manual page for
+performs bitwise AND over a pair of bitfields. For details, see manual page for
 .BR bfand (3).
 .RE
 .LP
@@ -36,8 +35,7 @@ bfcat()
 .br
 .RS
 .LP
-concatenates two bitfields into one. For details, 
-see manual page for
+concatenates two bitfields into one. For details, see manual page for
 .BR bfcat (3).
 .RE
 .LP
@@ -46,8 +44,7 @@ bfclone()
 .br
 .RS
 .LP
-creates a copy of an existing bitfield. For details, 
-see manual page for
+creates a copy of an existing bitfield. For details, see manual page for
 .BR bfclone (3).
 .RE
 .LP
@@ -56,8 +53,8 @@ bfcmp()
 .br
 .RS
 .LP
-compares two bitfields and returns 0 if same or non-zero and error 
-message if different. For details, 
+compares two bitfields and returns 0 if same or non-zero and error message if 
+different. For details, 
 see manual page for
 .BR bfcmp (3).
 .RE
@@ -98,8 +95,8 @@ bfnew_ones()
 .br
 .RS
 .LP
-creates a bitfield structure, sets all its bits to true (ones) and 
-returns a pointer to it. For details, see manual page for
+creates a bitfield structure, sets all its bits to true (ones) and returns a 
+pointer to it. For details, see manual page for
 .BR bfnew (3).
 .RE
 .LP
@@ -108,9 +105,18 @@ bfnot()
 .br
 .RS
 .LP
-reverses all bits in a bitfield. For details, 
-see manual page for
+reverses all bits in a bitfield and return the result in new bitfield. For 
+details, see manual page for
 .BR bfnot (3).
+.RE
+.LP
+.B
+bfnot_ip()
+.br
+.RS
+.LP
+reverses all bits in a bitfield. For details, see manual page for
+.BR bfnot_ip (3).
 .RE
 .LP
 .B
@@ -118,8 +124,8 @@ bfor()
 .br
 .RS
 .LP
-performs bitwise inclusive OR over a pair of bitfields. For details, 
-see manual page for
+performs bitwise inclusive OR over a pair of bitfields. For details, see manual 
+page for
 .BR bfor (3).
 .RE
 .LP
@@ -128,8 +134,8 @@ bfprint()
 .br
 .RS
 .LP
-prints a bitfield as a series of ones and zeroes. For details, 
-see manual page for
+prints a bitfield as a series of ones and zeroes. For details, see manual page 
+for
 .BR bfprint (3).
 .RE
 .LP
@@ -138,9 +144,18 @@ bfshift()
 .br
 .RS
 .LP
-circular-shift the contents of a bitfield. For details, 
-see manual page for
+circular-shifts the contents of a bitfield and return the result in new 
+bitfield. For details, see manual page for
 .BR bfshift (3).
+.RE
+.LP
+.B
+bfshift_ip()
+.br
+.RS
+.LP
+circular-shifts the contents of a bitfield. For details, see manual page for
+.BR bfshift_ip (3).
 .RE
 .LP
 .B
@@ -148,8 +163,7 @@ bfsub()
 .br
 .RS
 .LP
-extracts a sub-bitfield from a bitfield. For details, 
-see manual page for
+extracts a sub-bitfield from a bitfield. For details, see manual page for
 .BR bfsub (3).
 .RE
 .LP
@@ -158,8 +172,8 @@ bfxor()
 .br
 .RS
 .LP
-performs bitwise exclusive OR over a pair of bitfields. For details, 
-see manual page for
+performs bitwise exclusive OR over a pair of bitfields. For details, see manual 
+page for
 .BR bfxor (3).
 .RE
 .LP
