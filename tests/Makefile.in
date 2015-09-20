@@ -1,5 +1,5 @@
 CC=@CC@
-TESTFILES=test1 test2 test3
+TESTFILES=test1 test2 test3 test4
 LIBS=-L.. -I..
 
 tests: build-tests run-tests
