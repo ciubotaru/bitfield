@@ -355,6 +355,16 @@ struct bitfield *bfnot(const struct bitfield *input)
 	return output;
 }
 
+void bfnot_ip(struct bitfield *input)
+{
+	int bitnslots = BITNSLOTS(input->size);
+	int i;
+	for (i = 0; i < bitnslots; i++)
+		input->field[i] = ~input->field[i];
+	/* make sure to clear the trailing bits, if there are any */
+	bfcleartail(input);
+}
+
 inline void bfcleartail(struct bitfield *input)
 {
 	int tail = input->size % LONG_BIT;

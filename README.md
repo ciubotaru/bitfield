@@ -73,7 +73,9 @@ bfdel() destroys a bitfield structure and frees memory.
 
 bfnew() creates an empty bitfield structure and returns a pointer to it.
 
-bfnot() reverses all bits in a bitfield.
+bfnot() reverses all bits in a bitfield and return the result in new bitfield.
+
+bfnot_ip() reverses all bits in a bitfield "in place".
 
 bfor() performs bitwise inclusive OR over a pair of bitfields.
 

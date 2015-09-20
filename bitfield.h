@@ -59,6 +59,8 @@ struct bitfield *bfand(const struct bitfield *, const struct bitfield *);	/* per
 
 struct bitfield *bfxor(const struct bitfield *, const struct bitfield *);	/* performs bitwise exclusive OR over a pair of bitfields */
 
-struct bitfield *bfnot(const struct bitfield *);	/* reverses all bits in a bitfield */
+struct bitfield *bfnot(const struct bitfield *);	/* reverses all bits in a bitfield and return the result in new bitfield */
+
+void bfnot_ip(struct bitfield *);	/* reverses all bits in a bitfield */
 
 inline void bfcleartail(struct bitfield *);	/* set unused bits to zero */
