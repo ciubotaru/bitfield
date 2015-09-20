@@ -64,3 +64,7 @@ struct bitfield *bfnot(const struct bitfield *);	/* reverses all bits in a bitfi
 void bfnot_ip(struct bitfield *);	/* reverses all bits in a bitfield */
 
 inline void bfcleartail(struct bitfield *);	/* set unused bits to zero */
+
+/* ToDo */
+
+void bfcpy(const struct bitfield *input, bitfield *output);	/* copy the contents of a bitfield into another pre-existing bitfield */
