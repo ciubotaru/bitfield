@@ -271,7 +271,7 @@ void bfshift_ip(struct bitfield *input, const int offset)
 	/* removing extra rotations */
 	int offset_internal = offset % input->size;
 	if (offset_internal == 0) {
-		return;	/* nothing to shift */
+		return;		/* nothing to shift */
 	}
 	/* changing a negative offset to a positive equivalent */
 	if (offset < 0)
@@ -372,21 +372,25 @@ inline void bfcleartail(struct bitfield *instance)
 
 int bfcpy(const struct bitfield *src, struct bitfield *dest)
 {
-	if (src->size > dest->size) return 1;
+	if (src->size > dest->size)
+		return 1;
 	int i;
-	for (i = 0; i < BITNSLOTS(src->size); i++) dest->field[i] = dest->field[i];
+	for (i = 0; i < BITNSLOTS(src->size); i++)
+		dest->field[i] = dest->field[i];
 	return 0;
 }
 
 void bfzero(struct bitfield *instance)
 {
 	int i;
-	for (i = 0; i < BITNSLOTS(instance->size); i++) instance->field[i] = 0UL;
+	for (i = 0; i < BITNSLOTS(instance->size); i++)
+		instance->field[i] = 0UL;
 }
 
 void bfone(struct bitfield *instance)
 {
 	int i;
-	for (i = 0; i < BITNSLOTS(instance->size); i++) instance->field[i] = -1UL;
+	for (i = 0; i < BITNSLOTS(instance->size); i++)
+		instance->field[i] = -1UL;
 	bfcleartail(instance);
 }

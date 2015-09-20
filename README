@@ -1,4 +1,4 @@
-bitfield Version 0.1 September 1, 2015
+bitfield Version 0.1.1 September 1, 2015
 ======================================
 
 bitfield is a library of functions for creating, modifying and destroying bit 
