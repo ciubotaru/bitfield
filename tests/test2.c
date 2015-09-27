@@ -13,13 +13,15 @@
 #include <time.h>
 #include "bitfield.h"
 
+/* Testing bf2char() and char2bf() */
+
 int main()
 {
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
 	char *errmsg;
-	char *msg = "Testing conversion from char string to bitfield";
+	char *msg = "Testing bf2char() and char2bf()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */

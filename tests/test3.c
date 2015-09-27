@@ -13,13 +13,15 @@
 #include <time.h>
 #include "bitfield.h"
 
+/* Testing bfand(), bfnot(), bfor() and bfxor() */
+
 int main()
 {
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
 	char *errmsg;
-	char *msg = "Testing binary logic";
+	char *msg = "Testing bfand(), bfnot(), bfor() and bfxor()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
@@ -36,12 +38,12 @@ int main()
 		if (rand() % 2)
 			BITSET(input2, i);
 	}
-//	bfprint(input1);
-//	bfprint(input2);
+//      bfprint(input1);
+//      bfprint(input2);
 	output1 = bfxor(input1, input2);
-//	bfprint(output1);
+//      bfprint(output1);
 	output2 = bfand(bfor(input1, input2), bfnot(bfand(input1, input2)));
-//	bfprint(output2);
+//      bfprint(output2);
 	if (bfcmp(output1, output2, &errmsg) != 0) {
 		printf("%s\n", failed);
 		return 1;
