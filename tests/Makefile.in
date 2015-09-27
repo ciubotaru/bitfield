@@ -1,4 +1,4 @@
-TESTFILES=test1 test2 test3 test4
+TESTFILES=test1 test2 test3 test4 test5
 LIBS=-L.. -I..
 
 tests: build-tests run-tests
