@@ -396,3 +396,14 @@ void bfone(struct bitfield *instance)
 		instance->field[i] = -1UL;
 	bfcleartail(instance);
 }
+
+void bfresize(struct bitfield *instance, int new_size)
+{
+	int old_bitnslots = BITNSLOTS(instance->size);
+	int new_bitnslots = BITNSLOTS(new_size);
+	instance->size = new_size;
+	void *tmp;
+	tmp = realloc(instance->field, new_bitnslots * sizeof(unsigned long));
+	if (tmp != NULL) instance->field = tmp;
+	if ((new_bitnslots < old_bitnslots) & (new_size % LONG_BIT != 0)) bfcleartail(instance);
+}
