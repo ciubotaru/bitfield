@@ -13,6 +13,8 @@
 #include <assert.h>
 #include "bitfield.h"
 
+inline void bfcleartail(struct bitfield *);	/* sets unused bits to zero */
+
 struct bitfield *bfnew(const int size)
 {
 	struct bitfield *instance = malloc(sizeof(struct bitfield));
