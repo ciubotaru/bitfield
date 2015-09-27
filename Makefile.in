@@ -1,4 +1,5 @@
 CC=@CC@
+export CC
 datarootdir=@datarootdir@
 prefix=@prefix@
 exec_prefix=@prefix@
@@ -8,6 +9,7 @@ includedir=@includedir@
 AR=ar
 LIBS=-I.
 CFLAGS=-Wall -O3
+export CFLAGS
 VERSION=0.1.1
 TESTDIR=tests
 LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(shell pwd)
