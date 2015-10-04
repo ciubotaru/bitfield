@@ -70,3 +70,7 @@ void bfzero(struct bitfield *);	/* fills a bitfield with zeroes */
 void bfone(struct bitfield *);	/* fills a bitfield with ones */
 
 void bfresize(struct bitfield *, int);	/* resize an existing bitfield */
+
+void bfsetbit(struct bitfield *, int);	/* sets one bit in a bitfield */
+
+void bfclearbit(struct bitfield *, int);	/* clears one bit in a bitfield */

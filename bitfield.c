@@ -407,3 +407,13 @@ void bfresize(struct bitfield *instance, int new_size)
 	if (tmp != NULL) instance->field = tmp;
 	if ((new_bitnslots < old_bitnslots) & (new_size % LONG_BIT != 0)) bfcleartail(instance);
 }
+
+void btsetbit(struct bitfield *instance, int bit)
+{
+	BITSET(instance, bit);
+}
+
+void btclearbit(struct bitfield *instance, int bit)
+{
+	BITCLEAR(instance, bit);
+}
