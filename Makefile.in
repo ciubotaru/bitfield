@@ -10,7 +10,7 @@ AR=ar
 LIBS=-I.
 CFLAGS=-Wall -O3
 export CFLAGS
-VERSION=0.1.1
+VERSION=0.1.2
 TESTDIR=tests
 LD_LIBRARY_PATH := $(shell pwd):$(LD_LIBRARY_PATH)
 export LD_LIBRARY_PATH

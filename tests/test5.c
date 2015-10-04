@@ -20,7 +20,6 @@ int main()
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
-	char *errmsg;
 	char *msg = "Testing bfresize()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";

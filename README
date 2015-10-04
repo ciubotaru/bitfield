@@ -1,5 +1,7 @@
-bitfield Version 0.1.1 September 20, 2015
-======================================
+bitfield
+========
+
+Version 0.1.2 (October 1, 2015)
 
 bitfield is a library of functions for creating, modifying and destroying bit 
 fields (or bit arrays), i.e. series of zeroes and ones spread across an array 
@@ -70,17 +72,28 @@ bfclone() creates a copy of an existing bitfield.
 bfcmp() compares two bitfields and returns 0 if same or non-zero and error 
 message if different.
 
+bfcpy() copies the contents of a bitfield into another pre-existing bitfield.
+
 bfdel() destroys a bitfield structure and frees memory.
 
-bfnew() creates an empty bitfield structure and returns a pointer to it.
+bfnew() creates an empty bitfield structure, and returns a pointer to it.
+
+bfnew_ones() creates a bitfield structure, sets all its bits to true with and 
+returns a pointer to it.
+
+bfnew_quick() creates a bitfield structure and returns a pointer to it.
 
 bfnot() reverses all bits in a bitfield and return the result in new bitfield.
 
 bfnot_ip() reverses all bits in a bitfield "in place".
 
+bfone() fills a bitfield with ones.
+
 bfor() performs bitwise inclusive OR over a pair of bitfields.
 
 bfprint() prints a bitfield as a series of ones and zeroes.
+
+bfresize() resizes an existing bitfield.
 
 bfshift() circular-shifts the contents of a bitfield and return the result in 
 new bitfield.
@@ -90,6 +103,8 @@ bfshift_ip() circular-shifts the contents of a bitfield "in place".
 bfsub() extracts a sub-bitfield from a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
+
+bfzero() fills a bitfield with zeroes.
 
 char2bf() converts a character string of ones and zeroes into a bitfield, 
 starting from the least significant bit.
