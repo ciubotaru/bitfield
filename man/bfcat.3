@@ -1,4 +1,4 @@
-.TH bfcat 3 "SEPTEMBER 20, 2015" "bitfield 0.1.1" "Bitfield manipulation library"
+.TH bfcat 3 "OCTOBER 1, 2015" "bitfield 0.1.2" "Bitfield manipulation library"
 .SH NAME
 bfcat \- concatenate two bitfields into one.
 .SH SYNOPSIS
@@ -13,14 +13,8 @@ A bitfield is represented by a "struct bitfield". It has two elements: an array 
 The \fBbfcat()\fR function takes pointers to two bitfields, \fIinput1\fR and \fIinput2\fR, and creates a new bitfield that contains all bits from the first and from the second. The function returns a pointer to the new bitfield.
 .sp
 .SH "SEE ALSO"
-.BR bfnew (3),
-.BR bfdel (3),
-.BR bfcmp (3),
-.BR bfprint (3),
-.BR char2bf (3),
-.BR bf2char (3),
-.BR bfsub (3),
-.BR bfshift (3)
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
 .SH AUTHOR
 Vitalie CIUBOTARU
 

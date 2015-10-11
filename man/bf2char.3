@@ -1,4 +1,4 @@
-.TH bf2char 3 "SEPTEMBER 20, 2015" "bitfield 0.1.1" "Bitfield manipulation library"
+.TH bf2char 3 "OCTOBER 1, 2015" "bitfield 0.1.2" "Bitfield manipulation library"
 .SH NAME
 bf2char, cha2bf \- convert bitfields to char strings of zeroes and ones, and vice-versa, starting from the least significant bit.
 .SH SYNOPSIS
@@ -16,14 +16,10 @@ The \fBbf2char()\fR function takes a pointer to bitfield \fIinput\fR, and a char
 The \fBchar2bf()\fR function takes a char string \fIinput\fR, consitsting of ones and zeroes, and a pointer to a properly initialized bitfield \fIoutput\fR, and fills \fIoutput\fR with '0' and '1' bites.
 .sp
 The conversion is done from the least significant bit to the most significant bit. This means that \fBbf2char\fR will convert 0b1000 into "0001", and \fBchar2bf\fR will convert it back in the same order.
+.sp
 .SH "SEE ALSO"
-.BR bfnew (3),
-.BR bfdel (3),
-.BR bfcmp (3),
-.BR bfprint (3),
-.BR bfsub (3),
-.BR bfcat (3),
-.BR bfshift (3)
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
 .SH AUTHOR
 Vitalie CIUBOTARU
 

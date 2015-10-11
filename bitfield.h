@@ -47,9 +47,9 @@ void bfnot_ip(struct bitfield *);	/* reverses all bits in a bitfield */
 
 int bfcpy(const struct bitfield *, struct bitfield *);	/* copies the contents of a bitfield into another pre-existing bitfield */
 
-void bfzero(struct bitfield *);	/* fills a bitfield with zeroes */
+void bfclearall(struct bitfield *);	/* fills a bitfield with zeroes */
 
-void bfone(struct bitfield *);	/* fills a bitfield with ones */
+void bfsetall(struct bitfield *);	/* fills a bitfield with ones */
 
 void bfresize(struct bitfield *, int);	/* resize an existing bitfield */
 

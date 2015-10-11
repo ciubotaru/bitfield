@@ -14,7 +14,7 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bfnew_ones() and bfone() */
+/* Testing bfnew_ones() and bfsetall() */
 
 int main()
 {
@@ -22,7 +22,7 @@ int main()
 	int i;			//counter
 	int len = 80;
 	char *errmsg;
-	char *msg = "Testing bfnew_ones() and bfone()";
+	char *msg = "Testing bfnew_ones() and bfsetall()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
@@ -36,7 +36,7 @@ int main()
 	struct bitfield *output2 = bfnew_ones(len);
 //      bfprint(output2);
 	struct bitfield *output3 = bfnew_quick(len);
-	bfone(output3);
+	bfsetall(output3);
 //      bfprint(output3);
 	if (bfcmp(output1, output2, &errmsg) != 0) {
 		printf("%s\n", failed);

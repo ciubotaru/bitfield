@@ -38,7 +38,7 @@ struct bitfield *bfnew_ones(const int size)
 	struct bitfield *instance = malloc(sizeof(struct bitfield));
 	instance->size = size;
 	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
-	bfone(instance);
+	bfsetall(instance);
 	return instance;
 }
 
@@ -383,14 +383,14 @@ int bfcpy(const struct bitfield *src, struct bitfield *dest)
 	return 0;
 }
 
-void bfzero(struct bitfield *instance)
+void bfclearall(struct bitfield *instance)
 {
 	int i;
 	for (i = 0; i < BITNSLOTS(instance->size); i++)
 		instance->field[i] = 0UL;
 }
 
-void bfone(struct bitfield *instance)
+void bfsetall(struct bitfield *instance)
 {
 	int i;
 	for (i = 0; i < BITNSLOTS(instance->size); i++)

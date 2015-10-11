@@ -1,4 +1,4 @@
-.TH bfclone 3 "SEPTEMBER 20, 2015" "bitfield 0.1.1" "Bitfield manipulation library"
+.TH bfclone 3 "OCTOBER 1, 2015" "bitfield 0.1.2" "Bitfield manipulation library"
 .SH NAME
 bfclone \- create a copy of an existing bitfield.
 .SH SYNOPSIS
@@ -17,14 +17,10 @@ The following code
     struct bitfield * my_new_bitfield = bfclone(my_old_bitfield);
 .sp
 will creates a bitfield called \fImy_new_bitfield\fR, whose size and contents are identical to \fImy_old_bitfield\fR.
+.sp
 .SH "SEE ALSO"
-.BR bfcmp (3),
-.BR bfprint (3),
-.BR char2bf (3),
-.BR bf2char (3),
-.BR bfsub (3),
-.BR bfcat (3),
-.BR bfshift (3)
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
 .SH AUTHOR
 Vitalie CIUBOTARU
 

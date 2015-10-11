@@ -1,4 +1,4 @@
-.TH bfshift 3 "SEPTEMBER 20, 2015" "bitfield 0.1.1" "Bitfield manipulation library"
+.TH bfshift 3 "OCTOBER 1, 2015" "bitfield 0.1.2" "Bitfield manipulation library"
 .SH NAME
 bfshift, bifshift_ip \- circular-shift the contents of a bitfield.
 .SH SYNOPSIS
@@ -16,14 +16,8 @@ The \fBbfshift()\fR function takes a pointer to bitfield \fIinput\fR and an inte
 The \fBbfshift_ip()\fR function takes a pointer to bitfield \fIinput\fR and an integer \fIoffset\fR, and circular-shifts the bits by \fIinput\fR positions from the origin. The changes are made "in place", in the original bitfield.
 .sp
 .SH "SEE ALSO"
-.BR bfnew (3),
-.BR bfdel (3),
-.BR bfcmp (3),
-.BR bfprint (3),
-.BR char2bf (3),
-.BR bf2char (3),
-.BR bfsub (3),
-.BR bfcat (3)
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
 .SH AUTHOR
 Vitalie CIUBOTARU
 
