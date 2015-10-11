@@ -12,6 +12,7 @@
 #include <string.h>
 #include <time.h>
 #include "bitfield.h"
+#include "bitfield-internals.h"
 
 /* Testing bfsub(), bfcat(), bfshift() and bfshift_ip() */
 

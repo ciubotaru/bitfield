@@ -12,6 +12,7 @@
 #include <string.h>
 #include <assert.h>
 #include "bitfield.h"
+#include "bitfield-internals.h"
 
 inline void bfcleartail(struct bitfield *);	/* sets unused bits to zero */
 

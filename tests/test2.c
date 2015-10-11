@@ -12,6 +12,7 @@
 #include <string.h>
 #include <time.h>
 #include "bitfield.h"
+#include "bitfield-internals.h"
 
 /* Testing bf2char() and char2bf() */
 
