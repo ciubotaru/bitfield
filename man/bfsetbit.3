@@ -1,0 +1,23 @@
+.TH bfzero 3 "OCTOBER 1, 2015" "bitfield 0.1.2" "Bitfield manipulation library"
+.SH NAME
+bfsetbit, bfclearbit \- change one bit in  a bitfield.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "void bfsetbit(struct bitfield *"instance ", int "bit ");
+.BI "void bfclearbit(struct bitfield *"instance ", int "bit ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbfsetbit()\fR function takes a pointer to bitfield \fIinstance\fR and an integer \fIbit\fR, and sets bit number \fIbit\fR (i.e. fills it with a unit).
+.sp
+The \fBbfclearbit()\fR function takes a pointer to bitfield \fIinstance\fR and an integer \fIbit\fR, and clears bit number \fIbit\fR (i.e. fills it with a zero).
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+
