@@ -40,6 +40,15 @@ concatenates two bitfields into one. For details, see manual page for
 .RE
 .LP
 .B
+bfclearbit()
+.br
+.RS
+.LP
+clears one bit in a bitfield. For details, see manual page for
+.BR bfclearbit (3).
+.RE
+.LP
+.B
 bfclone()
 .br
 .RS
@@ -94,7 +103,7 @@ bfnew_ones()
 .LP
 creates a bitfield structure, sets all its bits to true with and returns a 
 pointer to it. For details, see manual page for
-.BR bfnew (3).
+.BR bfnew_ones (3).
 .RE
 .LP
 .B
@@ -104,7 +113,7 @@ bfnew_quick()
 .LP
 creates a [possibly non-empty] bitfield structure and returns a pointer to it. 
 For details, see manual page for
-.BR bfnew (3).
+.BR bfnew_quick (3).
 .RE
 .LP
 .B
@@ -132,7 +141,7 @@ bfone()
 .RS
 .LP
 fills a bitfield with ones. For details, see manual page for
-.BR bfor (3).
+.BR bfone (3).
 .RE
 .LP
 .B
@@ -161,7 +170,16 @@ bfresize()
 .RS
 .LP
 resizes an existing bitfield. For details, see manual page for
-.BR bfshift (3).
+.BR bfresize (3).
+.RE
+.LP
+.B
+bfsetbit()
+.br
+.RS
+.LP
+sets one bit in a bitfield. For details, see manual page for
+.BR bfsetbit (3).
 .RE
 .LP
 .B
@@ -208,7 +226,7 @@ bfzero()
 .RS
 .LP
 fills a bitfield with zeroes. For details, see manual page for
-.BR bfxor (3).
+.BR bfzero (3).
 .RE
 .LP
 .B
