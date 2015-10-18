@@ -29,37 +29,38 @@ int main()
 	for (i = 0; i < dots; i++)
 		printf(".");
 	char *input_char = malloc((len + 1) * sizeof(char));	/* allocate space for 80+1 chars */
-	for (i = 0; i < len; i++)
-	{
-		if (rand() % 2) input_char[i] = '1';
-		else input_char[i] = '0';
+	for (i = 0; i < len; i++) {
+		if (rand() % 2)
+			input_char[i] = '1';
+		else
+			input_char[i] = '0';
 	}
 	input_char[len] = '\0';
-//	printf("%s\n", input_char);
+//      printf("%s\n", input_char);
 	/* create a small bitfield */
-	struct bitfield * input = bfnew_quick(1);
-	if (input_char[0] == '1') BITSET(input, 0);
-	else BITCLEAR(input, 0);
-//	bfprint(input);
+	struct bitfield *input = bfnew_quick(1);
+	if (input_char[0] == '1')
+		BITSET(input, 0);
+	else
+		BITCLEAR(input, 0);
+//      bfprint(input);
 	/* enlarge the bit field one bit at a time */
-	for (i = 1; i < len; i++)
-	{
-		bfresize(input, i+1);
-		if (input->size != (i+1))
-		{
+	for (i = 1; i < len; i++) {
+		bfresize(input, i + 1);
+		if (input->size != (i + 1)) {
 			printf("%s\n", failed);
 			return 1;
 		}
 		/* set the newly added bit from input_char */
-		if (input_char[i] == '1') BITSET(input, i);
-		else BITCLEAR(input, i);
+		if (input_char[i] == '1')
+			BITSET(input, i);
+		else
+			BITCLEAR(input, i);
 	}
 	/* shrink it back one bit at a time */
-	for (i = len; i > 1; i--)
-	{
-		bfresize(input, i-1);
-		if (input->size != (i-1))
-		{
+	for (i = len; i > 1; i--) {
+		bfresize(input, i - 1);
+		if (input->size != (i - 1)) {
 			printf("%s\n", failed);
 			return 1;
 		}

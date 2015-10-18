@@ -39,7 +39,7 @@ int main()
 		/* divide a bitfield into two subfields */
 		struct bitfield *chunk1 = bfsub(input, 0, point);
 		struct bitfield *chunk2 = bfsub(input, point, input->size);
-		/* concatenate them back into one and compare to the original*/
+		/* concatenate them back into one and compare to the original */
 		struct bitfield *output = bfcat(chunk1, chunk2);
 		if (bfcmp(input, output, &errmsg) != 0) {
 			printf("%s\n", failed);

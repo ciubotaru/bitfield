@@ -405,8 +405,10 @@ void bfresize(struct bitfield *instance, int new_size)
 	instance->size = new_size;
 	void *tmp;
 	tmp = realloc(instance->field, new_bitnslots * sizeof(unsigned long));
-	if (tmp != NULL) instance->field = tmp;
-	if ((new_bitnslots < old_bitnslots) & (new_size % LONG_BIT != 0)) bfcleartail(instance);
+	if (tmp != NULL)
+		instance->field = tmp;
+	if ((new_bitnslots < old_bitnslots) & (new_size % LONG_BIT != 0))
+		bfcleartail(instance);
 }
 
 void btsetbit(struct bitfield *instance, int bit)
