@@ -66,6 +66,10 @@ bfand() performs bitwise AND over a pair of bitfields.
 
 bfcat() concatenates two bitfields into one.
 
+bfclearall() clears all bits in a bitfield (i.e. fills the bitfield with zeroes).
+
+bfclearbit() clears one bit in a bitfield.
+
 bfclone() creates a copy of an existing bitfield.
 
 bfcmp() compares two bitfields and returns 0 if same or non-zero and error 
@@ -86,13 +90,15 @@ bfnot() reverses all bits in a bitfield and return the result in new bitfield.
 
 bfnot_ip() reverses all bits in a bitfield "in place".
 
-bfone() fills a bitfield with ones.
-
 bfor() performs bitwise inclusive OR over a pair of bitfields.
 
 bfprint() prints a bitfield as a series of ones and zeroes.
 
 bfresize() resizes an existing bitfield.
+
+bfsetall() sets all bits in a bitfield (i.e. fills it with ones).
+
+bfsetbit() sets one bit in a bitfield.
 
 bfshift() circular-shifts the contents of a bitfield and return the result in 
 new bitfield.
@@ -102,8 +108,6 @@ bfshift_ip() circular-shifts the contents of a bitfield "in place".
 bfsub() extracts a sub-bitfield from a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
-
-bfzero() fills a bitfield with zeroes.
 
 char2bf() converts a character string of ones and zeroes into a bitfield, 
 starting from the least significant bit.
