@@ -56,3 +56,7 @@ void bfresize(struct bitfield *, int);	/* resize an existing bitfield */
 void bfsetbit(struct bitfield *, int);	/* sets one bit in a bitfield */
 
 void bfclearbit(struct bitfield *, int);	/* clears one bit in a bitfield */
+
+struct bitfield *bfrev(const struct bitfield *);	/* reverse the order of bits in a bitfield and return result in new bitfield */
+
+void bfrev_ip(struct bitfield *);	/* reverse the order of bits in a bitfield */
