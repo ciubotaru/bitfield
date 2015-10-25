@@ -51,20 +51,20 @@ void bfclearall(struct bitfield *);	/* fills a bitfield with zeroes */
 
 void bfsetall(struct bitfield *);	/* fills a bitfield with ones */
 
-void bfresize(struct bitfield *, int);	/* resize an existing bitfield */
+void bfresize(struct bitfield *, int);	/* resizes an existing bitfield */
 
 void bfsetbit(struct bitfield *, int);	/* sets one bit in a bitfield */
 
 void bfclearbit(struct bitfield *, int);	/* clears one bit in a bitfield */
 
-struct bitfield *bfrev(const struct bitfield *);	/* reverse the order of bits in a bitfield and return result in new bitfield */
+struct bitfield *bfrev(const struct bitfield *);	/* reverses the order of bits in a bitfield and return result in new bitfield */
 
-void bfrev_ip(struct bitfield *);	/* reverse the order of bits in a bitfield */
+void bfrev_ip(struct bitfield *);	/* reverses the order of bits in a bitfield */
 
-int bfsize(const struct bitfield *);	/* obtain the number of bits of a bitfield */
+int bfsize(const struct bitfield *);	/* obtains the number of bits of a bitfield */
 
-int bfgetbit(const struct bitfield *, const int);	/* check whether a bit in a bitfield is set */
+int bfgetbit(const struct bitfield *, const int);	/* checks whether a bit in a bitfield is set */
 
-void bftogglebit(struct bitfield *, const int);		/* toggle a bit in a bitfield */
+void bftogglebit(struct bitfield *, const int);		/* toggles a bit in a bitfield */
 
-int bfpopcount(const struct bitfield *);	/* count the set bits in a array */
+int bfpopcount(const struct bitfield *);	/* counts the set bits in a bitfield */

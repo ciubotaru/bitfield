@@ -1,6 +1,6 @@
-.TH bfzero 3 "OCTOBER 1, 2015" "bitfield 0.1.2" "Bitfield manipulation library"
+.TH bfzero 3 "OCTOBER 20, 2015" "bitfield 0.1.2" "Bitfield manipulation library"
 .SH NAME
-bfsetbit, bfclearbit, bfgetbit \- manipulate one bit in  a bitfield.
+bfsetbit, bfclearbit, bfgetbit, bftogglebit \- manipulate one bit in  a bitfield.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
@@ -8,6 +8,7 @@ bfsetbit, bfclearbit, bfgetbit \- manipulate one bit in  a bitfield.
 .BI "void bfsetbit(struct bitfield *"instance ", int "bit ");
 .BI "void bfclearbit(struct bitfield *"instance ", int "bit ");
 .BI "int bfgetbit(const struct bitfield *"instance ", const int "bit ");
+.BI "void bftogglebit(struct bitfield *"instance ", const int "bit ");
 .fi
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
@@ -16,7 +17,9 @@ The \fBbfsetbit()\fR function takes a pointer to bitfield \fIinstance\fR and an 
 .sp
 The \fBbfclearbit()\fR function takes a pointer to bitfield \fIinstance\fR and an integer \fIbit\fR, and clears bit number \fIbit\fR (i.e. fills it with a zero).
 .sp
-The \fBbfgetbit()\fR function takes a pointer to bitfield \fIinstance\fR and an integer \fIbit\fR, and returns the state if bit number \fIbit\fR i(i.e. 1 if the bit is set and 0 otherwise).
+The \fBbfgetbit()\fR function takes a pointer to bitfield \fIinstance\fR and an integer \fIbit\fR, and returns the state if bit number \fIbit\fR (i.e. 1 if the bit is set and 0 otherwise).
+.sp
+The \fBbftogglebit()\fR function takes a pointer to bitfield \fIinstance\fR and an integer \fIbit\fR, and toggles the state if bit number \fIbit\fR (i.e. sets the bit if it was clear and clears it if it was set).
 .sp
 .SH "SEE ALSO"
 For the full list of bitfield functions and their descriptions, see manual page for
