@@ -49,6 +49,7 @@ int main()
 		bfresize(input, i + 1);
 		if (input->size != (i + 1)) {
 			printf("%s\n", failed);
+			free(input_char);
 			return 1;
 		}
 		/* set the newly added bit from input_char */
@@ -62,9 +63,11 @@ int main()
 		bfresize(input, i - 1);
 		if (input->size != (i - 1)) {
 			printf("%s\n", failed);
+			free(input_char);
 			return 1;
 		}
 	}
 	printf("%s\n", passed);
+	free(input_char);
 	return 0;
 }

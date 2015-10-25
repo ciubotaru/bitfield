@@ -57,6 +57,8 @@ int main()
 	for (i = 0; i < len; i++) {
 		if (BITGET(input2, i) != input_char_rev[i] - '0') {
 			printf("%s\n", failed);
+			free(input_char);
+			free(input_char_rev);
 			return 1;
 		}
 	}
@@ -65,10 +67,14 @@ int main()
 	for (i = 0; i < len; i++) {
 		if (BITGET(input2, i) != input_char[i] - '0') {
 			printf("%s\n", failed);
+			free(input_char);
+			free(input_char_rev);
 			return 1;
 		}
 	}
 
 	printf("%s\n", passed);
+	free(input_char);
+	free(input_char_rev);
 	return 0;
 }
