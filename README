@@ -115,6 +115,8 @@ new bitfield.
 
 bfshift_ip() circular-shifts the contents of a bitfield "in place".
 
+bfsize() obtains the number of bits of a bitfield.
+
 bfsub() extracts a sub-bitfield from a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
