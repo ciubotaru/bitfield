@@ -82,6 +82,8 @@ bfcpy() copies the contents of a bitfield into another pre-existing bitfield.
 
 bfdel() destroys a bitfield structure and frees memory.
 
+bfgetbit() checks the state of a bit in a bitfield.
+
 bfnew() creates an empty bitfield structure, and returns a pointer to it.
 
 bfnew_ones() creates a bitfield structure, sets all its bits to true with and 
