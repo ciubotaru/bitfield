@@ -53,6 +53,7 @@ struct bitfield *bfclone(struct bitfield *input)
 	int bitnslots = BITNSLOTS(input->size);
 /* not using bfnew, because calloc is slow and 0-ed memory not needed anyway */
 	struct bitfield *output = malloc(sizeof(struct bitfield));
+	output->size = input->size;
 	output->field = malloc(bitnslots * sizeof(unsigned long));
 	memcpy(output->field, input->field, bitnslots * sizeof(unsigned long));
 	return output;
