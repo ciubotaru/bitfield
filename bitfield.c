@@ -411,12 +411,12 @@ void bfresize(struct bitfield *instance, int new_size)
 		bfcleartail(instance);
 }
 
-void btsetbit(struct bitfield *instance, int bit)
+void bfsetbit(struct bitfield *instance, int bit)
 {
 	BITSET(instance, bit);
 }
 
-void btclearbit(struct bitfield *instance, int bit)
+void bfclearbit(struct bitfield *instance, int bit)
 {
 	BITCLEAR(instance, bit);
 }
