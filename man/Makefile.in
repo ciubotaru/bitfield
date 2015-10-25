@@ -1,7 +1,7 @@
 datarootdir=@datarootdir@
 prefix=@prefix@
 mandir=@mandir@
-man_MANS=bf2char.3 bfand.3 bfcat.3 bfclone.3 bfcmp.3 bfcpy.3 bfnew.3 bfprint.3 bfresize.3 bfrev.3 bfsetall.3 bfsetbit.3 bfshift.3 bfsub.3 bitfield.3
+man_MANS=bf2char.3 bfand.3 bfcat.3 bfclone.3 bfcmp.3 bfcpy.3 bfnew.3 bfprint.3 bfresize.3 bfrev.3 bfsetall.3 bfsetbit.3 bfshift.3 bfsize.3 bfsub.3 bitfield.3
 
 install:
 	mkdir -p $(DESTDIR)$(mandir)/man3
