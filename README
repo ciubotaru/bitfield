@@ -34,7 +34,8 @@ However, one might prefer to use distro-specific installation mechanism (like
 Usage
 -----
 
-Using the functions provided by bitfield library in a project is straightforward.
+Using the functions provided by bitfield library in a project is 
+straightforward.
 If bitfield library files are installed system-wide in standard locations, then 
 one needs to (1) include a system version of the header file to the source
 
@@ -67,7 +68,8 @@ bfand() performs bitwise AND over a pair of bitfields.
 
 bfcat() concatenates two bitfields into one.
 
-bfclearall() clears all bits in a bitfield (i.e. fills the bitfield with zeroes).
+bfclearall() clears all bits in a bitfield (i.e. fills the bitfield with 
+zeroes).
 
 bfclearbit() clears one bit in a bitfield.
 
@@ -96,6 +98,11 @@ bfor() performs bitwise inclusive OR over a pair of bitfields.
 bfprint() prints a bitfield as a series of ones and zeroes.
 
 bfresize() resizes an existing bitfield.
+
+bfrev() reverses the order of bits in a bitfield and returns result in new 
+bitfield.
+
+bfrev_ip() reverses the order of bits in a bitfield.
 
 bfsetall() sets all bits in a bitfield (i.e. fills it with ones).
 
