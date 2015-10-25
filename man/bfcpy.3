@@ -1,11 +1,11 @@
-.TH bfcpy 3 "OCTOBER 1, 2015" "bitfield 0.1.2" "Bitfield manipulation library"
+.TH bfcpy 3 "OCTOBER 15, 2015" "bitfield 0.1.2" "Bitfield manipulation library"
 .SH NAME
 bfcpy \- copies the contents of a bitfield into another pre-existing bitfield.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
 .sp
-.BI "int bfcpyint bfcpy(const struct bitfield *"src ", struct bitfield *"dest ");
+.BI "int bfcpy(const struct bitfield *"src ", struct bitfield *"dest ");
 .fi
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
