@@ -487,3 +487,8 @@ int bfgetbit(const struct bitfield *instance, const int bit)
 
 	return BITGET(instance, bit);
 }
+
+void bftogglebit(struct bitfield *instance, const int bit)
+{
+	BITTOGGLE(instance, bit);
+}
