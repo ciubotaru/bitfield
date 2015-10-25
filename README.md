@@ -96,6 +96,8 @@ bfnot_ip() reverses all bits in a bitfield "in place".
 
 bfor() performs bitwise inclusive OR over a pair of bitfields.
 
+bfpopcount() counts the set bits in a bitfield.
+
 bfprint() prints a bitfield as a series of ones and zeroes.
 
 bfresize() resizes an existing bitfield.
@@ -117,6 +119,8 @@ bfshift_ip() circular-shifts the contents of a bitfield "in place".
 bfsize() obtains the number of bits of a bitfield.
 
 bfsub() extracts a sub-bitfield from a bitfield.
+
+bftogglebit() toggles (i.e. reverses the state of) a bit in a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
 
