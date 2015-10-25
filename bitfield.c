@@ -380,7 +380,7 @@ int bfcpy(const struct bitfield *src, struct bitfield *dest)
 		return 1;
 	int i;
 	for (i = 0; i < BITNSLOTS(src->size); i++)
-		dest->field[i] = dest->field[i];
+		dest->field[i] = src->field[i];
 	return 0;
 }
 
