@@ -60,3 +60,7 @@ void bfclearbit(struct bitfield *, int);	/* clears one bit in a bitfield */
 struct bitfield *bfrev(const struct bitfield *);	/* reverse the order of bits in a bitfield and return result in new bitfield */
 
 void bfrev_ip(struct bitfield *);	/* reverse the order of bits in a bitfield */
+
+int bfsize(const struct bitfield *);	/* obtain the number of bits of a bitfield */
+
+int bfgetbit(const struct bitfield *, const int);	/* check whether a bit in a bitfield is set */

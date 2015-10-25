@@ -475,3 +475,15 @@ void bfrev_ip(struct bitfield *instance)
 	memcpy(instance->field, tmp->field, bitnslots * sizeof(unsigned long));
 	bfdel(tmp);
 }
+
+int bfsize(const struct bitfield *instance)
+{
+	return instance->size;
+}
+
+int bfgetbit(const struct bitfield *instance, const int bit)
+{
+	/* might be good to check whether bit is within range */
+
+	return BITGET(instance, bit);
+}
