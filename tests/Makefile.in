@@ -8,8 +8,9 @@ build-tests:
 
 run-tests:
 	for i in $(TESTFILES); do \
-	echo -n "Running $$i... "; \
-	( ./$$i > /dev/null 2>&1 && echo "Passed.")  || (echo "Failed with code $$?"); \
+#	echo -n "Running $$i... "; \
+#	( ./$$i > /dev/null 2>&1 && echo "Passed.")  || (echo "Failed with code $$?"); \
+	./$$i; \
 	done
 clean:
 	rm -rvf $(TESTFILES)

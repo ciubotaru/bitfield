@@ -14,14 +14,14 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bfclone() */
+/* Testing bfclone() and bfcpy() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
-	char *msg = "Testing bfclone()";
+	char *msg = "Testing bfclone() and bfcpy()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
@@ -45,6 +45,21 @@ int main()
 
 	char *errmsg;
 	if (bfcmp(input, input2, &errmsg) != 0) {
+		printf("zyu1");
+		printf("%s\n", failed);
+		return 1;
+	}
+
+	struct bitfield *input3 = bfnew_quick(len);
+	int result = bfcpy(input, input3);
+	if (result != 0) {
+		printf("zyu2");
+		printf("%s\n", failed);
+		return 1;
+	}
+
+	if (bfcmp(input, input3, &errmsg) != 0) {
+		printf("zyu3");
 		printf("%s\n", failed);
 		return 1;
 	}
