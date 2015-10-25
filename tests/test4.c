@@ -10,19 +10,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bfnew_ones() and bfsetall() */
+/* Testing bfnew_ones(), bfsetall() and bfclearall() */
 
 int main()
 {
-	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
 	char *errmsg;
-	char *msg = "Testing bfnew_ones() and bfsetall()";
+	char *msg = "Testing bfnew_ones(), bfsetall() and bfclearall()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
@@ -33,18 +31,29 @@ int main()
 	struct bitfield *output1 = bfnew_quick(len);
 	char2bf(input_char, output1);
 //      bfprint(output1);
+
 	struct bitfield *output2 = bfnew_ones(len);
 //      bfprint(output2);
-	struct bitfield *output3 = bfnew_quick(len);
-	bfsetall(output3);
-//      bfprint(output3);
 	if (bfcmp(output1, output2, &errmsg) != 0) {
 		printf("%s\n", failed);
 		return 1;
-	} else if (bfcmp(output1, output3, &errmsg) != 0) {
+	}
+
+	struct bitfield *output3 = bfnew_quick(len);
+	bfsetall(output3);
+//      bfprint(output3);
+	if (bfcmp(output1, output3, &errmsg) != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}
+
+	struct bitfield *output4 = bfnew(len);
+	bfclearall(output3);
+	if (bfcmp(output3, output4, &errmsg) != 0) {
+		printf("%s\n", failed);
+		return 1;
+	}
+
 	printf("%s\n", passed);
 	return 0;
 }
