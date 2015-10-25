@@ -450,20 +450,21 @@ struct bitfield *bfrev(const struct bitfield *input)
 
 void bfrev_ip(struct bitfield *instance)
 {
-	struct bitfield *tmp = bfnew_quick(instance->size);
+	int size = instance->size;
+	struct bitfield *tmp = bfnew_quick(size);
 	int i, j;
-	int bitnslots = BITNSLOTS(instance->size);
+	int bitnslots = BITNSLOTS(size);
 	for (i = 0; i < (bitnslots - 1); i++)
 	{
 		for (j = 0; j < LONG_BIT; j++)
 		{
 			if ((instance->field[i] >> j) & 1UL)
-				BITSET(tmp, instance->size - i * LONG_BIT - j - 1);
+				BITSET(tmp, size - i * LONG_BIT - j - 1);
 			else
-				BITCLEAR(tmp, instance->size - i * LONG_BIT - j - 1);
+				BITCLEAR(tmp, size - i * LONG_BIT - j - 1);
 		}
 	}
-	int bits_in_last_input_slot = (instance->size - 1) % LONG_BIT + 1;
+	int bits_in_last_input_slot = (size - 1) % LONG_BIT + 1;
 	for (j = 0; j < bits_in_last_input_slot; j++)
 	{
 		if ((instance->field[bitnslots - 1] >> j) & 1UL)

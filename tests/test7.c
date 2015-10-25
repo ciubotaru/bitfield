@@ -14,14 +14,14 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bfresize() */
+/* Testing bfclone() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
-	char *msg = "Testing bfresize()";
+	char *msg = "Testing bfclone()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
@@ -36,33 +36,18 @@ int main()
 			input_char[i] = '0';
 	}
 	input_char[len] = '\0';
-	char *input_char_rev = malloc((len + 1) * sizeof(char));
-	for (i = 0; i < len; i++) {
-		if (input_char[i] == '1')
-			input_char_rev[len - i - 1] = '1';
-		else
-			input_char_rev[len - i - 1] = '0';
-	}
-	input_char_rev[len] = '\0';
-	
-//	printf("%s\n", input_char);
-//	printf("%s\n", input_char_rev);
+	struct bitfield *input = bfnew_quick(len);
+	char2bf(input_char, input);
 
-	struct bitfield *input1 = bfnew_quick(len);
-	char2bf(input_char, input1);
-//	bfprint(input1);
-
-	struct bitfield *input2	= bfrev(input1);
+	struct bitfield * input2 = bfclone(input);
+//	bfprint(input);
 //	bfprint(input2);
-	for (i = 0; i < len; i++) {
-		if (BITGET(input2, i) != input_char_rev[i] - '0') {
-			printf("%s\n", failed);
-			return 1;
-		}
-	}
 
-	bfrev_ip(input1);
-	bfprint(input1);
+	char *errmsg;
+	if (bfcmp(input, input2, &errmsg) != 0) {
+		printf("%s\n", failed);
+		return 1;
+	}
 
 	printf("%s\n", passed);
 	return 0;
