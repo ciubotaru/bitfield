@@ -492,3 +492,13 @@ void bftogglebit(struct bitfield *instance, const int bit)
 {
 	BITTOGGLE(instance, bit);
 }
+
+int bfpopcount(const struct bitfield *instance)
+{
+	int bits = 0;
+	int i;
+	for (i = 0; i < BITNSLOTS(instance->size); i++)
+		/* this is GCC and Clang only */
+		bits += __builtin_popcountl(instance->field[i]);
+	return bits;
+}
