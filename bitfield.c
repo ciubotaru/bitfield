@@ -431,18 +431,18 @@ struct bitfield *bfrev(const struct bitfield *input)
 		for (j = 0; j < LONG_BIT; j++)
 		{
 			if ((input->field[i] >> j) & 1UL)
-				BITSET(output, input->size - i * LONG_BIT - j);
+				BITSET(output, input->size - i * LONG_BIT - j - 1);
 			else
-				BITCLEAR(output, input->size - i * LONG_BIT - j);
+				BITCLEAR(output, input->size - i * LONG_BIT - j - 1);
 		}
 	}
 	int bits_in_last_input_slot = (input->size - 1) % LONG_BIT + 1;
 	for (j = 0; j < bits_in_last_input_slot; j++)
 	{
 		if ((input->field[bitnslots - 1] >> j) & 1UL)
-			BITSET(output, bits_in_last_input_slot - j);
+			BITSET(output, bits_in_last_input_slot - j - 1);
 		else
-			BITCLEAR(output, bits_in_last_input_slot - j);
+			BITCLEAR(output, bits_in_last_input_slot - j - 1);
 	}
 	return output;
 }
@@ -457,18 +457,18 @@ void bfrev_ip(struct bitfield *instance)
 		for (j = 0; j < LONG_BIT; j++)
 		{
 			if ((instance->field[i] >> j) & 1UL)
-				BITSET(tmp, instance->size - i * LONG_BIT - j);
+				BITSET(tmp, instance->size - i * LONG_BIT - j - 1);
 			else
-				BITCLEAR(tmp, instance->size - i * LONG_BIT - j);
+				BITCLEAR(tmp, instance->size - i * LONG_BIT - j - 1);
 		}
 	}
 	int bits_in_last_input_slot = (instance->size - 1) % LONG_BIT + 1;
 	for (j = 0; j < bits_in_last_input_slot; j++)
 	{
 		if ((instance->field[bitnslots - 1] >> j) & 1UL)
-			BITSET(tmp, bits_in_last_input_slot - j);
+			BITSET(tmp, bits_in_last_input_slot - j - 1);
 		else
-			BITCLEAR(tmp, bits_in_last_input_slot - j);
+			BITCLEAR(tmp, bits_in_last_input_slot - j - 1);
 	}
 	memcpy(instance->field, tmp->field, bitnslots * sizeof(unsigned long));
 	bfdel(tmp);
