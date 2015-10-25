@@ -15,7 +15,7 @@ struct bitfield *bfnew_quick(const int);	/* creates a bitfield structure and ret
 
 struct bitfield *bfnew_ones(const int);	/* creates a bitfield structure, sets all its bits to true with and returns a pointer to it */
 
-struct bitfield *bfclone(struct bitfield *);	/* creates a copy of an existing bitfield */
+struct bitfield *bfclone(const struct bitfield *);	/* creates a copy of an existing bitfield */
 
 void bfdel(struct bitfield *);	/* destroys a bitfield structure and frees memory */
 
@@ -68,3 +68,5 @@ int bfgetbit(const struct bitfield *, const int);	/* checks whether a bit in a b
 void bftogglebit(struct bitfield *, const int);		/* toggles a bit in a bitfield */
 
 int bfpopcount(const struct bitfield *);	/* counts the set bits in a bitfield */
+
+int bfhamming(const struct bitfield *, const struct bitfield *);	/* counts the Hamming distance between two bitfields */

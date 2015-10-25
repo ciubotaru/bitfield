@@ -48,7 +48,7 @@ void bfdel(struct bitfield *instance)
 	free(instance);
 }
 
-struct bitfield *bfclone(struct bitfield *input)
+struct bitfield *bfclone(const struct bitfield *input)
 {
 	int bitnslots = BITNSLOTS(input->size);
 /* not using bfnew, because calloc is slow and 0-ed memory not needed anyway */
@@ -501,4 +501,10 @@ int bfpopcount(const struct bitfield *instance)
 		/* this is GCC and Clang only */
 		bits += __builtin_popcountl(instance->field[i]);
 	return bits;
+}
+
+int bfhamming(const struct bitfield *input1, const struct bitfield *input2)
+{
+	int hamming = bfpopcount(bfxor(input1, input2));
+	return hamming;
 }
