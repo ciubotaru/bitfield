@@ -37,7 +37,7 @@ int main()
 	}
 	input_char[len] = '\0';
 	struct bitfield *input = bfnew_quick(len);
-	char2bf(input_char, input);
+	str2bf(input_char, input);
 
 	struct bitfield * input2 = bfclone(input);
 //	bfprint(input);
