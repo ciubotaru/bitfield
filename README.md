@@ -135,4 +135,5 @@ Licensing
 ---------
 
 bitfield is free software, and is released under the terms of the GNU General 
-Public License version 3. Please see the file called LICENSE.
+Public License version 3 or any later version. Please see the file called 
+LICENSE.
