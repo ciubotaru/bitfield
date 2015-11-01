@@ -506,3 +506,11 @@ int bfhamming(const struct bitfield *input1, const struct bitfield *input2)
 	int hamming = bfpopcount(bfxor(input1, input2));
 	return hamming;
 }
+
+unsigned long *bf2long(const struct bitfield *input)
+{
+	int bitnslots = BITNSLOTS(input->size);
+	unsigned long *output = calloc(1, bitnslots * sizeof(unsigned long));
+	memcpy(output, input->field, bitnslots * sizeof(unsigned long));
+	return output;
+}
