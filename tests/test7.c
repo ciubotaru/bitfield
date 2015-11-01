@@ -39,9 +39,9 @@ int main()
 	struct bitfield *input = bfnew_quick(len);
 	str2bf(input_char, input);
 
-	struct bitfield * input2 = bfclone(input);
-//	bfprint(input);
-//	bfprint(input2);
+	struct bitfield *input2 = bfclone(input);
+//      bfprint(input);
+//      bfprint(input2);
 
 	char *errmsg;
 	if (bfcmp(input, input2, &errmsg) != 0) {

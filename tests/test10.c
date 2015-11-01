@@ -27,15 +27,14 @@ int main()
 	for (i = 0; i < dots; i++)
 		printf(".");
 
-	for (i = 1; i <= len; i++)
-	{
+	for (i = 1; i <= len; i++) {
 		struct bitfield *input = bfnew_quick(i);
 		if (bfsize(input) != i) {
 			printf("%s\n", failed);
 			bfdel(input);
 			return 1;
-		}
-		else bfdel(input);
+		} else
+			bfdel(input);
 	}
 
 	printf("%s\n", passed);

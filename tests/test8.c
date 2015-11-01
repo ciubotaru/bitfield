@@ -44,16 +44,16 @@ int main()
 			input_char_rev[len - i - 1] = '0';
 	}
 	input_char_rev[len] = '\0';
-	
-//	printf("%s\n", input_char);
-//	printf("%s\n", input_char_rev);
+
+//      printf("%s\n", input_char);
+//      printf("%s\n", input_char_rev);
 
 	struct bitfield *input1 = bfnew_quick(len);
 	str2bf(input_char, input1);
-//	bfprint(input1);
+//      bfprint(input1);
 
-	struct bitfield *input2	= bfrev(input1);
-//	bfprint(input2);
+	struct bitfield *input2 = bfrev(input1);
+//      bfprint(input2);
 	for (i = 0; i < len; i++) {
 		if (BITGET(input2, i) != input_char_rev[i] - '0') {
 			printf("%s\n", failed);

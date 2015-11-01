@@ -33,8 +33,7 @@ int main()
 	for (i = 0; i < len; i++) {
 		if (rand() % 2) {
 			input_char1[i] = '1';
-		}
-		else
+		} else
 			input_char1[i] = '0';
 	}
 	input_char1[len] = '\0';
@@ -43,8 +42,7 @@ int main()
 	for (i = 0; i < len; i++) {
 		if (rand() % 2) {
 			input_char2[i] = '1';
-		}
-		else
+		} else
 			input_char2[i] = '0';
 	}
 	input_char2[len] = '\0';
@@ -55,20 +53,20 @@ int main()
 		if (input_char1[i] != input_char2[i])
 			hamming_s++;
 	}
-//	printf("%s\n", input_char1);
-//	printf("%s\n", input_char2);
-//	printf("%i\n", humming_s);
+//      printf("%s\n", input_char1);
+//      printf("%s\n", input_char2);
+//      printf("%i\n", humming_s);
 
 	struct bitfield *input1 = bfnew_quick(len);
 	struct bitfield *input2 = bfnew_quick(len);
 	str2bf(input_char1, input1);
 	str2bf(input_char2, input2);
-//	bfprint(input1);
-//	bfprint(input2);
+//      bfprint(input1);
+//      bfprint(input2);
 
 	/* Hamming distance for bitfield */
 	int hamming_b = bfhamming(input1, input2);
-//	printf("%i\n", humming_b);
+//      printf("%i\n", humming_b);
 
 	if (hamming_s != hamming_b) {
 		printf("%s\n", failed);

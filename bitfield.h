@@ -65,7 +65,7 @@ int bfsize(const struct bitfield *instance);	/* obtains the number of bits of a 
 
 int bfgetbit(const struct bitfield *instance, const int bit);	/* checks whether a bit in a bitfield is set */
 
-void bftogglebit(struct bitfield *instance, const int bit);		/* toggles a bit in a bitfield */
+void bftogglebit(struct bitfield *instance, const int bit);	/* toggles a bit in a bitfield */
 
 int bfpopcount(const struct bitfield *instance);	/* counts the set bits in a bitfield */
 
