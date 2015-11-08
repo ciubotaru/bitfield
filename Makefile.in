@@ -36,10 +36,10 @@ install: install-lib install-man install-header
 install-lib:
 	mkdir -p $(DESTDIR)$(libdir)
 	for i in libbitfield.so.1 libbitfield.so libbitfield.so.1.$(VERSION) libbitfield.a; do if [ -e $(DESTDIR)$(libdir)/$$i ]; then rm -v $(DESTDIR)$(libdir)/$$i; fi; done
-	install -m 0755 libbitfield.so.1.$(VERSION) $(DESTDIR)$(libdir)
+	install -m 0644 libbitfield.so.1.$(VERSION) $(DESTDIR)$(libdir)
 	ln -sv libbitfield.so.1.$(VERSION) $(DESTDIR)$(libdir)/libbitfield.so.1
 	ln -sv libbitfield.so.1.$(VERSION) $(DESTDIR)$(libdir)/libbitfield.so
-	install -m 0755 libbitfield.a $(DESTDIR)$(libdir)
+	install -m 0644 libbitfield.a $(DESTDIR)$(libdir)
 #	ldconfig -n $(DESTDIR)$(libdir)
 
 install-man:
@@ -57,7 +57,7 @@ uninstall: uninstall-lib uninstall-man uninstall-header
 
 uninstall-lib:
 	for i in libbitfield.so.1 libbitfield.so libbitfield.so.1.$(VERSION) libbitfield.a; do if [ -e $(DESTDIR)$(libdir)/$$i ]; then rm -v $(DESTDIR)$(libdir)/$$i; fi; done
-	ldconfig -n $(DESTDIR)$(libdir)
+#	ldconfig -n $(DESTDIR)$(libdir)
 
 uninstall-man:
 	$(MAKE) -C man uninstall
