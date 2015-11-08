@@ -514,3 +514,14 @@ unsigned long *bf2long(const struct bitfield *input)
 	memcpy(output, input->field, bitnslots * sizeof(unsigned long));
 	return output;
 }
+
+int bfisempty(const struct bitfield *instance)
+{
+	int i;
+	int bitnslots = BITNSLOTS(instance->size);
+	for (i = 0; i < bitnslots; i++) {
+		if (instance->field[i] != 0UL)
+			return 1;
+	}
+	return 0;
+}

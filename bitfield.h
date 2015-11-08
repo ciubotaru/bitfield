@@ -72,3 +72,5 @@ int bfpopcount(const struct bitfield *instance);	/* counts the set bits in a bit
 int bfhamming(const struct bitfield *input1, const struct bitfield *input2);	/* counts the Hamming distance between two bitfields */
 
 unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as an array of unsigned long integers */
+
+int bfisempty(const struct bitfield *instance);	/* checks whether all bits of an array are unset */
