@@ -1,0 +1,20 @@
+.TH bfisempty 3 "NOVEMBER 15, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.SH NAME
+bfisempty \- checks whether all bit of an array are unset.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "int bfisempty(const struct bitfield *"instance ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbfisempty()\fR function takes a pointer to bitfield \fIinstance\fR and returns 0 if all bits are unset or 1 otherwise.
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+

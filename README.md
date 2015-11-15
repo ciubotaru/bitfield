@@ -87,6 +87,8 @@ bfgetbit() checks the state of a bit in a bitfield.
 
 bfhamming() counts the Hamming distance between two bitfields.
 
+bfisempty() checks whether all bit of an array are unset.
+
 bfnew() creates an empty bitfield structure, and returns a pointer to it.
 
 bfnew_ones() creates a bitfield structure, sets all its bits to true with and 
