@@ -1,0 +1,20 @@
+.TH bf2long 3 "NOVEMBER 15, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.SH NAME
+bf2long \- converts the bit array to an array of long integers.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "unsigned long *bf2long(const struct bitfield *"input ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbf2long()\fR function takes a pointer to a bitfield \fIinput\fR and returns an array of long integers containing the bits.
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+

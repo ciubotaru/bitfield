@@ -61,6 +61,8 @@ Functions
 For function syntax, see "bitfield.h". For details on every function, see its 
 manual page.
 
+bf2long() converts the bit array to an array of long integers.
+
 bf2str() converts a bitfield into a character string of ones and zeroes,
 starting from the least significant bit.
 

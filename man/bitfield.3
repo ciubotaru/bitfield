@@ -1,4 +1,4 @@
-.TH bitfield 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.TH bitfield 3 "NOVEMBER 15, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
 .SH NAME
 bitfield \- API for manipulating bit arrays.
 .SH DESCRIPTION
@@ -10,6 +10,16 @@ is a data structure for storing bit arrays. It has two elements: an array of
 unsigned long integers \fIfield\fR for storing the values of bits and an 
 integer \fIsize\fR for storing the number of bits in the array.
 .SH EXPORTS
+.LP
+.B
+bf2long()
+.br
+.RS
+.LP
+converts the bit array to an array of long integers. For details, see manual 
+page for
+.BR bf2long (3).
+.RE
 .LP
 .B
 bf2str()
