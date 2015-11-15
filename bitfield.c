@@ -264,6 +264,8 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset)
 
 	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
 	memcpy(output->field, tmp->field, bitnslots * sizeof(unsigned long));
+	bfdel(first_chunk);
+	bfdel(second_chunk);
 	bfdel(tmp);
 	return output;
 }
