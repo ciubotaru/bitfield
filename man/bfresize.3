@@ -1,0 +1,20 @@
+.TH bfsub 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.SH NAME
+bfsub \- resize an existing bitfield.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "void bfresize(struct bitfield *"instance ", int "new_size ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbfresize()\fR function takes a pointer to bitfield \fIinstance\fR and an integer number \fInew_size\fR, and changes the size of \fIinstance\fR to \fInew_size\fR. If the new size is larger, then the difference is filled with zeroes.
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+

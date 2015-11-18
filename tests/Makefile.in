@@ -1,5 +1,4 @@
-CC=@CC@
-TESTFILES=test1 test2 test3
+TESTFILES=test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test15 test16
 LIBS=-L.. -I..
 
 tests: build-tests run-tests
@@ -9,8 +8,9 @@ build-tests:
 
 run-tests:
 	for i in $(TESTFILES); do \
-	echo -n "Running $$i... "; \
-	( ./$$i > /dev/null 2>&1 && echo "Passed.")  || (echo "Failed with code $$?"); \
+#	echo -n "Running $$i... "; \
+#	( ./$$i > /dev/null 2>&1 && echo "Passed.")  || (echo "Failed with code $$?"); \
+	./$$i; \
 	done
 clean:
 	rm -rvf $(TESTFILES)

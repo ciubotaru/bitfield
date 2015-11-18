@@ -3,7 +3,7 @@
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
- * License: General Public License, version 3
+ * License: General Public License, version 3 or later
  * Date: September 1, 2015
 **/
 
@@ -12,6 +12,9 @@
 #include <string.h>
 #include <assert.h>
 #include "bitfield.h"
+#include "bitfield-internals.h"
+
+inline void bfcleartail(struct bitfield *);	/* sets unused bits to zero */
 
 struct bitfield *bfnew(const int size)
 {
@@ -35,7 +38,7 @@ struct bitfield *bfnew_ones(const int size)
 	struct bitfield *instance = malloc(sizeof(struct bitfield));
 	instance->size = size;
 	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
-	bfone(instance);
+	bfsetall(instance);
 	return instance;
 }
 
@@ -45,11 +48,12 @@ void bfdel(struct bitfield *instance)
 	free(instance);
 }
 
-struct bitfield *bfclone(struct bitfield *input)
+struct bitfield *bfclone(const struct bitfield *input)
 {
 	int bitnslots = BITNSLOTS(input->size);
 /* not using bfnew, because calloc is slow and 0-ed memory not needed anyway */
 	struct bitfield *output = malloc(sizeof(struct bitfield));
+	output->size = input->size;
 	output->field = malloc(bitnslots * sizeof(unsigned long));
 	memcpy(output->field, input->field, bitnslots * sizeof(unsigned long));
 	return output;
@@ -97,7 +101,7 @@ void bfprint(const struct bitfield *instance)
 	printf("\n");
 }
 
-void char2bf(const char *input, struct bitfield *output)
+void str2bf(const char *input, struct bitfield *output)
 {
 	int input_len =
 	    (strlen(input) < output->size) ? strlen(input) : output->size;
@@ -119,7 +123,7 @@ void char2bf(const char *input, struct bitfield *output)
 	}
 }
 
-void bf2char(const struct bitfield *input, char *output)
+void bf2str(const struct bitfield *input, char *output)
 {
 	int bitnslots = BITNSLOTS(input->size);
 	int i, j;
@@ -260,6 +264,8 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset)
 
 	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
 	memcpy(output->field, tmp->field, bitnslots * sizeof(unsigned long));
+	bfdel(first_chunk);
+	bfdel(second_chunk);
 	bfdel(tmp);
 	return output;
 }
@@ -376,21 +382,146 @@ int bfcpy(const struct bitfield *src, struct bitfield *dest)
 		return 1;
 	int i;
 	for (i = 0; i < BITNSLOTS(src->size); i++)
-		dest->field[i] = dest->field[i];
+		dest->field[i] = src->field[i];
 	return 0;
 }
 
-void bfzero(struct bitfield *instance)
+void bfclearall(struct bitfield *instance)
 {
 	int i;
 	for (i = 0; i < BITNSLOTS(instance->size); i++)
 		instance->field[i] = 0UL;
 }
 
-void bfone(struct bitfield *instance)
+void bfsetall(struct bitfield *instance)
 {
 	int i;
 	for (i = 0; i < BITNSLOTS(instance->size); i++)
 		instance->field[i] = -1UL;
 	bfcleartail(instance);
+}
+
+void bfresize(struct bitfield *instance, int new_size)
+{
+	int old_bitnslots = BITNSLOTS(instance->size);
+	int new_bitnslots = BITNSLOTS(new_size);
+	instance->size = new_size;
+	void *tmp;
+	tmp = realloc(instance->field, new_bitnslots * sizeof(unsigned long));
+	if (tmp != NULL)
+		instance->field = tmp;
+	if ((new_bitnslots < old_bitnslots) & (new_size % LONG_BIT != 0))
+		bfcleartail(instance);
+}
+
+void bfsetbit(struct bitfield *instance, int bit)
+{
+	BITSET(instance, bit);
+}
+
+void bfclearbit(struct bitfield *instance, int bit)
+{
+	BITCLEAR(instance, bit);
+}
+
+struct bitfield *bfrev(const struct bitfield *input)
+{
+	struct bitfield *output = bfnew_quick(input->size);
+	int i, j;
+	int bitnslots = BITNSLOTS(input->size);
+	for (i = 0; i < (bitnslots - 1); i++) {
+		for (j = 0; j < LONG_BIT; j++) {
+			if ((input->field[i] >> j) & 1UL)
+				BITSET(output,
+				       input->size - i * LONG_BIT - j - 1);
+			else
+				BITCLEAR(output,
+					 input->size - i * LONG_BIT - j - 1);
+		}
+	}
+	int bits_in_last_input_slot = (input->size - 1) % LONG_BIT + 1;
+	for (j = 0; j < bits_in_last_input_slot; j++) {
+		if ((input->field[bitnslots - 1] >> j) & 1UL)
+			BITSET(output, bits_in_last_input_slot - j - 1);
+		else
+			BITCLEAR(output, bits_in_last_input_slot - j - 1);
+	}
+	return output;
+}
+
+void bfrev_ip(struct bitfield *instance)
+{
+	int size = instance->size;
+	struct bitfield *tmp = bfnew_quick(size);
+	int i, j;
+	int bitnslots = BITNSLOTS(size);
+	for (i = 0; i < (bitnslots - 1); i++) {
+		for (j = 0; j < LONG_BIT; j++) {
+			if ((instance->field[i] >> j) & 1UL)
+				BITSET(tmp, size - i * LONG_BIT - j - 1);
+			else
+				BITCLEAR(tmp, size - i * LONG_BIT - j - 1);
+		}
+	}
+	int bits_in_last_input_slot = (size - 1) % LONG_BIT + 1;
+	for (j = 0; j < bits_in_last_input_slot; j++) {
+		if ((instance->field[bitnslots - 1] >> j) & 1UL)
+			BITSET(tmp, bits_in_last_input_slot - j - 1);
+		else
+			BITCLEAR(tmp, bits_in_last_input_slot - j - 1);
+	}
+	memcpy(instance->field, tmp->field, bitnslots * sizeof(unsigned long));
+	bfdel(tmp);
+}
+
+int bfsize(const struct bitfield *instance)
+{
+	return instance->size;
+}
+
+int bfgetbit(const struct bitfield *instance, const int bit)
+{
+	/* might be good to check whether bit is within range */
+
+	return BITGET(instance, bit);
+}
+
+void bftogglebit(struct bitfield *instance, const int bit)
+{
+	BITTOGGLE(instance, bit);
+}
+
+int bfpopcount(const struct bitfield *instance)
+{
+	int bits = 0;
+	int i;
+	for (i = 0; i < BITNSLOTS(instance->size); i++)
+		/* this is GCC and Clang only */
+		bits += __builtin_popcountl(instance->field[i]);
+	return bits;
+}
+
+int bfhamming(const struct bitfield *input1, const struct bitfield *input2)
+{
+	int hamming = bfpopcount(bfxor(input1, input2));
+	return hamming;
+}
+
+unsigned long *bf2long(const struct bitfield *input)
+{
+	int bitnslots = BITNSLOTS(input->size);
+	unsigned long *output = calloc(1, bitnslots * sizeof(unsigned long));
+	memcpy(output, input->field, bitnslots * sizeof(unsigned long));
+	return output;
+}
+
+int bfisempty(const struct bitfield *instance)
+{
+	int i;
+	int bitnslots = BITNSLOTS(instance->size);
+	for (i = 0; i < bitnslots; i++) {
+		if (instance->field[i] != 0UL)
+			return 1;
+	}
+	return 0;
 }

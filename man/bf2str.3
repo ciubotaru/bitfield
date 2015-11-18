@@ -1,0 +1,25 @@
+.TH bf2str 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.SH NAME
+bf2str, str2bf \- convert bitfields to char strings of zeroes and ones, and vice-versa, starting from the least significant bit.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "void bf2str(const struct bitfield *"input ", char *"output ");
+.BI "void str2bf(const char *"input ", struct bitfield *"output ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbf2str()\fR function takes a pointer to bitfield \fIinput\fR, and a char string \fIoutput\fR, and fills \fIoutput\fR with '0' and '1' characters.
+.sp
+The \fBstr2bf()\fR function takes a char string \fIinput\fR, consitsting of ones and zeroes, and a pointer to a properly initialized bitfield \fIoutput\fR, and fills \fIoutput\fR with '0' and '1' bites.
+.sp
+The conversion is done from the least significant bit to the most significant bit. This means that \fBbf2str\fR will convert 0b1000 into "0001", and \fBstr2bf\fR will convert it back in the same order.
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+

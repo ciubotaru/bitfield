@@ -1,4 +1,4 @@
-.TH bfsub 3 "SEPTEMBER 20, 2015" "bitfield 0.1.1" "Bitfield manipulation library"
+.TH bfsub 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
 .SH NAME
 bfsub \- extract a sub-bitfield from a bitfield.
 .SH SYNOPSIS
@@ -13,15 +13,8 @@ A bitfield is represented by a "struct bitfield". It has two elements: an array 
 The \fBbfsub()\fR function takes a pointer to bitfield \fIinput\fR, the number of the \fIstart\fR bit and \fIend\fR bit, and creates a new bitfield that contains bits between \fIstart\fR (included) bit and \fIend\fR(not included) bit from the \fIinput\fR bitfield. The function returns a pointer to the new bitfield.
 .sp
 .SH "SEE ALSO"
-.BR bfnew (3),
-.BR bfdel (3),
-.BR bfcmp (3),
-.BR bfprint (3),
-.BR char2bf (3),
-.BR bf2char (3),
-.BR bfcat (3),
-.BR bfshift (3)
-.SH COLOPHON
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
 .SH AUTHOR
 Vitalie CIUBOTARU
 

@@ -1,10 +1,10 @@
 /**
- * File name: tests/test3.c
+ * File name: tests/test12.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
  * License: General Public License, version 3 or later
- * Date: September 1, 2015
+ * Date: October 20, 2015
 **/
 
 #include <stdio.h>
@@ -14,38 +14,47 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bfand(), bfnot(), bfor() and bfxor() */
+/* Testing bfpopcount() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
-	char *errmsg;
-	char *msg = "Testing bfand(), bfnot(), bfor() and bfxor()";
+	char *msg = "Testing bfpopcount()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	struct bitfield *input1 = bfnew(len);
-	struct bitfield *input2 = bfnew(len);
-	struct bitfield *output1 = bfnew(len);
-	struct bitfield *output2 = bfnew(len);
+
+	char *input_char = malloc((len + 1) * sizeof(char));	/* allocate space for 80+1 chars */
 	for (i = 0; i < len; i++) {
 		if (rand() % 2)
-			BITSET(input1, i);
-		if (rand() % 2)
-			BITSET(input2, i);
+			input_char[i] = '1';
+		else
+			input_char[i] = '0';
 	}
-//      bfprint(input1);
-//      bfprint(input2);
-	output1 = bfxor(input1, input2);
-//      bfprint(output1);
-	output2 = bfand(bfor(input1, input2), bfnot(bfand(input1, input2)));
-//      bfprint(output2);
-	if (bfcmp(output1, output2, &errmsg) != 0) {
+	input_char[len] = '\0';
+//      printf("%s\n", input_char);
+
+	/* population count in char string */
+	int count_s = 0;
+	for (i = 0; i < len; i++)
+		if (input_char[i] == '1')
+			count_s++;
+//      printf("%i\n", count_s);
+
+	struct bitfield *input = bfnew_quick(len);
+	str2bf(input_char, input);
+//      bfprint(input);
+
+	/* population count in bitfield */
+	int count_b = bfpopcount(input);
+//      printf("%i\n", count_b);
+
+	if (count_s != count_b) {
 		printf("%s\n", failed);
 		return 1;
 	}

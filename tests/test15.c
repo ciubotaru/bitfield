@@ -1,10 +1,10 @@
 /**
- * File name: tests/test2.c
+ * File name: tests/test15.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
  * License: General Public License, version 3 or later
- * Date: September 1, 2015
+ * Date: November 15, 2015
 **/
 
 #include <stdio.h>
@@ -14,15 +14,14 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bf2str() and str2bf() */
+/* Testing bf2long() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
-	char *errmsg;
-	char *msg = "Testing bf2str() and str2bf()";
+	char *msg = "Testing bf2long()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
@@ -30,19 +29,16 @@ int main()
 	for (i = 0; i < dots; i++)
 		printf(".");
 	struct bitfield *input = bfnew(len);
-	struct bitfield *output = bfnew(len);
-	char *input_char = malloc((len + 1) * sizeof(char));
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-//    bfprint(input);
-	bf2str(input, input_char);
-//    printf("%s\n", input_char);
-	str2bf(input_char, output);
-//    bfprint(output);
-	if (bfcmp(input, output, &errmsg) != 0) {
-		printf("%s\n", failed);
-		return 1;
+	int bitnslots = BITNSLOTS(input->size);
+	unsigned long *input_long = bf2long(input);
+	for (i = 0; i < bitnslots; i++) {
+		if (input_long[i] != input->field[i]) {
+			printf("%s\n", failed);
+			return 1;
+		}
 	}
 	printf("%s\n", passed);
 	return 0;
