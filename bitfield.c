@@ -98,7 +98,7 @@ void bfprint(const struct bitfield *instance)
 	for (i = 0; i < instance->size; i++)
 		printf("%lu",
 		       (instance->field[i / LONG_BIT] >> (i % LONG_BIT)) & 1UL);
-	printf("\n");
+//	printf("\n");
 }
 
 void str2bf(const char *input, struct bitfield *output)
