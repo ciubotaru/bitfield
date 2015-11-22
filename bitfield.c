@@ -101,7 +101,7 @@ void bfprint(const struct bitfield *instance)
 //	printf("\n");
 }
 
-void str2bf(const char *input, struct bitfield *output)
+void str2bf_ip(const char *input, struct bitfield *output)
 {
 	int input_len =
 	    (strlen(input) < output->size) ? strlen(input) : output->size;
@@ -123,7 +123,7 @@ void str2bf(const char *input, struct bitfield *output)
 	}
 }
 
-void bf2str(const struct bitfield *input, char *output)
+void bf2str_ip(const struct bitfield *input, char *output)
 {
 	int bitnslots = BITNSLOTS(input->size);
 	int i, j;

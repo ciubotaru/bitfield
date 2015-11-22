@@ -29,7 +29,7 @@ int main()
 		printf(".");
 	char *input_char = "11111111111111111111111111111111111111111111111111111111111111111111111111111111";	/* 80 units */
 	struct bitfield *output1 = bfnew_quick(len);
-	str2bf(input_char, output1);
+	str2bf_ip(input_char, output1);
 //      bfprint(output1);
 
 	struct bitfield *output2 = bfnew_ones(len);

@@ -49,7 +49,7 @@ int main()
 //      printf("%s\n", input_char_rev);
 
 	struct bitfield *input1 = bfnew_quick(len);
-	str2bf(input_char, input1);
+	str2bf_ip(input_char, input1);
 //      bfprint(input1);
 
 	struct bitfield *input2 = bfrev(input1);
