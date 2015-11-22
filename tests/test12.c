@@ -46,8 +46,7 @@ int main()
 			count_s++;
 //      printf("%i\n", count_s);
 
-	struct bitfield *input = bfnew_quick(len);
-	str2bf_ip(input_char, input);
+	struct bitfield *input = str2bf(input_char);
 //      bfprint(input);
 
 	/* population count in bitfield */

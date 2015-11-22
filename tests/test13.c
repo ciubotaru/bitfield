@@ -57,10 +57,8 @@ int main()
 //      printf("%s\n", input_char2);
 //      printf("%i\n", humming_s);
 
-	struct bitfield *input1 = bfnew_quick(len);
-	struct bitfield *input2 = bfnew_quick(len);
-	str2bf_ip(input_char1, input1);
-	str2bf_ip(input_char2, input2);
+	struct bitfield *input1 = str2bf(input_char1);
+	struct bitfield *input2 = str2bf(input_char2);
 //      bfprint(input1);
 //      bfprint(input2);
 

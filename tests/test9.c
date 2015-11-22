@@ -37,8 +37,7 @@ int main()
 	}
 	input_char[len] = '\0';
 
-	struct bitfield *input = bfnew_quick(len);
-	str2bf_ip(input_char, input);
+	struct bitfield *input = str2bf(input_char);
 
 	for (i = 0; i < len; i++) {
 		if (bfgetbit(input, i) != input_char[i] - '0') {

@@ -28,8 +28,7 @@ int main()
 	for (i = 0; i < dots; i++)
 		printf(".");
 	char *input_char = "11111111111111111111111111111111111111111111111111111111111111111111111111111111";	/* 80 units */
-	struct bitfield *output1 = bfnew_quick(len);
-	str2bf_ip(input_char, output1);
+	struct bitfield *output1 = str2bf(input_char);
 //      bfprint(output1);
 
 	struct bitfield *output2 = bfnew_ones(len);
