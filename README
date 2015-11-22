@@ -66,6 +66,9 @@ bf2long() converts the bit array to an array of long integers.
 bf2str() converts a bitfield into a character string of ones and zeroes,
 starting from the least significant bit.
 
+bf2str_ip() converts a bitfield into a character string of ones and zeroes,
+starting from the least significant bit "in-place".
+
 bfand() performs bitwise AND over a pair of bitfields.
 
 bfcat() concatenates two bitfields into one.
@@ -133,6 +136,9 @@ bfxor() performs bitwise exclusive OR over a pair of bitfields.
 
 str2bf() converts a character string of ones and zeroes into a bitfield,
 starting from the least significant bit.
+
+str2bf_ip() converts a character string of ones and zeroes into a bitfield,
+starting from the least significant bit "in-place".
 
 Please, see "examples" directory for working examples.
 
