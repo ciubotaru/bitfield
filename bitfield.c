@@ -147,6 +147,30 @@ void str2bf_ip(const char *input, struct bitfield *output)
 	}
 }
 
+char *bf2str(const struct bitfield *input)
+{
+	int input_len = input->size;
+	char *output = malloc((input_len + 1) * sizeof(char));
+	int bitnslots = BITNSLOTS(input_len);
+	int i, j;
+	for (i = 0; i < bitnslots - 1; i++) {
+		for (j = 0; j < LONG_BIT; j++) {
+			if ((input->field[i] >> j) & 1LU)
+				output[i * LONG_BIT + j] = '1';
+			else
+				output[i * LONG_BIT + j] = '0';
+		}
+	}
+	for (j = 0; j < (input_len - 1) % LONG_BIT + 1; j++) {
+		if ((input->field[bitnslots - 1] >> j) & 1LU)
+			output[(bitnslots - 1) * LONG_BIT + j] = '1';
+		else
+			output[(bitnslots - 1) * LONG_BIT + j] = '0';
+	}
+	output[input_len] = '\0';
+	return output;
+}
+
 void bf2str_ip(const struct bitfield *input, char *output)
 {
 	int bitnslots = BITNSLOTS(input->size);
