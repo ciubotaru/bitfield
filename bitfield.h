@@ -23,6 +23,8 @@ int bfcmp(const struct bitfield *input1, const struct bitfield *input2, char **e
 
 void bfprint(const struct bitfield *instance);	/* prints a bitfield as a series of ones and zeroes */
 
+struct bitfield *str2bf(const char *input);	/* converts a character string of ones and zeroes into a bitfield and returns the result in a new bitfield */
+
 void str2bf_ip(const char *input, struct bitfield *output);	/* converts a character string of ones and zeroes into a bitfield */
 
 void bf2str_ip(const struct bitfield *input, char *output);	/* converts a bitfield into a character string of ones and zeroes */

@@ -101,6 +101,30 @@ void bfprint(const struct bitfield *instance)
 //	printf("\n");
 }
 
+struct bitfield *str2bf(const char *input)
+{
+	int input_len = strlen(input);
+	struct bitfield *output = bfnew_quick(input_len);
+	int bitnslots = BITNSLOTS(input_len);
+	int i, j;
+	for (i = 0; i < bitnslots - 1; i++) {
+		for (j = 0; j < LONG_BIT; j++) {
+			if (input[i * LONG_BIT + j] == '1')
+				output->field[i] |= (1UL << j);
+			else
+				output->field[i] &= ~(1UL << j);
+		}
+	}
+	for (j = 0; j < (input_len - 1) % LONG_BIT + 1; j++) {
+		if (input[i * LONG_BIT + j] == '1')
+			output->field[i] |= (1UL << j);
+		else
+			output->field[i] &= ~(1UL << j);
+	}
+	bfcleartail(output);
+	return output;
+}
+
 void str2bf_ip(const char *input, struct bitfield *output)
 {
 	int input_len =
