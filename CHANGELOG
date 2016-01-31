@@ -1,11 +1,11 @@
 Changelog
 
-0.1
-* Initial release.
+0.3
+* Renamed str2bf() to str2bf_ip() and bf2str() to bf2str_ip().
+* Added new str2bf(), bf2str().
+* Changed the algo of bfrev() to a quicker one.
 
-0.1.1
-* Added bfnew_quick(), bfnew_ones(), bfclone(), bfcat(), bfshift_ip(), 
-bfnot_ip(), bfcleartail(), bfcpy().
+
 
 0.2
 * Added bfcmp(), bfsub(), bfshift(), bfclearall(), bfsetall(), bfresize(), 
@@ -13,3 +13,10 @@ bfnot_ip(), bfcleartail(), bfcpy().
   bftogglebit(), bfpopcount(), bfhamming(), bf2long() and bfisempty().
 * Renamed char2bf() to str2bf() and bf2char() to bf2str() (thus incompatible
   with versions 0.1.x).
+
+0.1.1
+* Added bfnew_quick(), bfnew_ones(), bfclone(), bfcat(), bfshift_ip(), 
+bfnot_ip(), bfcleartail(), bfcpy().
+
+0.1
+* Initial release.
