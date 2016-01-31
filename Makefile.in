@@ -21,8 +21,8 @@ all: shared static
 
 shared: bitfield.c
 	$(CC) $(CFLAGS) -c -fpic bitfield.c -o bf-shared.o -I. $(LIBS)
-	$(CC) $(CFLAGS) -shared -Wl,-soname,libbitfield.so.1 -o libbitfield.so.1.$(VERSION) bf-shared.o $(LIBS)
-	for i in libbitfield.so.1 libbitfield.so; do ln -svf libbitfield.so.1.$(VERSION) $$i; done
+	$(CC) $(CFLAGS) -shared -Wl,-soname,libbitfield.so.0 -o libbitfield.so.$(VERSION) bf-shared.o $(LIBS)
+	for i in libbitfield.so.0 libbitfield.so; do ln -svf libbitfield.so.$(VERSION) $$i; done
 
 static: bitfield.c
 	$(CC) $(CFLAGS) -c bitfield.c -o bf-static.o $(LIBS)
