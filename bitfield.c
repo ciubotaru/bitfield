@@ -474,27 +474,29 @@ void bfclearbit(struct bitfield *instance, int bit)
 
 struct bitfield *bfrev(const struct bitfield *input)
 {
-	struct bitfield *output = bfnew_quick(input->size);
-	int i, j;
-	int bitnslots = BITNSLOTS(input->size);
-	for (i = 0; i < (bitnslots - 1); i++) {
-		for (j = 0; j < LONG_BIT; j++) {
-			if ((input->field[i] >> j) & 1UL)
-				BITSET(output,
-				       input->size - i * LONG_BIT - j - 1);
-			else
-				BITCLEAR(output,
-					 input->size - i * LONG_BIT - j - 1);
-		}
-	}
-	int bits_in_last_input_slot = (input->size - 1) % LONG_BIT + 1;
-	for (j = 0; j < bits_in_last_input_slot; j++) {
-		if ((input->field[bitnslots - 1] >> j) & 1UL)
-			BITSET(output, bits_in_last_input_slot - j - 1);
-		else
-			BITCLEAR(output, bits_in_last_input_slot - j - 1);
-	}
-	return output;
+    int size = input->size;
+    int bitnslots = BITNSLOTS(size);
+    int i;
+    struct bitfield *output = bfnew_quick(size);
+    for (i = 0; i < bitnslots; i++)
+    {
+		/* taken from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
+        unsigned long v = input->field[bitnslots - i - 1];     // the source slot to be reversed
+        output->field[i] = v; // the destination slot; will be reversed bits of v; first get LSB of v
+        int s = LONG_BIT - 1; // extra shift needed at end
+        for (v >>= 1; v; v >>= 1)
+        {   
+            output->field[i] <<= 1UL;
+            output->field[i] |= v & 1UL;
+            s--;
+        }
+        output->field[i] <<= s; // shift when v's highest bits are zero
+    }
+    int tail = bitnslots * LONG_BIT - size;
+    output->size = bitnslots * LONG_BIT;
+    bfshift_ip(output, -tail);
+    output->size = size;
+    return output;
 }
 
 void bfrev_ip(struct bitfield *instance)
