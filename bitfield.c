@@ -98,10 +98,34 @@ void bfprint(const struct bitfield *instance)
 	for (i = 0; i < instance->size; i++)
 		printf("%lu",
 		       (instance->field[i / LONG_BIT] >> (i % LONG_BIT)) & 1UL);
-	printf("\n");
+//	printf("\n");
 }
 
-void str2bf(const char *input, struct bitfield *output)
+struct bitfield *str2bf(const char *input)
+{
+	int input_len = strlen(input);
+	struct bitfield *output = bfnew_quick(input_len);
+	int bitnslots = BITNSLOTS(input_len);
+	int i, j;
+	for (i = 0; i < bitnslots - 1; i++) {
+		for (j = 0; j < LONG_BIT; j++) {
+			if (input[i * LONG_BIT + j] == '1')
+				output->field[i] |= (1UL << j);
+			else
+				output->field[i] &= ~(1UL << j);
+		}
+	}
+	for (j = 0; j < (input_len - 1) % LONG_BIT + 1; j++) {
+		if (input[i * LONG_BIT + j] == '1')
+			output->field[i] |= (1UL << j);
+		else
+			output->field[i] &= ~(1UL << j);
+	}
+	bfcleartail(output);
+	return output;
+}
+
+void str2bf_ip(const char *input, struct bitfield *output)
 {
 	int input_len =
 	    (strlen(input) < output->size) ? strlen(input) : output->size;
@@ -123,7 +147,31 @@ void str2bf(const char *input, struct bitfield *output)
 	}
 }
 
-void bf2str(const struct bitfield *input, char *output)
+char *bf2str(const struct bitfield *input)
+{
+	int input_len = input->size;
+	char *output = malloc((input_len + 1) * sizeof(char));
+	int bitnslots = BITNSLOTS(input_len);
+	int i, j;
+	for (i = 0; i < bitnslots - 1; i++) {
+		for (j = 0; j < LONG_BIT; j++) {
+			if ((input->field[i] >> j) & 1LU)
+				output[i * LONG_BIT + j] = '1';
+			else
+				output[i * LONG_BIT + j] = '0';
+		}
+	}
+	for (j = 0; j < (input_len - 1) % LONG_BIT + 1; j++) {
+		if ((input->field[bitnslots - 1] >> j) & 1LU)
+			output[(bitnslots - 1) * LONG_BIT + j] = '1';
+		else
+			output[(bitnslots - 1) * LONG_BIT + j] = '0';
+	}
+	output[input_len] = '\0';
+	return output;
+}
+
+void bf2str_ip(const struct bitfield *input, char *output)
 {
 	int bitnslots = BITNSLOTS(input->size);
 	int i, j;
@@ -426,27 +474,29 @@ void bfclearbit(struct bitfield *instance, int bit)
 
 struct bitfield *bfrev(const struct bitfield *input)
 {
-	struct bitfield *output = bfnew_quick(input->size);
-	int i, j;
-	int bitnslots = BITNSLOTS(input->size);
-	for (i = 0; i < (bitnslots - 1); i++) {
-		for (j = 0; j < LONG_BIT; j++) {
-			if ((input->field[i] >> j) & 1UL)
-				BITSET(output,
-				       input->size - i * LONG_BIT - j - 1);
-			else
-				BITCLEAR(output,
-					 input->size - i * LONG_BIT - j - 1);
-		}
-	}
-	int bits_in_last_input_slot = (input->size - 1) % LONG_BIT + 1;
-	for (j = 0; j < bits_in_last_input_slot; j++) {
-		if ((input->field[bitnslots - 1] >> j) & 1UL)
-			BITSET(output, bits_in_last_input_slot - j - 1);
-		else
-			BITCLEAR(output, bits_in_last_input_slot - j - 1);
-	}
-	return output;
+    int size = input->size;
+    int bitnslots = BITNSLOTS(size);
+    int i;
+    struct bitfield *output = bfnew_quick(size);
+    for (i = 0; i < bitnslots; i++)
+    {
+		/* taken from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
+        unsigned long v = input->field[bitnslots - i - 1];     // the source slot to be reversed
+        output->field[i] = v; // the destination slot; will be reversed bits of v; first get LSB of v
+        int s = LONG_BIT - 1; // extra shift needed at end
+        for (v >>= 1; v; v >>= 1)
+        {   
+            output->field[i] <<= 1UL;
+            output->field[i] |= v & 1UL;
+            s--;
+        }
+        output->field[i] <<= s; // shift when v's highest bits are zero
+    }
+    int tail = bitnslots * LONG_BIT - size;
+    output->size = bitnslots * LONG_BIT;
+    bfshift_ip(output, -tail);
+    output->size = size;
+    return output;
 }
 
 void bfrev_ip(struct bitfield *instance)

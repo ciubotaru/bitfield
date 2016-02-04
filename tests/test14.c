@@ -1,10 +1,10 @@
 /**
- * File name: tests/test2.c
+ * File name: tests/test14.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
  * License: General Public License, version 3 or later
- * Date: September 1, 2015
+ * Date: December 1, 2015
 **/
 
 #include <stdio.h>
@@ -14,7 +14,7 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bf2str_ip() and str2bf_ip() */
+/* Testing bf2str() and str2bf() */
 
 int main()
 {
@@ -22,7 +22,7 @@ int main()
 	int i;			//counter
 	int len = 80;
 	char *errmsg;
-	char *msg = "Testing bf2str_ip() and str2bf_ip()";
+	char *msg = "Testing bf2str() and str2bf()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
@@ -30,16 +30,11 @@ int main()
 	for (i = 0; i < dots; i++)
 		printf(".");
 	struct bitfield *input = bfnew(len);
-	struct bitfield *output = bfnew(len);
-	char *input_char = malloc((len + 1) * sizeof(char));
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-//    bfprint(input);
-	bf2str_ip(input, input_char);
-//    printf("%s\n", input_char);
-	str2bf_ip(input_char, output);
-//    bfprint(output);
+	char *input_char = bf2str(input);
+	struct bitfield *output = str2bf(input_char);
 	if (bfcmp(input, output, &errmsg) != 0) {
 		printf("%s\n", failed);
 		return 1;

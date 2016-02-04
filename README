@@ -1,7 +1,7 @@
 bitfield
 ========
 
-Version 0.2.0 (November 1, 2015)
+Version 0.3.0 (February 1, 2016)
 
 bitfield is a library of functions for creating, modifying and destroying bit 
 fields (or bit arrays), i.e. series of zeroes and ones spread across an array 
@@ -65,6 +65,9 @@ bf2long() converts the bit array to an array of long integers.
 
 bf2str() converts a bitfield into a character string of ones and zeroes,
 starting from the least significant bit.
+
+bf2str_ip() converts a bitfield into a character string of ones and zeroes,
+starting from the least significant bit "in-place".
 
 bfand() performs bitwise AND over a pair of bitfields.
 
@@ -133,6 +136,9 @@ bfxor() performs bitwise exclusive OR over a pair of bitfields.
 
 str2bf() converts a character string of ones and zeroes into a bitfield,
 starting from the least significant bit.
+
+str2bf_ip() converts a character string of ones and zeroes into a bitfield,
+starting from the least significant bit "in-place".
 
 Please, see "examples" directory for working examples.
 
