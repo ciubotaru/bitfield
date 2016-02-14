@@ -12,5 +12,9 @@ run-tests:
 #	( ./$$i > /dev/null 2>&1 && echo "Passed.")  || (echo "Failed with code $$?"); \
 	./$$i; \
 	done
+
 clean:
 	rm -rvf $(TESTFILES)
+
+distclean:
+	rm Makefile
