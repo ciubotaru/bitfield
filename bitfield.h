@@ -78,3 +78,5 @@ int bfhamming(const struct bitfield *input1, const struct bitfield *input2);	/* 
 unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as an array of unsigned long integers */
 
 int bfisempty(const struct bitfield *instance);	/* checks whether all bits of an array are unset */
+
+int bfpos(const struct bitfield *haystack, const struct bitfield *needle);	/* check whether an array of bits contains a sub-array */

@@ -581,3 +581,22 @@ int bfisempty(const struct bitfield *instance)
 	}
 	return 0;
 }
+
+int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
+{
+	int heystack_size = bfsize(haystack);
+	int needle_size = bfsize(needle);
+	int i;
+	int diff = heystack_size - needle_size;
+	int result;
+	/* needle longer than haystack; return error code -2 */
+	if (diff < 0)
+		return -2;
+	for (i = 0; i <= diff; i++) {
+		result = bfcmp(bfsub(haystack, i, needle_size), needle, NULL);
+		/* needle matches a sub-array of haystack; return starting position of the sub-array */
+		if (result == 0) return i;
+	}
+	/* nothing matched; return -1 */
+	return -1;
+}
