@@ -51,7 +51,7 @@ void bfdel(struct bitfield *instance)
 struct bitfield *bfclone(const struct bitfield *input)
 {
 	int bitnslots = BITNSLOTS(input->size);
-/* not using bfnew, because calloc is slow and 0-ed memory not needed anyway */
+	/* not using bfnew, because calloc is slow and 0-ed memory not needed anyway */
 	struct bitfield *output = malloc(sizeof(struct bitfield));
 	output->size = input->size;
 	output->field = malloc(bitnslots * sizeof(unsigned long));
@@ -79,18 +79,18 @@ int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
 			goto error;
 		}
 	}
-/* comparing the last slot using mask, because the tail bits may differ */
+	/* comparing the last slot using mask, because the tail bits may differ */
 	unsigned long mask =
 	    ((input1->size % LONG_BIT) ==
 	     0) ? -1UL : (1UL << input1->size % LONG_BIT) - 1UL;
 	if ((input1->field[(input1->size - 1) / LONG_BIT] & mask) !=
 	    ((input2->field)[(input2->size - 1) / LONG_BIT] & mask)) {
-			msg = "Bitfields differ";
-			retcode = 1;
-			goto error;
-		}
+		msg = "Bitfields differ";
+		retcode = 1;
+		goto error;
+	}
 	return 0;
-error:
+ error:
 	if (errmsg) {
 		*errmsg = malloc(strlen(msg) + 1);
 		memcpy(*errmsg, msg, strlen(msg) + 1);
@@ -104,7 +104,7 @@ void bfprint(const struct bitfield *instance)
 	for (i = 0; i < instance->size; i++)
 		printf("%lu",
 		       (instance->field[i / LONG_BIT] >> (i % LONG_BIT)) & 1UL);
-//	printf("\n");
+//      printf("\n");
 }
 
 struct bitfield *str2bf(const char *input)
@@ -480,29 +480,27 @@ void bfclearbit(struct bitfield *instance, int bit)
 
 struct bitfield *bfrev(const struct bitfield *input)
 {
-    int size = input->size;
-    int bitnslots = BITNSLOTS(size);
-    int i;
-    struct bitfield *output = bfnew_quick(size);
-    for (i = 0; i < bitnslots; i++)
-    {
+	int size = input->size;
+	int bitnslots = BITNSLOTS(size);
+	int i;
+	struct bitfield *output = bfnew_quick(size);
+	for (i = 0; i < bitnslots; i++) {
 		/* taken from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
-        unsigned long v = input->field[bitnslots - i - 1];     // the source slot to be reversed
-        output->field[i] = v; // the destination slot; will be reversed bits of v; first get LSB of v
-        int s = LONG_BIT - 1; // extra shift needed at end
-        for (v >>= 1; v; v >>= 1)
-        {   
-            output->field[i] <<= 1UL;
-            output->field[i] |= v & 1UL;
-            s--;
-        }
-        output->field[i] <<= s; // shift when v's highest bits are zero
-    }
-    int tail = bitnslots * LONG_BIT - size;
-    output->size = bitnslots * LONG_BIT;
-    bfshift_ip(output, -tail);
-    output->size = size;
-    return output;
+		unsigned long v = input->field[bitnslots - i - 1];	// the source slot to be reversed
+		output->field[i] = v;	// the destination slot; will be reversed bits of v; first get LSB of v
+		int s = LONG_BIT - 1;	// extra shift needed at end
+		for (v >>= 1; v; v >>= 1) {
+			output->field[i] <<= 1UL;
+			output->field[i] |= v & 1UL;
+			s--;
+		}
+		output->field[i] <<= s;	// shift when v's highest bits are zero
+	}
+	int tail = bitnslots * LONG_BIT - size;
+	output->size = bitnslots * LONG_BIT;
+	bfshift_ip(output, -tail);
+	output->size = size;
+	return output;
 }
 
 void bfrev_ip(struct bitfield *instance)
@@ -595,7 +593,8 @@ int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
 	for (i = 0; i <= diff; i++) {
 		result = bfcmp(bfsub(haystack, i, needle_size), needle, NULL);
 		/* needle matches a sub-array of haystack; return starting position of the sub-array */
-		if (result == 0) return i;
+		if (result == 0)
+			return i;
 	}
 	/* nothing matched; return -1 */
 	return -1;
