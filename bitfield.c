@@ -62,19 +62,21 @@ struct bitfield *bfclone(const struct bitfield *input)
 int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
 	  char **errmsg)
 {
+	int retcode = 0;
 	char *msg;
 	if (input1->size != input2->size) {
 		msg = "Can not compare bitfields of different length";
-		*errmsg = malloc(strlen(msg) + 1);
-		memcpy(*errmsg, msg, strlen(msg) + 1);
-		return 2;
+		retcode = 2;
+		goto error;
 	}
 
 	int i;
 	int bitnslots = BITNSLOTS(input1->size);
 	for (i = 0; i < (bitnslots - 1); i++) {	//leaving the last slot for later
 		if (input1->field[i] != input2->field[i]) {
-			goto differ;
+			msg = "Bitfields differ";
+			retcode = 1;
+			goto error;
 		}
 	}
 /* comparing the last slot using mask, because the tail bits may differ */
@@ -82,14 +84,18 @@ int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
 	    ((input1->size % LONG_BIT) ==
 	     0) ? -1UL : (1UL << input1->size % LONG_BIT) - 1UL;
 	if ((input1->field[(input1->size - 1) / LONG_BIT] & mask) !=
-	    ((input2->field)[(input2->size - 1) / LONG_BIT] & mask))
-		goto differ;
+	    ((input2->field)[(input2->size - 1) / LONG_BIT] & mask)) {
+			msg = "Bitfields differ";
+			retcode = 1;
+			goto error;
+		}
 	return 0;
- differ:
-	msg = "Bitfields differ";
-	*errmsg = malloc(strlen(msg) + 1);
-	memcpy(*errmsg, msg, strlen(msg) + 1);
-	return 1;
+error:
+	if (errmsg) {
+		*errmsg = malloc(strlen(msg) + 1);
+		memcpy(*errmsg, msg, strlen(msg) + 1);
+	}
+	return retcode;
 }
 
 void bfprint(const struct bitfield *instance)

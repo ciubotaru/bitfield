@@ -21,7 +21,6 @@ int main()
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
-	char *errmsg;
 	char *msg = "Testing bf2str_ip() and str2bf_ip()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
@@ -35,12 +34,9 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-//    bfprint(input);
 	bf2str_ip(input, input_char);
-//    printf("%s\n", input_char);
 	str2bf_ip(input_char, output);
-//    bfprint(output);
-	if (bfcmp(input, output, &errmsg) != 0) {
+	if (bfcmp(input, output, NULL) != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

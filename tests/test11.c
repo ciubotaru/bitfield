@@ -21,7 +21,6 @@ int main()
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
-	char *errmsg;
 	char *msg = "Testing bftogglebit()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
@@ -37,14 +36,12 @@ int main()
 		else
 			bfclearbit(input, i);
 	}
-//      bfprint(input);
 
 	struct bitfield *output = bfclone(input);
 	for (i = 0; i < len; i++)
 		bftogglebit(output, i);
-//      bfprint(output);
 
-	if (bfcmp(input, bfnot(output), &errmsg) != 0) {
+	if (bfcmp(input, bfnot(output), NULL) != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}
