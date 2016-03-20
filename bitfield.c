@@ -604,3 +604,11 @@ int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
 	/* nothing matched; return -1 */
 	return -1;
 }
+
+struct bitfield *long2bf(unsigned long *input, int size)
+{
+	struct bitfield *output = bfnew(size);
+	int bitnslots = BITNSLOTS(size);
+	memcpy(output->field, input, bitnslots * sizeof(unsigned long));
+	return output;
+}

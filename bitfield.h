@@ -80,3 +80,5 @@ unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as 
 int bfisempty(const struct bitfield *instance);	/* checks whether all bits of an array are unset */
 
 int bfpos(const struct bitfield *haystack, const struct bitfield *needle);	/* check whether an array of bits contains a sub-array */
+
+struct bitfield *long2bf(unsigned long *input, int size);	/* write the contents of an array of long integers into a bitfield structure */
