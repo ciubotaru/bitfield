@@ -136,6 +136,8 @@ bftogglebit() toggles (i.e. reverses the state of) a bit in a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
 
+long2bf() converts an array of long integers into a bitfield structure.
+
 str2bf() converts a character string of ones and zeroes into a bitfield,
 starting from the least significant bit.
 
