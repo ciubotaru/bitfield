@@ -303,7 +303,8 @@ int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
 		return -2;
 	}
 	for (i = 0; i <= diff; i++) {
-		struct bitfield *needle_candidate = bfsub(haystack, i, needle_size + i);
+		struct bitfield *needle_candidate =
+		    bfsub(haystack, i, needle_size + i);
 		result = bfcmp(needle_candidate, needle, NULL);
 		bfdel(needle_candidate);
 		/* needle matches a sub-array of haystack; return starting position of the sub-array */

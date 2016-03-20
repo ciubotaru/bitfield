@@ -38,8 +38,8 @@ int main()
 	 * all haystacks here contain exactly one instanse of needle,
 	 * so search should return non-negative-values
 	**/
-	for (i = 1; i < len; i++) { // needle size
-		for (j = 0; j < len - i; j++) { // needle position in the haystack
+	for (i = 1; i < len; i++) {	// needle size
+		for (j = 0; j < len - i; j++) {	// needle position in the haystack
 			/* create the needle */
 			struct bitfield *needle = bfnew(i);
 

@@ -34,11 +34,13 @@ int main()
 	unsigned long *input = calloc(1, bitnslots * sizeof(unsigned long));
 	for (i = 0; i < bitnslots - 1; i++) {
 		for (j = 0; j < LONG_BIT; j++) {
-			if (rand() % 2) input[i] |= (1UL << j);
+			if (rand() % 2)
+				input[i] |= (1UL << j);
 		}
 	}
 	for (i = 0; i < len % LONG_BIT; i++)
-		if (rand() % 2) input[bitnslots - 1] |= (1UL << i);
+		if (rand() % 2)
+			input[bitnslots - 1] |= (1UL << i);
 	struct bitfield *output = long2bf(input, len);
 	for (i = 0; i < bitnslots; i++) {
 		if (output->field[i] != input[i]) {
