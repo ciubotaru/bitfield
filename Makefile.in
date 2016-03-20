@@ -55,7 +55,7 @@ clean:
 
 distclean:
 	rm config.log config.status config.h Makefile
-	$(MAKE) -C $(MANDIR) distclean
+	$(MAKE) -C man distclean
 	$(MAKE) -C $(TESTDIR) distclean
 
 uninstall: uninstall-lib uninstall-man uninstall-header
