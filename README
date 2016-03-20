@@ -108,6 +108,8 @@ bfor() performs bitwise inclusive OR over a pair of bitfields.
 
 bfpopcount() counts the set bits in a bitfield.
 
+bfpos() checks whether an array of bits contains a sub-array.
+
 bfprint() prints a bitfield as a series of ones and zeroes.
 
 bfresize() resizes an existing bitfield.
