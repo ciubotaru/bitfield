@@ -1,7 +1,7 @@
 datarootdir=@datarootdir@
 prefix=@prefix@
 mandir=@mandir@
-man_MANS=bf2str.3 bfand.3 bfcat.3 bfclone.3 bfcmp.3 bfcpy.3 bfhamming.3 bfnew.3 bfprint.3 bfresize.3 bfrev.3 bfsetall.3 bfsetbit.3 bfshift.3 bfsize.3 bfsub.3 bitfield.3
+man_MANS=bf2long.3 bf2str.3 bfand.3 bfcat.3 bfclone.3 bfcmp.3 bfcpy.3 bfhamming.3 bfisempty.3 bfnew.3 bfpopcount.3 bfpos.3 bfprint.3 bfresize.3 bfrev.3 bfsetall.3 bfsetbit.3 bfshift.3 bfsize.3 bfsub.3 bitfield.3
 
 install:
 	mkdir -p $(DESTDIR)$(mandir)/man3
@@ -24,7 +24,7 @@ install:
 	ln -s bfsetbit.3 $(DESTDIR)$(mandir)/man3/bftogglebit.3
 
 uninstall:
-	for i in bfdel.3 bfnew_quick.3 bfnew_ones.3 str2bf.3 bfshift_ip.3 bfnot.3 bfnot_ip.3 bfor.3 bfxor.3 bfclearall.3 bfclearbit.3 bfrev_ip.3 bfgetbit.3 bftogglebit.3; do if [ -e $(DESTDIR)$(mandir)/man3/$$i ]; then rm -v $(DESTDIR)$(mandir)/man3/$$i; fi; done
+	for i in bfdel.3 bfnew_quick.3 bfnew_ones.3 str2bf.3 str2bf_ip.3 bf2str_ip.3 bfshift_ip.3 bfnot.3 bfnot_ip.3 bfor.3 bfxor.3 bfclearall.3 bfclearbit.3 bfrev_ip.3 bfgetbit.3 bftogglebit.3; do if [ -e $(DESTDIR)$(mandir)/man3/$$i ]; then rm -v $(DESTDIR)$(mandir)/man3/$$i; fi; done
 	for i in $(man_MANS); do if [ -e $(DESTDIR)$(mandir)/man3/$$i ]; then rm -v $(DESTDIR)$(mandir)/man3/$$i; fi; done
 
 distclean:
