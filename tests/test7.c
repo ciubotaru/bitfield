@@ -39,11 +39,8 @@ int main()
 	struct bitfield *input = str2bf(input_char);
 
 	struct bitfield *input2 = bfclone(input);
-//      bfprint(input);
-//      bfprint(input2);
 
-	char *errmsg;
-	if (bfcmp(input, input2, &errmsg) != 0) {
+	if (bfcmp(input, input2, NULL) != 0) {
 		printf("zyu1");
 		printf("%s\n", failed);
 		return 1;
@@ -57,7 +54,7 @@ int main()
 		return 1;
 	}
 
-	if (bfcmp(input, input3, &errmsg) != 0) {
+	if (bfcmp(input, input3, NULL) != 0) {
 		printf("zyu3");
 		printf("%s\n", failed);
 		return 1;

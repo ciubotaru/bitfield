@@ -19,7 +19,6 @@ int main()
 {
 	int i;			//counter
 	int len = 80;
-	char *errmsg;
 	char *msg = "Testing bfnew_ones(), bfsetall() and bfclearall()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
@@ -29,26 +28,23 @@ int main()
 		printf(".");
 	char *input_char = "11111111111111111111111111111111111111111111111111111111111111111111111111111111";	/* 80 units */
 	struct bitfield *output1 = str2bf(input_char);
-//      bfprint(output1);
 
 	struct bitfield *output2 = bfnew_ones(len);
-//      bfprint(output2);
-	if (bfcmp(output1, output2, &errmsg) != 0) {
+	if (bfcmp(output1, output2, NULL) != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}
 
 	struct bitfield *output3 = bfnew_quick(len);
 	bfsetall(output3);
-//      bfprint(output3);
-	if (bfcmp(output1, output3, &errmsg) != 0) {
+	if (bfcmp(output1, output3, NULL) != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}
 
 	struct bitfield *output4 = bfnew(len);
 	bfclearall(output3);
-	if (bfcmp(output3, output4, &errmsg) != 0) {
+	if (bfcmp(output3, output4, NULL) != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

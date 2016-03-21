@@ -1,0 +1,20 @@
+.TH bfpos 3 "MARCH 20, 2016" "bitfield 0.4" "Bitfield manipulation library"
+.SH NAME
+bfpos \- check whether an array of bits contains a sub-array.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "int bfpos(const struct bitfield *"haystack ", const struct bitfield *"needle ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbfpos()\fR function takes pointers to bitfields \fIhaystack\fR and \fIneedle\fR, and searches for the sub-array \fIneedle\fR in the \fIhaystack\fR. The function returns the starting position of the sub-array, -1 if the sub-array was not found, or -2 if the size of \fIneedle\fR is longer than that of \fIhaystack\fR.
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+

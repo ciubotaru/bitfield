@@ -1,11 +1,13 @@
 Changelog
 
+0.4
+* Added bfpos(), long2bf().
+* Minor change in bfcmp(). Now it's safe to pass NULL as err_msg argument.
+
 0.3
 * Renamed str2bf() to str2bf_ip() and bf2str() to bf2str_ip().
 * Added new str2bf(), bf2str().
 * Changed the algo of bfrev() to a quicker one.
-
-
 
 0.2
 * Added bfcmp(), bfsub(), bfshift(), bfclearall(), bfsetall(), bfresize(), 

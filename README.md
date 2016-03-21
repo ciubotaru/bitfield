@@ -1,7 +1,7 @@
 bitfield
 ========
 
-Version 0.3.0 (February 1, 2016)
+Version 0.4.0 (March 20, 2016)
 
 bitfield is a library of functions for creating, modifying and destroying bit 
 fields (or bit arrays), i.e. series of zeroes and ones spread across an array 
@@ -108,6 +108,8 @@ bfor() performs bitwise inclusive OR over a pair of bitfields.
 
 bfpopcount() counts the set bits in a bitfield.
 
+bfpos() checks whether an array of bits contains a sub-array.
+
 bfprint() prints a bitfield as a series of ones and zeroes.
 
 bfresize() resizes an existing bitfield.
@@ -133,6 +135,8 @@ bfsub() extracts a sub-bitfield from a bitfield.
 bftogglebit() toggles (i.e. reverses the state of) a bit in a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
+
+long2bf() converts an array of long integers into a bitfield structure.
 
 str2bf() converts a character string of ones and zeroes into a bitfield,
 starting from the least significant bit.

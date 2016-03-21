@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j;			//counters
+	int i, j;		//counters
 	int len = 80;
 	int content;
 	char *msg = "Testing bfisempty()";
@@ -48,7 +48,8 @@ int main()
 			BITSET(input, rand() % len);
 		}
 		/* leave empty */
-		else content = 0;
+		else
+			content = 0;
 		/* check if result of bfisempty corresponds with the value of content */
 		int result = bfisempty(input);
 		if (result != content) {
