@@ -19,10 +19,8 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j, k;		//counters
-	int r;
+	int i, j;		//counters
 	int len = 80;
-	int result;
 	char *msg = "Testing long2bf()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
