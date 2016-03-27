@@ -7,6 +7,9 @@
  * Copyright 2015, 2016
 **/
 
+#ifndef HAVE_BITFIELD_H
+#define HAVE_BITFIELD_H
+
 struct bitfield;
 
 unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as an array of unsigned long integers */
@@ -82,3 +85,5 @@ struct bitfield *long2bf(unsigned long *input, int size);	/* write the contents 
 void str2bf_ip(const char *input, struct bitfield *output);	/* converts a character string of ones and zeroes into a bitfield */
 
 struct bitfield *str2bf(const char *input);	/* converts a character string of ones and zeroes into a bitfield and returns the result in a new bitfield */
+
+#endif
