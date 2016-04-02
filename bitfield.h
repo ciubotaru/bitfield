@@ -12,6 +12,8 @@
 
 struct bitfield;
 
+unsigned int *bf2int(const struct bitfield *input);	/* return the bitfield as an array of unsigned integers */
+
 unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as an array of unsigned long integers */
 
 void bf2str_ip(const struct bitfield *input, char *output);	/* converts a bitfield into a character string of ones and zeroes */
@@ -79,6 +81,8 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start, c
 void bftogglebit(struct bitfield *instance, const int bit);	/* toggles a bit in a bitfield */
 
 struct bitfield *bfxor(const struct bitfield *input1, const struct bitfield *input2);	/* performs bitwise exclusive OR over a pair of bitfields */
+
+struct bitfield *int2bf(unsigned int *input, int size);	/* write the contents of an array of integers into a bitfield structure */
 
 struct bitfield *long2bf(unsigned long *input, int size);	/* write the contents of an array of long integers into a bitfield structure */
 

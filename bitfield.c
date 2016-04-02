@@ -16,6 +16,14 @@
 
 inline void bfcleartail(struct bitfield *);	/* sets unused bits to zero */
 
+unsigned int *bf2int(const struct bitfield *input)
+{
+	int bitnslots = (input->size - 1) / INT_BIT + 1;
+	unsigned int *output = calloc(1, bitnslots * sizeof(unsigned int));
+	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
+	return output;
+}
+
 unsigned long *bf2long(const struct bitfield *input)
 {
 	int bitnslots = BITNSLOTS(input->size);
@@ -549,11 +557,21 @@ struct bitfield *bfxor(const struct bitfield *input1,
 	return output;
 }
 
+struct bitfield *int2bf(unsigned int *input, int size)
+{
+	struct bitfield *output = bfnew(size);
+	int bitnslots = (size - 1) / INT_BIT + 1;
+	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
+	bfcleartail(output);
+	return output;
+}
+
 struct bitfield *long2bf(unsigned long *input, int size)
 {
 	struct bitfield *output = bfnew(size);
 	int bitnslots = BITNSLOTS(size);
 	memcpy(output->field, input, bitnslots * sizeof(unsigned long));
+	bfcleartail(output);
 	return output;
 }
 
