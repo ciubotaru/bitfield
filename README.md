@@ -61,6 +61,8 @@ Functions
 For function syntax, see "bitfield.h". For details on every function, see its 
 manual page.
 
+bf2int() converts the bit array to an array of integers.
+
 bf2long() converts the bit array to an array of long integers.
 
 bf2str() converts a bitfield into a character string of ones and zeroes,
@@ -135,6 +137,8 @@ bfsub() extracts a sub-bitfield from a bitfield.
 bftogglebit() toggles (i.e. reverses the state of) a bit in a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
+
+int2bf() converts an array of integers into a bitfield structure.
 
 long2bf() converts an array of long integers into a bitfield structure.
 
