@@ -5,7 +5,7 @@ long2bf \- converts an array of long integers into a bitfield structure.
 .nf
 .B "#include <bitfield.h>
 .sp
-.BI "struct bitfield *long2bf(unsigned long *"input ", int "size ");
+.BI "struct bitfield *long2bf(const unsigned long *"input ", int "size ");
 .fi
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.

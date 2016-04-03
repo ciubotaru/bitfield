@@ -6,7 +6,7 @@ bf2int, int2bf \- convert a bit array to an array of integers, and vice-versa.
 .B "#include <bitfield.h>
 .sp
 .BI "unsigned int *bf2int(const struct bitfield *"input ");
-.BI "struct bitfield *int2bf(unsigned int *"input ", int "size ");
+.BI "struct bitfield *int2bf(const unsigned int *"input ", int "size ");
 .fi
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.

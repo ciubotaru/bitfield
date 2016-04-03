@@ -557,7 +557,7 @@ struct bitfield *bfxor(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *int2bf(unsigned int *input, int size)
+struct bitfield *int2bf(const unsigned int *input, int size)
 {
 	struct bitfield *output = bfnew(size);
 	int bitnslots = (size - 1) / INT_BIT + 1;
@@ -566,7 +566,7 @@ struct bitfield *int2bf(unsigned int *input, int size)
 	return output;
 }
 
-struct bitfield *long2bf(unsigned long *input, int size)
+struct bitfield *long2bf(const unsigned long *input, int size)
 {
 	struct bitfield *output = bfnew(size);
 	int bitnslots = BITNSLOTS(size);

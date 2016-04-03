@@ -82,9 +82,9 @@ void bftogglebit(struct bitfield *instance, const int bit);	/* toggles a bit in 
 
 struct bitfield *bfxor(const struct bitfield *input1, const struct bitfield *input2);	/* performs bitwise exclusive OR over a pair of bitfields */
 
-struct bitfield *int2bf(unsigned int *input, int size);	/* write the contents of an array of integers into a bitfield structure */
+struct bitfield *int2bf(const unsigned int *input, int size);	/* write the contents of an array of integers into a bitfield structure */
 
-struct bitfield *long2bf(unsigned long *input, int size);	/* write the contents of an array of long integers into a bitfield structure */
+struct bitfield *long2bf(const unsigned long *input, int size);	/* write the contents of an array of long integers into a bitfield structure */
 
 void str2bf_ip(const char *input, struct bitfield *output);	/* converts a character string of ones and zeroes into a bitfield */
 
