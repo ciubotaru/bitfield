@@ -48,6 +48,8 @@ struct bitfield *bfnew_quick(const int size);	/* creates a bitfield structure an
 
 struct bitfield *bfnew(const int size);	/* creates a bitfield structure, sets all its bits to false and returns a pointer to it */
 
+struct bitfield *bfnormalize(const struct bitfield *input);	/* treats the bitfield as a closed ring and represents it as a smallest value */
+
 void bfnot_ip(struct bitfield *instance);	/* reverses all bits in a bitfield */
 
 struct bitfield *bfnot(const struct bitfield *input);	/* reverses all bits in a bitfield and return the result in new bitfield */
