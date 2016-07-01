@@ -102,6 +102,8 @@ returns a pointer to it.
 
 bfnew_quick() creates a bitfield structure and returns a pointer to it.
 
+bfnormalize() represents a bitfield as a smallest value of a closed ring.
+
 bfnot() reverses all bits in a bitfield and return the result in new bitfield.
 
 bfnot_ip() reverses all bits in a bitfield "in place".
