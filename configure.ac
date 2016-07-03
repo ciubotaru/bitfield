@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([bitfield], [0.4.0], [vitalie@ciubotaru.tk])
+AC_INIT([bitfield], [0.5.0], [vitalie@ciubotaru.tk])
 AC_CONFIG_SRCDIR([bitfield.c])
 AC_CONFIG_HEADERS([config.h])
 
