@@ -41,7 +41,9 @@ int main()
 			input[bitnslots - 1] |= (1U << i);
 	struct bitfield *output = int2bf(input, len);
 	for (i = 0; i < bitnslots; i++) {
-		if ((unsigned int) bfsub(output, i * INT_BIT, (i + 1) * INT_BIT)->field[0] != input[i]) {
+		if ((unsigned int)
+		    bfsub(output, i * INT_BIT,
+			  (i + 1) * INT_BIT)->field[0] != input[i]) {
 			printf("%s\n", failed);
 			return 1;
 		}

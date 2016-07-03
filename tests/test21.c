@@ -38,8 +38,9 @@ int main()
 
 	/* number of zeroes between 1 and len - 1 */
 	int nr_zeroes, nr_ones_head, nr_ones_tail;
-	struct bitfield *zeroes, *ones_head, *ones_tail, *input, *check, *output;
-	
+	struct bitfield *zeroes, *ones_head, *ones_tail, *input, *check,
+	    *output;
+
 	for (i = 0; i < 50; i++) {
 		nr_zeroes = rand() % (len - 2) + 1;
 		zeroes = bfnew(nr_zeroes);
@@ -47,7 +48,7 @@ int main()
 		ones_head = bfnew_ones(nr_ones_head);
 		nr_ones_tail = len - nr_zeroes - nr_ones_head;
 		ones_tail = bfnew_ones(nr_ones_tail);
-	
+
 		input = bfcat(ones_head, zeroes);
 		input = bfcat(input, ones_tail);
 //bfprint(input);

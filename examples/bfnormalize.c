@@ -23,14 +23,15 @@
 int main()
 {
 	srand(time(NULL));
-	int len = 80; /* terminal width */
-	int len_chars = (len - 2) / 2; /* fit 2 strings and a '->' in one line */
-	int int_size = sizeof(unsigned int) * CHAR_BIT; /* equal to the number of bits in an unsigned int */
-	int len_ints = (len_chars - 1) / int_size + 1; /* nr of ints to hold one len_str */
+	int len = 80;		/* terminal width */
+	int len_chars = (len - 2) / 2;	/* fit 2 strings and a '->' in one line */
+	int int_size = sizeof(unsigned int) * CHAR_BIT;	/* equal to the number of bits in an unsigned int */
+	int len_ints = (len_chars - 1) / int_size + 1;	/* nr of ints to hold one len_str */
 	int i, j;
-	unsigned int *input_ints = malloc( sizeof(unsigned int) * len_ints );
+	unsigned int *input_ints = malloc(sizeof(unsigned int) * len_ints);
 	for (i = 0; i < 50; i++) {
-		for (j = 0; j < len_ints; j++) input_ints[j] = rand();
+		for (j = 0; j < len_ints; j++)
+			input_ints[j] = rand();
 		struct bitfield *input = int2bf(input_ints, len_chars);
 		struct bitfield *output = bfnormalize(input);
 		bfprint(input);

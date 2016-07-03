@@ -19,11 +19,12 @@
 int main()
 {
 	srand(time(NULL));
-	int bitfield_size = INT_BIT; /* equal to the number of bits in an unsigned int */
+	int bitfield_size = INT_BIT;	/* equal to the number of bits in an unsigned int */
 	int i;
 	unsigned int input = 0;
-	for (i = 0; i < bitfield_size; i++) { /* randomly set bits in input */
-		if (rand() % 2) input |= (1U << i);
+	for (i = 0; i < bitfield_size; i++) {	/* randomly set bits in input */
+		if (rand() % 2)
+			input |= (1U << i);
 	}
 	/**
 	 * create an array long enough to hold all bits from an unsigned int

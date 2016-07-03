@@ -35,7 +35,9 @@ int main()
 	int bitnslots = (len - 1) / INT_BIT + 1;
 	unsigned int *input_int = bf2int(input);
 	for (i = 0; i < bitnslots; i++) {
-		if (input_int[i] != (unsigned int) bfsub(input, i * INT_BIT, (i + 1) * INT_BIT)->field[0]) {
+		if (input_int[i] !=
+		    (unsigned int)bfsub(input, i * INT_BIT,
+					(i + 1) * INT_BIT)->field[0]) {
 			printf("%s\n", failed);
 			return 1;
 		}

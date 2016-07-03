@@ -649,12 +649,20 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 		for (j = bitnslots - 1; j >= 0; j--) {
 			/* special check for tail chunks (may be underfull) */
 			if (j == bitnslots - 1 && length_last_chunk != 0) {
-				chunk_a = bfsub(output, size - length_last_chunk, size);
-				chunk_b = bfsub(bfshift(input, length_last_chunk + i), 0 , length_last_chunk);
-			}
-			else {
-				chunk_a = bfsub(output, j * LONG_BIT, (j + 1) * LONG_BIT);
-				chunk_b = bfsub(bfshift(input, (j - 1) * LONG_BIT + i), 0, LONG_BIT);
+				chunk_a =
+				    bfsub(output, size - length_last_chunk,
+					  size);
+				chunk_b =
+				    bfsub(bfshift(input, length_last_chunk + i),
+					  0, length_last_chunk);
+			} else {
+				chunk_a =
+				    bfsub(output, j * LONG_BIT,
+					  (j + 1) * LONG_BIT);
+				chunk_b =
+				    bfsub(bfshift
+					  (input, (j - 1) * LONG_BIT + i), 0,
+					  LONG_BIT);
 			}
 			/* compare. if a is greater, offset i becomes new best candidate. move to next i */
 			if (chunk_a->field[0] > chunk_b->field[0]) {
