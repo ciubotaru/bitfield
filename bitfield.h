@@ -7,7 +7,12 @@
  * Copyright 2015, 2016
 **/
 
+#ifndef HAVE_BITFIELD_H
+#define HAVE_BITFIELD_H
+
 struct bitfield;
+
+unsigned int *bf2int(const struct bitfield *input);	/* return the bitfield as an array of unsigned integers */
 
 unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as an array of unsigned long integers */
 
@@ -43,6 +48,8 @@ struct bitfield *bfnew_quick(const int size);	/* creates a bitfield structure an
 
 struct bitfield *bfnew(const int size);	/* creates a bitfield structure, sets all its bits to false and returns a pointer to it */
 
+struct bitfield *bfnormalize(const struct bitfield *input);	/* treats the bitfield as a closed ring and represents it as a smallest value */
+
 void bfnot_ip(struct bitfield *instance);	/* reverses all bits in a bitfield */
 
 struct bitfield *bfnot(const struct bitfield *input);	/* reverses all bits in a bitfield and return the result in new bitfield */
@@ -77,8 +84,12 @@ void bftogglebit(struct bitfield *instance, const int bit);	/* toggles a bit in 
 
 struct bitfield *bfxor(const struct bitfield *input1, const struct bitfield *input2);	/* performs bitwise exclusive OR over a pair of bitfields */
 
-struct bitfield *long2bf(unsigned long *input, int size);	/* write the contents of an array of long integers into a bitfield structure */
+struct bitfield *int2bf(const unsigned int *input, int size);	/* write the contents of an array of integers into a bitfield structure */
+
+struct bitfield *long2bf(const unsigned long *input, int size);	/* write the contents of an array of long integers into a bitfield structure */
 
 void str2bf_ip(const char *input, struct bitfield *output);	/* converts a character string of ones and zeroes into a bitfield */
 
 struct bitfield *str2bf(const char *input);	/* converts a character string of ones and zeroes into a bitfield and returns the result in a new bitfield */
+
+#endif

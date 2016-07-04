@@ -1,7 +1,7 @@
 bitfield
 ========
 
-Version 0.4.0 (March 20, 2016)
+Version 0.5.0 (July 3, 2016)
 
 bitfield is a library of functions for creating, modifying and destroying bit 
 fields (or bit arrays), i.e. series of zeroes and ones spread across an array 
@@ -61,6 +61,8 @@ Functions
 For function syntax, see "bitfield.h". For details on every function, see its 
 manual page.
 
+bf2int() converts the bit array to an array of integers.
+
 bf2long() converts the bit array to an array of long integers.
 
 bf2str() converts a bitfield into a character string of ones and zeroes,
@@ -100,6 +102,8 @@ returns a pointer to it.
 
 bfnew_quick() creates a bitfield structure and returns a pointer to it.
 
+bfnormalize() represents a bitfield as a smallest value of a closed ring.
+
 bfnot() reverses all bits in a bitfield and return the result in new bitfield.
 
 bfnot_ip() reverses all bits in a bitfield "in place".
@@ -110,7 +114,8 @@ bfpopcount() counts the set bits in a bitfield.
 
 bfpos() checks whether an array of bits contains a sub-array.
 
-bfprint() prints a bitfield as a series of ones and zeroes.
+bfprint() prints a bitfield as a series of ones and zeroes, left to right, the
+least significant bit first.
 
 bfresize() resizes an existing bitfield.
 
@@ -135,6 +140,8 @@ bfsub() extracts a sub-bitfield from a bitfield.
 bftogglebit() toggles (i.e. reverses the state of) a bit in a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
+
+int2bf() converts an array of integers into a bitfield structure.
 
 long2bf() converts an array of long integers into a bitfield structure.
 

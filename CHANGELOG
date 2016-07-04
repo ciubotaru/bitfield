@@ -1,4 +1,6 @@
 Changelog
+0.5
+* Added bf2int(), int2bf() and bfnormalize().
 
 0.4
 * Added bfpos(), long2bf().

@@ -16,6 +16,14 @@
 
 inline void bfcleartail(struct bitfield *);	/* sets unused bits to zero */
 
+unsigned int *bf2int(const struct bitfield *input)
+{
+	int bitnslots = (input->size - 1) / INT_BIT + 1;
+	unsigned int *output = calloc(1, bitnslots * sizeof(unsigned int));
+	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
+	return output;
+}
+
 unsigned long *bf2long(const struct bitfield *input)
 {
 	int bitnslots = BITNSLOTS(input->size);
@@ -549,11 +557,21 @@ struct bitfield *bfxor(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *long2bf(unsigned long *input, int size)
+struct bitfield *int2bf(const unsigned int *input, int size)
+{
+	struct bitfield *output = bfnew(size);
+	int bitnslots = (size - 1) / INT_BIT + 1;
+	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
+	bfcleartail(output);
+	return output;
+}
+
+struct bitfield *long2bf(const unsigned long *input, int size)
 {
 	struct bitfield *output = bfnew(size);
 	int bitnslots = BITNSLOTS(size);
 	memcpy(output->field, input, bitnslots * sizeof(unsigned long));
+	bfcleartail(output);
 	return output;
 }
 
@@ -612,4 +630,51 @@ inline void bfcleartail(struct bitfield *instance)
 		/* clear the extra bits */
 		instance->field[BITNSLOTS(instance->size) - 1] &= mask;
 	}
+}
+
+struct bitfield *bfnormalize(const struct bitfield *input)
+{
+	int size = input->size;
+	int bitnslots = BITNSLOTS(size);
+	int length_last_chunk = size % LONG_BIT;
+	/* pick first potential candidate for output */
+	struct bitfield *output = bfclone(input);
+	/* will compare bitfields in chunks of length 1 unsigned long */
+	struct bitfield *chunk_a, *chunk_b;
+	/* counters for bit offsets and slots/chunks/longs */
+	int i, j;
+	/* shift input string 1 position at a time and compare with best candidate (size - 1 comparisons) */
+	for (i = 1; i <= size - 1; i++) {
+		/* compare 1 slot/long at a time */
+		for (j = bitnslots - 1; j >= 0; j--) {
+			/* special check for tail chunks (may be underfull) */
+			if (j == bitnslots - 1 && length_last_chunk != 0) {
+				chunk_a =
+				    bfsub(output, size - length_last_chunk,
+					  size);
+				chunk_b =
+				    bfsub(bfshift(input, length_last_chunk + i),
+					  0, length_last_chunk);
+			} else {
+				chunk_a =
+				    bfsub(output, j * LONG_BIT,
+					  (j + 1) * LONG_BIT);
+				chunk_b =
+				    bfsub(bfshift
+					  (input, (j - 1) * LONG_BIT + i), 0,
+					  LONG_BIT);
+			}
+			/* compare. if a is greater, offset i becomes new best candidate. move to next i */
+			if (chunk_a->field[0] > chunk_b->field[0]) {
+				output = bfshift(input, i);
+				break;
+			}
+			/* if a is smaller, move to next offset */
+			else if (chunk_a->field[0] < chunk_b->field[0]) {
+				break;
+			}
+			/* if equal, compare next chunk (i.e. do not break out of j loop) */
+		}
+	}
+	return output;
 }

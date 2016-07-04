@@ -1,10 +1,10 @@
 /**
- * File name: tests/test18.c
+ * File name: tests/test19.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
  * License: General Public License, version 3 or later
- * Date: March 20, 2016
+ * Date: April 1, 2016
 **/
 
 #include <stdio.h>
@@ -14,34 +14,36 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing long2bf() */
+/* Testing int2bf() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
 	int i, j;		//counters
 	int len = 80;
-	char *msg = "Testing long2bf()";
+	char *msg = "Testing int2bf()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int bitnslots = BITNSLOTS(len);
-	unsigned long *input = calloc(1, bitnslots * sizeof(unsigned long));
+	int bitnslots = (len - 1) / INT_BIT + 1;
+	unsigned int *input = calloc(1, bitnslots * sizeof(unsigned int));
 	for (i = 0; i < bitnslots - 1; i++) {
-		for (j = 0; j < LONG_BIT; j++) {
+		for (j = 0; j < INT_BIT; j++) {
 			if (rand() % 2)
-				input[i] |= (1UL << j);
+				input[i] |= (1U << j);
 		}
 	}
-	for (i = 0; i < len % LONG_BIT; i++)
+	for (i = 0; i < len % INT_BIT; i++)
 		if (rand() % 2)
-			input[bitnslots - 1] |= (1UL << i);
-	struct bitfield *output = long2bf(input, len);
+			input[bitnslots - 1] |= (1U << i);
+	struct bitfield *output = int2bf(input, len);
 	for (i = 0; i < bitnslots; i++) {
-		if (output->field[i] != input[i]) {
+		if ((unsigned int)
+		    bfsub(output, i * INT_BIT,
+			  (i + 1) * INT_BIT)->field[0] != input[i]) {
 			printf("%s\n", failed);
 			return 1;
 		}

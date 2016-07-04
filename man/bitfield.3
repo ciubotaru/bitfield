@@ -1,4 +1,4 @@
-.TH bitfield 3 "NOVEMBER 15, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.TH bitfield 3 "JULY 1, 2016" "bitfield 0.5.0" "Bitfield manipulation library"
 .SH NAME
 bitfield \- API for manipulating bit arrays.
 .SH DESCRIPTION
@@ -172,6 +172,16 @@ bfnew_quick()
 creates a [possibly non-empty] bitfield structure and returns a pointer to it. 
 For details, see manual page for
 .BR bfnew_quick (3).
+.RE
+.LP
+.B
+bfnormalize()
+.br
+.RS
+.LP
+treats a bitfield as a closed loop, shifts it to produce the smallest binary 
+number and return the result in new bitfield. For details, see manual page for
+.BR bfnormalize (3).
 .RE
 .LP
 .B

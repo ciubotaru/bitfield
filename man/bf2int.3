@@ -1,0 +1,23 @@
+.TH bf2int 3 "APRIL 1, 2016" "bitfield 0.4.1" "Bitfield manipulation library"
+.SH NAME
+bf2int, int2bf \- convert a bit array to an array of integers, and vice-versa.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "unsigned int *bf2int(const struct bitfield *"input ");
+.BI "struct bitfield *int2bf(const unsigned int *"input ", int "size ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbf2int()\fR function takes a pointer to a bitfield \fIinput\fR and returns an array of integers containing the bits.
+.sp
+The \fBint2bf()\fR function takes a pointer to an array of unsigned integers \fIinput\fR containing the bit array and an integer \fIsize\fR, copies the bit array into a bitfield structure of given \fRsize\fR, and returns a pointer to the newly created structure.
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+
