@@ -14,6 +14,7 @@
 #include <string.h>
 #include <bitfield.h>
 #include <limits.h>
+#include <time.h>
 #ifdef RAND_MAX
 #undef RAND_MAX
 #define RAND_MAX UINT_MAX
@@ -21,6 +22,7 @@
 
 int main()
 {
+	printf("Converting a random integer into a bit array of fixed length...\n");
 	srand(time(NULL));
 	int bitfield_size = sizeof(unsigned int) * CHAR_BIT; /* equal to the number of bits in an unsigned int */
 	int i;
@@ -35,4 +37,6 @@ int main()
 		output = int2bf(&input, bitfield_size);
 		printf("%u -> %s\n", input, bf2str(output));
 	}
+	printf("---\n");
+	return 0;
 }

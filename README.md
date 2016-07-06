@@ -23,6 +23,10 @@ To test the compiled library:
 
     $ make check
 
+To build and run some example applications:
+
+    $ make example
+
 The generic way to install the compiled files is:
 
     $ make install

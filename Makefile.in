@@ -12,6 +12,7 @@ CFLAGS= -Wall -O3
 export CFLAGS
 VERSION=0.5.1
 TESTDIR=tests
+EXAMPLEDIR=examples
 LD_LIBRARY_PATH := $(shell pwd):$(LD_LIBRARY_PATH)
 export LD_LIBRARY_PATH
 
@@ -30,6 +31,9 @@ static: bitfield.c
 
 check:
 	$(MAKE) -C $(TESTDIR)
+
+example:
+	$(MAKE) -C $(EXAMPLEDIR)
 
 install: install-lib install-man install-header
 
