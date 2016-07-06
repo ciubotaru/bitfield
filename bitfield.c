@@ -640,7 +640,7 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 	/* pick first potential candidate for output */
 	struct bitfield *output = bfclone(input);
 	/* will compare bitfields in chunks of length 1 unsigned long */
-	struct bitfield *chunk_a, *chunk_b;
+	unsigned long chunk_a, chunk_b;
 	/* counters for bit offsets and slots/chunks/longs */
 	int i, j;
 	/* shift input string 1 position at a time and compare with best candidate (size - 1 comparisons) */
@@ -649,28 +649,19 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 		for (j = bitnslots - 1; j >= 0; j--) {
 			/* special check for tail chunks (may be underfull) */
 			if (j == bitnslots - 1 && length_last_chunk != 0) {
-				chunk_a =
-				    bfsub(output, size - length_last_chunk,
-					  size);
-				chunk_b =
-				    bfsub(bfshift(input, length_last_chunk + i),
-					  0, length_last_chunk);
+				chunk_a = output->field[j];
+				chunk_b = bfsub(bfshift(input, length_last_chunk + i), 0, length_last_chunk)->field[0]; /* this can be optimized */
 			} else {
-				chunk_a =
-				    bfsub(output, j * LONG_BIT,
-					  (j + 1) * LONG_BIT);
-				chunk_b =
-				    bfsub(bfshift
-					  (input, (j - 1) * LONG_BIT + i), 0,
-					  LONG_BIT);
+				chunk_a = output->field[j];
+				chunk_b = bfshift(input, i)->field[j];  /* this can be optimized */
 			}
 			/* compare. if a is greater, offset i becomes new best candidate. move to next i */
-			if (chunk_a->field[0] > chunk_b->field[0]) {
+			if (chunk_a > chunk_b) {
 				output = bfshift(input, i);
 				break;
 			}
 			/* if a is smaller, move to next offset */
-			else if (chunk_a->field[0] < chunk_b->field[0]) {
+			else if (chunk_a < chunk_b) {
 				break;
 			}
 			/* if equal, compare next chunk (i.e. do not break out of j loop) */
