@@ -14,7 +14,16 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-inline void bfcleartail(struct bitfield *);	/* sets unused bits to zero */
+inline void bfcleartail(struct bitfield *instance)
+{
+	int tail = instance->size % LONG_BIT;
+	if (tail != 0) {
+		/* create a mask for the tail */
+		unsigned long mask = (1UL << tail) - 1UL;
+		/* clear the extra bits */
+		instance->field[BITNSLOTS(instance->size) - 1] &= mask;
+	}
+}
 
 unsigned int *bf2int(const struct bitfield *input)
 {
@@ -619,17 +628,6 @@ struct bitfield *str2bf(const char *input)
 	}
 	bfcleartail(output);
 	return output;
-}
-
-inline void bfcleartail(struct bitfield *instance)
-{
-	int tail = instance->size % LONG_BIT;
-	if (tail != 0) {
-		/* create a mask for the tail */
-		unsigned long mask = (1UL << tail) - 1UL;
-		/* clear the extra bits */
-		instance->field[BITNSLOTS(instance->size) - 1] &= mask;
-	}
 }
 
 struct bitfield *bfnormalize(const struct bitfield *input)
