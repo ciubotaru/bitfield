@@ -25,12 +25,26 @@ inline void bfcleartail(struct bitfield *instance)
 	}
 }
 
+void bf2int_ip(const struct bitfield *input, unsigned int *output)
+{
+	int bitnslots = (input->size - 1) / INT_BIT + 1;
+	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
+	return;
+}
+
 unsigned int *bf2int(const struct bitfield *input)
 {
 	int bitnslots = (input->size - 1) / INT_BIT + 1;
 	unsigned int *output = calloc(1, bitnslots * sizeof(unsigned int));
 	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
 	return output;
+}
+
+void bf2long_ip(const struct bitfield *input, unsigned long *output)
+{
+	int bitnslots = BITNSLOTS(input->size);
+	memcpy(output, input->field, bitnslots * sizeof(unsigned long));
+	return;
 }
 
 unsigned long *bf2long(const struct bitfield *input)

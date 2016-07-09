@@ -12,7 +12,11 @@
 
 struct bitfield;
 
+void bf2int_ip(const struct bitfield *input, unsigned int *output);	/* converts a bitfield into an array of unsigned integers */
+
 unsigned int *bf2int(const struct bitfield *input);	/* return the bitfield as an array of unsigned integers */
+
+void bf2long_ip(const struct bitfield *input, unsigned long *output);	/* converts a bitfield into an array of unsigned long integers */
 
 unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as an array of unsigned long integers */
 
