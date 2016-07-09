@@ -12,6 +12,26 @@ integer \fIsize\fR for storing the number of bits in the array.
 .SH EXPORTS
 .LP
 .B
+bf2int()
+.br
+.RS
+.LP
+converts the bit array to an array of integers. For details, see manual page 
+for
+.BR bf2int (3).
+.RE
+.LP
+.B
+bf2int_ip()
+.br
+.RS
+.LP
+converts the bit array to an array of integers "in-place". For details, see 
+manual page for
+.BR bf2int_ip (3).
+.RE
+.LP
+.B
 bf2long()
 .br
 .RS
@@ -19,6 +39,16 @@ bf2long()
 converts the bit array to an array of long integers. For details, see manual 
 page for
 .BR bf2long (3).
+.RE
+.LP
+.B
+bf2long_ip()
+.br
+.RS
+.LP
+converts the bit array to an array of long integers "in-place". For details, see 
+manual page for
+.BR bf2long_ip (3).
 .RE
 .LP
 .B
@@ -348,6 +378,30 @@ page for
 .RE
 .LP
 .B
+
+int2bf()
+.br
+.RS
+.LP
+converts an array of integers into a bitfield structure. For details, see 
+manual page for
+.BR int2bf (3).
+.RE
+.LP
+.B
+int2bf_ip()
+.br
+.RS
+.LP
+converts an array of integers into a bitfield structure "in-place". For 
+details, see manual page for
+.BR int2bf_ip (3).
+.RE
+.LP
+.B
+
+
+
 long2bf()
 .br
 .RS
@@ -355,6 +409,16 @@ long2bf()
 converts an array of long integers into a bitfield structure. For details, see 
 manual page for
 .BR long2bf (3).
+.RE
+.LP
+.B
+long2bf_ip()
+.br
+.RS
+.LP
+converts an array of long integers into a bitfield structure "in-place". For 
+details, see manual page for
+.BR long2bf_ip (3).
 .RE
 .LP
 .B
