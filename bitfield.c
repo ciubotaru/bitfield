@@ -580,13 +580,33 @@ struct bitfield *bfxor(const struct bitfield *input1,
 	return output;
 }
 
+void int2bf_ip(const unsigned int *input, struct bitfield *output)
+{
+	int size = bfsize(output);
+	int bitnslots = (size - 1) / INT_BIT + 1;
+	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
+	return;
+}
+
 struct bitfield *int2bf(const unsigned int *input, int size)
 {
 	struct bitfield *output = bfnew(size);
 	int bitnslots = (size - 1) / INT_BIT + 1;
 	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
+	/**
+	 * clear the tail; in case bfnew created a bitfield with non-zeroes AND
+	 * memcpy did not cover the end of bitfield memory.
+	 **/
 	bfcleartail(output);
 	return output;
+}
+
+void long2bf_ip(const unsigned long *input, struct bitfield *output)
+{
+	int size = bfsize(output);
+	int bitnslots = BITNSLOTS(size);
+	memcpy(output->field, input, bitnslots * sizeof(unsigned long));
+	return;
 }
 
 struct bitfield *long2bf(const unsigned long *input, int size)
@@ -594,7 +614,6 @@ struct bitfield *long2bf(const unsigned long *input, int size)
 	struct bitfield *output = bfnew(size);
 	int bitnslots = BITNSLOTS(size);
 	memcpy(output->field, input, bitnslots * sizeof(unsigned long));
-	bfcleartail(output);
 	return output;
 }
 
