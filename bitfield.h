@@ -12,39 +12,49 @@
 
 struct bitfield;
 
-void bf2int_ip(const struct bitfield *input, unsigned int *output);	/* converts a bitfield into an array of unsigned integers */
+/*
+ * Convert integer data types, all unsigned, to bitfield structures, with
+ * in-place equivalents:
+ * char as a character (each char storing '0' or '1')
+ * int
+ * long
+ */
 
-unsigned int *bf2int(const struct bitfield *input);	/* return the bitfield as an array of unsigned integers */
+struct bitfield *str2bf(const char *input);	/* converts a character string of ones and zeroes into a bitfield and returns the result in a new bitfield */
 
-void bf2long_ip(const struct bitfield *input, unsigned long *output);	/* converts a bitfield into an array of unsigned long integers */
+void str2bf_ip(const char *input, struct bitfield *output);	/* converts a character string of ones and zeroes into a bitfield */
 
-unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as an array of unsigned long integers */
+struct bitfield *int2bf(const unsigned int *input, int size);	/* write the contents of an array of integers into a bitfield structure */
 
-void bf2str_ip(const struct bitfield *input, char *output);	/* converts a bitfield into a character string of ones and zeroes */
+void int2bf_ip(const unsigned int *input, struct bitfield *output); /* convert an array of integers into a bitfield structure */
+
+struct bitfield *long2bf(const unsigned long *input, int size);	/* write the contents of an array of long integers into a bitfield structure */
+
+void long2bf_ip(const unsigned long *input, struct bitfield *output); /* convert an array of long integers into a bitfield structure */
+
+/*
+ * Convert bitfield structures to integer data types, all unsigned, with 
+ * in-place equivalents:
+ * char as a character (each char storing '0' or '1')
+ * int
+ * long
+ */
 
 char *bf2str(const struct bitfield *input);	/* converts a bitfield into a character string of ones and zeroes and returns the result in a new character string */
 
-struct bitfield *bfand(const struct bitfield *input1, const struct bitfield *input2);	/* performs bitwise AND over a pair of bitfields */
+void bf2str_ip(const struct bitfield *input, char *output);	/* converts a bitfield into a character string of ones and zeroes */
 
-struct bitfield *bfcat(const struct bitfield *input1, const struct bitfield *input2);	/* concatenates two bitfields into one */
+unsigned int *bf2int(const struct bitfield *input);	/* return the bitfield as an array of unsigned integers */
 
-void bfclearall(struct bitfield *instance);	/* fills a bitfield with zeroes */
+void bf2int_ip(const struct bitfield *input, unsigned int *output);	/* converts a bitfield into an array of unsigned integers */
 
-void bfclearbit(struct bitfield *instance, int bit);	/* clears one bit in a bitfield */
+unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as an array of unsigned long integers */
 
-struct bitfield *bfclone(const struct bitfield *input);	/* creates a copy of an existing bitfield */
+void bf2long_ip(const struct bitfield *input, unsigned long *output);	/* converts a bitfield into an array of unsigned long integers */
 
-int bfcmp(const struct bitfield *input1, const struct bitfield *input2, char **errmsg);	/* compares two bitfields and returns 0 if same or non-zero and error message if different */
-
-int bfcpy(const struct bitfield *src, struct bitfield *dest);	/* copies the contents of a bitfield into another pre-existing bitfield */
-
-void bfdel(struct bitfield *instance);	/* destroys a bitfield structure and frees memory */
-
-int bfgetbit(const struct bitfield *instance, const int bit);	/* checks whether a bit in a bitfield is set */
-
-int bfhamming(const struct bitfield *input1, const struct bitfield *input2);	/* counts the Hamming distance between two bitfields */
-
-int bfisempty(const struct bitfield *instance);	/* checks whether all bits of an array are unset */
+/*
+ * Create and delete bitfields
+ */
 
 struct bitfield *bfnew_ones(const int size);	/* creates a bitfield structure, sets all its bits to true with and returns a pointer to it */
 
@@ -52,13 +62,53 @@ struct bitfield *bfnew_quick(const int size);	/* creates a bitfield structure an
 
 struct bitfield *bfnew(const int size);	/* creates a bitfield structure, sets all its bits to false and returns a pointer to it */
 
-struct bitfield *bfnormalize(const struct bitfield *input);	/* treats the bitfield as a closed ring and represents it as a smallest value */
+void bfdel(struct bitfield *instance);	/* destroys a bitfield structure and frees memory */
 
-void bfnot_ip(struct bitfield *instance);	/* reverses all bits in a bitfield */
+/*
+ * Operations with single bits
+ */
+
+int bfgetbit(const struct bitfield *instance, const int bit);	/* checks whether a bit in a bitfield is set */
+
+void bfsetbit(struct bitfield *instance, int bit);	/* sets one bit in a bitfield */
+
+void bfclearbit(struct bitfield *instance, int bit);	/* clears one bit in a bitfield */
+
+void bftogglebit(struct bitfield *instance, const int bit);	/* toggles a bit in a bitfield */
+
+/*
+ * Logical operations with bitfields
+ */
+
+struct bitfield *bfand(const struct bitfield *input1, const struct bitfield *input2);	/* performs bitwise AND over a pair of bitfields */
 
 struct bitfield *bfnot(const struct bitfield *input);	/* reverses all bits in a bitfield and return the result in new bitfield */
 
+void bfnot_ip(struct bitfield *instance);	/* reverses all bits in a bitfield */
+
 struct bitfield *bfor(const struct bitfield *input1, const struct bitfield *input2);	/* performs bitwise inclusive OR over a pair of bitfields */
+
+struct bitfield *bfxor(const struct bitfield *input1, const struct bitfield *input2);	/* performs bitwise exclusive OR over a pair of bitfields */
+
+/*
+ * Manipulate bitfields
+ */
+
+struct bitfield *bfcat(const struct bitfield *input1, const struct bitfield *input2);	/* concatenates two bitfields into one */
+
+void bfclearall(struct bitfield *instance);	/* fills a bitfield with zeroes */
+
+struct bitfield *bfclone(const struct bitfield *input);	/* creates a copy of an existing bitfield */
+
+int bfcmp(const struct bitfield *input1, const struct bitfield *input2, char **errmsg);	/* compares two bitfields and returns 0 if same or non-zero and error message if different */
+
+int bfcpy(const struct bitfield *src, struct bitfield *dest);	/* copies the contents of a bitfield into another pre-existing bitfield */
+
+int bfhamming(const struct bitfield *input1, const struct bitfield *input2);	/* counts the Hamming distance between two bitfields */
+
+int bfisempty(const struct bitfield *instance);	/* checks whether all bits of an array are unset */
+
+struct bitfield *bfnormalize(const struct bitfield *input);	/* treats the bitfield as a closed ring and represents it as a smallest value */
 
 int bfpopcount(const struct bitfield *instance);	/* counts the set bits in a bitfield */
 
@@ -74,8 +124,6 @@ struct bitfield *bfrev(const struct bitfield *input);	/* reverses the order of b
 
 void bfsetall(struct bitfield *instance);	/* fills a bitfield with ones */
 
-void bfsetbit(struct bitfield *instance, int bit);	/* sets one bit in a bitfield */
-
 void bfshift_ip(struct bitfield *input, const int offset);	/* circular-shifts the contents of a bitfield */
 
 struct bitfield *bfshift(const struct bitfield *input, const int offset);	/* circular-shifts the contents of a bitfield and return the result in new bitfield */
@@ -83,21 +131,5 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset);	/* cir
 int bfsize(const struct bitfield *instance);	/* obtains the number of bits of a bitfield */
 
 struct bitfield *bfsub(const struct bitfield *input, const unsigned int start, const unsigned int end);	/* extracts a sub-bitfield from a bitfield */
-
-void bftogglebit(struct bitfield *instance, const int bit);	/* toggles a bit in a bitfield */
-
-struct bitfield *bfxor(const struct bitfield *input1, const struct bitfield *input2);	/* performs bitwise exclusive OR over a pair of bitfields */
-
-void int2bf_ip(const unsigned int *input, struct bitfield *output); /* convert an array of integers into a bitfield structure */
-
-struct bitfield *int2bf(const unsigned int *input, int size);	/* write the contents of an array of integers into a bitfield structure */
-
-void long2bf_ip(const unsigned long *input, struct bitfield *output); /* convert an array of long integers into a bitfield structure */
-
-struct bitfield *long2bf(const unsigned long *input, int size);	/* write the contents of an array of long integers into a bitfield structure */
-
-void str2bf_ip(const char *input, struct bitfield *output);	/* converts a character string of ones and zeroes into a bitfield */
-
-struct bitfield *str2bf(const char *input);	/* converts a character string of ones and zeroes into a bitfield and returns the result in a new bitfield */
 
 #endif

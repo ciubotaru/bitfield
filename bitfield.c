@@ -25,57 +25,104 @@ inline void bfcleartail(struct bitfield *instance)
 	}
 }
 
-void bf2int_ip(const struct bitfield *input, unsigned int *output)
-{
-	int bitnslots = (input->size - 1) / INT_BIT + 1;
-	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
-	return;
-}
+/*
+ * Convert integer data types, all unsigned, to bitfield structures, with
+ * in-place equivalents:
+ * char
+ * int
+ * long
+ */
 
-unsigned int *bf2int(const struct bitfield *input)
+struct bitfield *str2bf(const char *input)
 {
-	int bitnslots = (input->size - 1) / INT_BIT + 1;
-	unsigned int *output = calloc(1, bitnslots * sizeof(unsigned int));
-	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
-	return output;
-}
-
-void bf2long_ip(const struct bitfield *input, unsigned long *output)
-{
-	int bitnslots = BITNSLOTS(input->size);
-	memcpy(output, input->field, bitnslots * sizeof(unsigned long));
-	return;
-}
-
-unsigned long *bf2long(const struct bitfield *input)
-{
-	int bitnslots = BITNSLOTS(input->size);
-	unsigned long *output = calloc(1, bitnslots * sizeof(unsigned long));
-	memcpy(output, input->field, bitnslots * sizeof(unsigned long));
-	return output;
-}
-
-void bf2str_ip(const struct bitfield *input, char *output)
-{
-	int bitnslots = BITNSLOTS(input->size);
+	int input_len = strlen(input);
+	struct bitfield *output = bfnew_quick(input_len);
+	int bitnslots = BITNSLOTS(input_len);
 	int i, j;
 	for (i = 0; i < bitnslots - 1; i++) {
 		for (j = 0; j < LONG_BIT; j++) {
-			if ((input->field[i] >> j) & 1LU)
-				output[i * LONG_BIT + j] = '1';
+			if (input[i * LONG_BIT + j] == '1')
+				output->field[i] |= (1UL << j);
 			else
-				output[i * LONG_BIT + j] = '0';
+				output->field[i] &= ~(1UL << j);
 		}
 	}
-	for (j = 0; j < (input->size - 1) % LONG_BIT + 1; j++) {
-		if ((input->field[bitnslots - 1] >> j) & 1LU)
-			output[(bitnslots - 1) * LONG_BIT + j] = '1';
+	for (j = 0; j < (input_len - 1) % LONG_BIT + 1; j++) {
+		if (input[i * LONG_BIT + j] == '1')
+			output->field[i] |= (1UL << j);
 		else
-			output[(bitnslots - 1) * LONG_BIT + j] = '0';
+			output->field[i] &= ~(1UL << j);
 	}
-	output[input->size] = '\0';
+	bfcleartail(output);
+	return output;
 }
 
+void str2bf_ip(const char *input, struct bitfield *output)
+{
+	int input_len =
+	    (strlen(input) < output->size) ? strlen(input) : output->size;
+	int bitnslots = BITNSLOTS(input_len);
+	int i, j;
+	for (i = 0; i < bitnslots - 1; i++) {
+		for (j = 0; j < LONG_BIT; j++) {
+			if (input[i * LONG_BIT + j] == '1')
+				output->field[i] |= (1UL << j);
+			else
+				output->field[i] &= ~(1UL << j);
+		}
+	}
+	for (j = 0; j < (input_len - 1) % LONG_BIT + 1; j++) {
+		if (input[i * LONG_BIT + j] == '1')
+			output->field[i] |= (1UL << j);
+		else
+			output->field[i] &= ~(1UL << j);
+	}
+}
+
+struct bitfield *int2bf(const unsigned int *input, int size)
+{
+	struct bitfield *output = bfnew(size);
+	int bitnslots = (size - 1) / INT_BIT + 1;
+	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
+	/**
+	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
+	 * memcpy did not cover the end of bitfield memory.
+	 **/
+	bfcleartail(output);
+	return output;
+}
+
+void int2bf_ip(const unsigned int *input, struct bitfield *output)
+{
+	int size = bfsize(output);
+	int bitnslots = (size - 1) / INT_BIT + 1;
+	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
+	return;
+}
+
+struct bitfield *long2bf(const unsigned long *input, int size)
+{
+	struct bitfield *output = bfnew(size);
+	int bitnslots = BITNSLOTS(size);
+	memcpy(output->field, input, bitnslots * sizeof(unsigned long));
+	return output;
+}
+
+void long2bf_ip(const unsigned long *input, struct bitfield *output)
+{
+	int size = bfsize(output);
+	int bitnslots = BITNSLOTS(size);
+	memcpy(output->field, input, bitnslots * sizeof(unsigned long));
+	return;
+}
+
+/*
+ * Convert bitfield structures to integer data types, all unsigned, with 
+ * in-place equivalents:
+ * char
+ * int
+ * long
+ */
 char *bf2str(const struct bitfield *input)
 {
 	int input_len = input->size;
@@ -100,6 +147,123 @@ char *bf2str(const struct bitfield *input)
 	return output;
 }
 
+void bf2str_ip(const struct bitfield *input, char *output)
+{
+	int bitnslots = BITNSLOTS(input->size);
+	int i, j;
+	for (i = 0; i < bitnslots - 1; i++) {
+		for (j = 0; j < LONG_BIT; j++) {
+			if ((input->field[i] >> j) & 1LU)
+				output[i * LONG_BIT + j] = '1';
+			else
+				output[i * LONG_BIT + j] = '0';
+		}
+	}
+	for (j = 0; j < (input->size - 1) % LONG_BIT + 1; j++) {
+		if ((input->field[bitnslots - 1] >> j) & 1LU)
+			output[(bitnslots - 1) * LONG_BIT + j] = '1';
+		else
+			output[(bitnslots - 1) * LONG_BIT + j] = '0';
+	}
+	output[input->size] = '\0';
+}
+
+unsigned int *bf2int(const struct bitfield *input)
+{
+	int bitnslots = (input->size - 1) / INT_BIT + 1;
+	unsigned int *output = calloc(1, bitnslots * sizeof(unsigned int));
+	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
+	return output;
+}
+
+void bf2int_ip(const struct bitfield *input, unsigned int *output)
+{
+	int bitnslots = (input->size - 1) / INT_BIT + 1;
+	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
+	return;
+}
+
+unsigned long *bf2long(const struct bitfield *input)
+{
+	int bitnslots = BITNSLOTS(input->size);
+	unsigned long *output = calloc(1, bitnslots * sizeof(unsigned long));
+	memcpy(output, input->field, bitnslots * sizeof(unsigned long));
+	return output;
+}
+
+void bf2long_ip(const struct bitfield *input, unsigned long *output)
+{
+	int bitnslots = BITNSLOTS(input->size);
+	memcpy(output, input->field, bitnslots * sizeof(unsigned long));
+	return;
+}
+
+/*
+ * Create and delete bitfields
+ */
+
+struct bitfield *bfnew(const int size)
+{
+	struct bitfield *instance = malloc(sizeof(struct bitfield));
+	instance->size = size;
+	instance->field = calloc(1, BITNSLOTS(size) * sizeof(unsigned long));
+	return instance;
+}
+
+struct bitfield *bfnew_ones(const int size)
+{
+	struct bitfield *instance = malloc(sizeof(struct bitfield));
+	instance->size = size;
+	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
+	bfsetall(instance);
+	return instance;
+}
+
+struct bitfield *bfnew_quick(const int size)
+{
+	struct bitfield *instance = malloc(sizeof(struct bitfield));
+	instance->size = size;
+	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
+	instance->field[BITNSLOTS(size) - 1] = 0UL;	//because the tail should be zeroed anyway
+	return instance;
+}
+
+void bfdel(struct bitfield *instance)
+{
+	free(instance->field);
+	free(instance);
+}
+
+/*
+ * Operations with single bits
+ */
+
+int bfgetbit(const struct bitfield *instance, const int bit)
+{
+	/* might be good to check whether bit is within range */
+
+	return BITGET(instance, bit);
+}
+
+void bfsetbit(struct bitfield *instance, int bit)
+{
+	BITSET(instance, bit);
+}
+
+void bfclearbit(struct bitfield *instance, int bit)
+{
+	BITCLEAR(instance, bit);
+}
+
+void bftogglebit(struct bitfield *instance, const int bit)
+{
+	BITTOGGLE(instance, bit);
+}
+
+/*
+ * Logical operations with bitfields
+ */
+
 struct bitfield *bfand(const struct bitfield *input1,
 		       const struct bitfield *input2)
 {
@@ -116,6 +280,66 @@ struct bitfield *bfand(const struct bitfield *input1,
 	bfcleartail(output);
 	return output;
 }
+
+struct bitfield *bfnot(const struct bitfield *input)
+{
+	int bitnslots = BITNSLOTS(input->size);
+	int i;
+	struct bitfield *output = bfnew(input->size);
+	for (i = 0; i < bitnslots; i++)
+		output->field[i] = ~input->field[i];
+	/* make sure to clear the trailing bits, if there are any */
+	bfcleartail(output);
+	return output;
+}
+
+void bfnot_ip(struct bitfield *instance)
+{
+	int bitnslots = BITNSLOTS(instance->size);
+	int i;
+	for (i = 0; i < bitnslots; i++)
+		instance->field[i] = ~instance->field[i];
+	/* make sure to clear the trailing bits, if there are any */
+	bfcleartail(instance);
+}
+
+struct bitfield *bfor(const struct bitfield *input1,
+		      const struct bitfield *input2)
+{
+	/* If the inputs are different size, take the shorter, and ignore the difference.
+	 * This way we'll surely have no error.
+	 */
+	int size = input1->size < input2->size ? input1->size : input2->size;
+	int bitnslots = BITNSLOTS(size);
+	int i;
+	struct bitfield *output = bfnew(size);
+	for (i = 0; i < bitnslots; i++)
+		output->field[i] = input1->field[i] | input2->field[i];
+	/* make sure to clear the trailing bits, if there are any */
+	bfcleartail(output);
+	return output;
+}
+
+struct bitfield *bfxor(const struct bitfield *input1,
+		       const struct bitfield *input2)
+{
+	/* If the inputs are different size, take the shorter, and ignore the difference.
+	 * This way we'll surely have no error.
+	 */
+	int size = input1->size < input2->size ? input1->size : input2->size;
+	int bitnslots = BITNSLOTS(size);
+	int i;
+	struct bitfield *output = bfnew(size);
+	for (i = 0; i < bitnslots; i++)
+		output->field[i] = input1->field[i] ^ input2->field[i];
+	/* make sure to clear the trailing bits, if there are any */
+	bfcleartail(output);
+	return output;
+}
+
+/*
+ * Manipulate bitfields
+ */
 
 struct bitfield *bfcat(const struct bitfield *input1,
 		       const struct bitfield *input2)
@@ -149,11 +373,6 @@ void bfclearall(struct bitfield *instance)
 	int i;
 	for (i = 0; i < BITNSLOTS(instance->size); i++)
 		instance->field[i] = 0UL;
-}
-
-void bfclearbit(struct bitfield *instance, int bit)
-{
-	BITCLEAR(instance, bit);
 }
 
 struct bitfield *bfclone(const struct bitfield *input)
@@ -216,19 +435,6 @@ int bfcpy(const struct bitfield *src, struct bitfield *dest)
 	return 0;
 }
 
-void bfdel(struct bitfield *instance)
-{
-	free(instance->field);
-	free(instance);
-}
-
-int bfgetbit(const struct bitfield *instance, const int bit)
-{
-	/* might be good to check whether bit is within range */
-
-	return BITGET(instance, bit);
-}
-
 int bfhamming(const struct bitfield *input1, const struct bitfield *input2)
 {
 	int hamming = bfpopcount(bfxor(input1, input2));
@@ -244,71 +450,6 @@ int bfisempty(const struct bitfield *instance)
 			return 1;
 	}
 	return 0;
-}
-
-struct bitfield *bfnew_ones(const int size)
-{
-	struct bitfield *instance = malloc(sizeof(struct bitfield));
-	instance->size = size;
-	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
-	bfsetall(instance);
-	return instance;
-}
-
-struct bitfield *bfnew_quick(const int size)
-{
-	struct bitfield *instance = malloc(sizeof(struct bitfield));
-	instance->size = size;
-	instance->field = malloc(BITNSLOTS(size) * sizeof(unsigned long));
-	instance->field[BITNSLOTS(size) - 1] = 0UL;	//because the tail should be zeroed anyway
-	return instance;
-}
-
-struct bitfield *bfnew(const int size)
-{
-	struct bitfield *instance = malloc(sizeof(struct bitfield));
-	instance->size = size;
-	instance->field = calloc(1, BITNSLOTS(size) * sizeof(unsigned long));
-	return instance;
-}
-
-void bfnot_ip(struct bitfield *instance)
-{
-	int bitnslots = BITNSLOTS(instance->size);
-	int i;
-	for (i = 0; i < bitnslots; i++)
-		instance->field[i] = ~instance->field[i];
-	/* make sure to clear the trailing bits, if there are any */
-	bfcleartail(instance);
-}
-
-struct bitfield *bfnot(const struct bitfield *input)
-{
-	int bitnslots = BITNSLOTS(input->size);
-	int i;
-	struct bitfield *output = bfnew(input->size);
-	for (i = 0; i < bitnslots; i++)
-		output->field[i] = ~input->field[i];
-	/* make sure to clear the trailing bits, if there are any */
-	bfcleartail(output);
-	return output;
-}
-
-struct bitfield *bfor(const struct bitfield *input1,
-		      const struct bitfield *input2)
-{
-	/* If the inputs are different size, take the shorter, and ignore the difference.
-	 * This way we'll surely have no error.
-	 */
-	int size = input1->size < input2->size ? input1->size : input2->size;
-	int bitnslots = BITNSLOTS(size);
-	int i;
-	struct bitfield *output = bfnew(size);
-	for (i = 0; i < bitnslots; i++)
-		output->field[i] = input1->field[i] | input2->field[i];
-	/* make sure to clear the trailing bits, if there are any */
-	bfcleartail(output);
-	return output;
 }
 
 int bfpopcount(const struct bitfield *instance)
@@ -353,7 +494,6 @@ void bfprint(const struct bitfield *instance)
 	for (i = 0; i < instance->size; i++)
 		printf("%lu",
 		       (instance->field[i / LONG_BIT] >> (i % LONG_BIT)) & 1UL);
-//      printf("\n");
 }
 
 void bfresize(struct bitfield *instance, int new_size)
@@ -425,11 +565,6 @@ void bfsetall(struct bitfield *instance)
 	for (i = 0; i < BITNSLOTS(instance->size); i++)
 		instance->field[i] = -1UL;
 	bfcleartail(instance);
-}
-
-void bfsetbit(struct bitfield *instance, int bit)
-{
-	BITSET(instance, bit);
 }
 
 void bfshift_ip(struct bitfield *input, const int offset)
@@ -555,111 +690,6 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 		    ((input->field)[end_slot] & (mask << start_offset)) >>
 		    start_offset;
 	}
-	return output;
-}
-
-void bftogglebit(struct bitfield *instance, const int bit)
-{
-	BITTOGGLE(instance, bit);
-}
-
-struct bitfield *bfxor(const struct bitfield *input1,
-		       const struct bitfield *input2)
-{
-	/* If the inputs are different size, take the shorter, and ignore the difference.
-	 * This way we'll surely have no error.
-	 */
-	int size = input1->size < input2->size ? input1->size : input2->size;
-	int bitnslots = BITNSLOTS(size);
-	int i;
-	struct bitfield *output = bfnew(size);
-	for (i = 0; i < bitnslots; i++)
-		output->field[i] = input1->field[i] ^ input2->field[i];
-	/* make sure to clear the trailing bits, if there are any */
-	bfcleartail(output);
-	return output;
-}
-
-void int2bf_ip(const unsigned int *input, struct bitfield *output)
-{
-	int size = bfsize(output);
-	int bitnslots = (size - 1) / INT_BIT + 1;
-	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
-	return;
-}
-
-struct bitfield *int2bf(const unsigned int *input, int size)
-{
-	struct bitfield *output = bfnew(size);
-	int bitnslots = (size - 1) / INT_BIT + 1;
-	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
-	/**
-	 * clear the tail; in case bfnew created a bitfield with non-zeroes AND
-	 * memcpy did not cover the end of bitfield memory.
-	 **/
-	bfcleartail(output);
-	return output;
-}
-
-void long2bf_ip(const unsigned long *input, struct bitfield *output)
-{
-	int size = bfsize(output);
-	int bitnslots = BITNSLOTS(size);
-	memcpy(output->field, input, bitnslots * sizeof(unsigned long));
-	return;
-}
-
-struct bitfield *long2bf(const unsigned long *input, int size)
-{
-	struct bitfield *output = bfnew(size);
-	int bitnslots = BITNSLOTS(size);
-	memcpy(output->field, input, bitnslots * sizeof(unsigned long));
-	return output;
-}
-
-void str2bf_ip(const char *input, struct bitfield *output)
-{
-	int input_len =
-	    (strlen(input) < output->size) ? strlen(input) : output->size;
-	int bitnslots = BITNSLOTS(input_len);
-	int i, j;
-	for (i = 0; i < bitnslots - 1; i++) {
-		for (j = 0; j < LONG_BIT; j++) {
-			if (input[i * LONG_BIT + j] == '1')
-				output->field[i] |= (1UL << j);
-			else
-				output->field[i] &= ~(1UL << j);
-		}
-	}
-	for (j = 0; j < (input_len - 1) % LONG_BIT + 1; j++) {
-		if (input[i * LONG_BIT + j] == '1')
-			output->field[i] |= (1UL << j);
-		else
-			output->field[i] &= ~(1UL << j);
-	}
-}
-
-struct bitfield *str2bf(const char *input)
-{
-	int input_len = strlen(input);
-	struct bitfield *output = bfnew_quick(input_len);
-	int bitnslots = BITNSLOTS(input_len);
-	int i, j;
-	for (i = 0; i < bitnslots - 1; i++) {
-		for (j = 0; j < LONG_BIT; j++) {
-			if (input[i * LONG_BIT + j] == '1')
-				output->field[i] |= (1UL << j);
-			else
-				output->field[i] &= ~(1UL << j);
-		}
-	}
-	for (j = 0; j < (input_len - 1) % LONG_BIT + 1; j++) {
-		if (input[i * LONG_BIT + j] == '1')
-			output->field[i] |= (1UL << j);
-		else
-			output->field[i] &= ~(1UL << j);
-	}
-	bfcleartail(output);
 	return output;
 }
 
