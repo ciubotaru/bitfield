@@ -1,4 +1,11 @@
 Changelog
+
+0.6
+* Added bf2char(), bf2char_ip(), bf2int_ip(), char2bf(), char2bf_ip() and int2bf_ip().
+
+0.5.1
+* Fixed error in bfnormalize().
+
 0.5
 * Added bf2int(), int2bf() and bfnormalize().
 
