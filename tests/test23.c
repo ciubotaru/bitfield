@@ -1,5 +1,5 @@
 /**
- * File name: tests/test20.c
+ * File name: tests/test23.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
@@ -14,14 +14,14 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bf2int() */
+/* Testing bf2int_ip() and int2bf_ip() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
 	int i;			//counter
 	int len = 80;
-	char *msg = "Testing bf2int()";
+	char *msg = "Testing bf2int_ip() and int2bf_ip()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
@@ -33,15 +33,24 @@ int main()
 		if (rand() % 2)
 			BITSET(input, i);
 	int bitnslots = (len - 1) / INT_BIT + 1;
-	unsigned int *input_int = bf2int(input);
+	unsigned int *input_int = malloc(bitnslots * sizeof(unsigned int));
+	bf2int_ip(input, input_int);
+	/* check first function */
 	for (i = 0; i < bitnslots; i++) {
-		if (input_int[i] !=
-		    (unsigned int)bfsub(input, i * INT_BIT,
-					(i + 1) * INT_BIT)->field[0]) {
+		if (input_int[i] != (unsigned int)bfsub(input, i * INT_BIT, (i + 1) * INT_BIT)->field[0])
+		{
 			printf("%s\n", failed);
 			return 1;
 		}
 	}
+	struct bitfield *output = bfnew(len);
+	int2bf_ip(input_int, output);
+	/* check second function */
+	if (bfcmp(input, output, NULL) != 0)
+		{
+			printf("%s\n", failed);
+			return 1;
+		}
 	printf("%s\n", passed);
 	return 0;
 }
