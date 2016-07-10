@@ -1,7 +1,7 @@
 bitfield
 ========
 
-Version 0.5.1 (July 6, 2016)
+Version 0.6 (July 10, 2016)
 
 bitfield is a library of functions for creating, modifying and destroying bit 
 fields (or bit arrays), i.e. series of zeroes and ones spread across an array 
