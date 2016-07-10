@@ -16,6 +16,7 @@ struct bitfield;
  * Convert integer data types, all unsigned, to bitfield structures, with
  * in-place equivalents:
  * char as a character (each char storing '0' or '1')
+ * char as an integer
  * int
  * long
  */
@@ -23,6 +24,10 @@ struct bitfield;
 struct bitfield *str2bf(const char *input);	/* converts a character string of ones and zeroes into a bitfield and returns the result in a new bitfield */
 
 void str2bf_ip(const char *input, struct bitfield *output);	/* converts a character string of ones and zeroes into a bitfield */
+
+struct bitfield *char2bf(const unsigned char *input, int size);	/* write the contents of an array of chars into a bitfield structure */
+
+void char2bf_ip(const unsigned char *input, struct bitfield *output); /* convert an array of chars into a bitfield structure */
 
 struct bitfield *int2bf(const unsigned int *input, int size);	/* write the contents of an array of integers into a bitfield structure */
 
@@ -36,6 +41,7 @@ void long2bf_ip(const unsigned long *input, struct bitfield *output); /* convert
  * Convert bitfield structures to integer data types, all unsigned, with 
  * in-place equivalents:
  * char as a character (each char storing '0' or '1')
+ * char as an integer
  * int
  * long
  */
@@ -43,6 +49,10 @@ void long2bf_ip(const unsigned long *input, struct bitfield *output); /* convert
 char *bf2str(const struct bitfield *input);	/* converts a bitfield into a character string of ones and zeroes and returns the result in a new character string */
 
 void bf2str_ip(const struct bitfield *input, char *output);	/* converts a bitfield into a character string of ones and zeroes */
+
+unsigned char *bf2char(const struct bitfield *input);	/* return the bitfield as an array of unsigned chars */
+
+void bf2char_ip(const struct bitfield *input, unsigned char *output);	/* converts a bitfield into an array of unsigned chars */
 
 unsigned int *bf2int(const struct bitfield *input);	/* return the bitfield as an array of unsigned integers */
 

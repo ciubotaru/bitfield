@@ -28,7 +28,8 @@ inline void bfcleartail(struct bitfield *instance)
 /*
  * Convert integer data types, all unsigned, to bitfield structures, with
  * in-place equivalents:
- * char
+ * char as a character (each char storing '0' or '1')
+ * char as an integer
  * int
  * long
  */
@@ -79,6 +80,27 @@ void str2bf_ip(const char *input, struct bitfield *output)
 	}
 }
 
+struct bitfield *char2bf(const unsigned char *input, int size)
+{
+	struct bitfield *output = bfnew(size);
+	int bitnslots = (size - 1) / CHAR_BIT + 1;
+	memcpy(output->field, input, bitnslots * sizeof(unsigned char));
+	/**
+	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
+	 * memcpy did not cover the end of bitfield memory.
+	 **/
+	bfcleartail(output);
+	return output;
+}
+
+void char2bf_ip(const unsigned char *input, struct bitfield *output)
+{
+	int size = bfsize(output);
+	int bitnslots = (size - 1) / CHAR_BIT + 1;
+	memcpy(output->field, input, bitnslots * sizeof(unsigned char));
+	return;
+}
+
 struct bitfield *int2bf(const unsigned int *input, int size)
 {
 	struct bitfield *output = bfnew(size);
@@ -119,7 +141,8 @@ void long2bf_ip(const unsigned long *input, struct bitfield *output)
 /*
  * Convert bitfield structures to integer data types, all unsigned, with 
  * in-place equivalents:
- * char
+ * char as a character (each char storing '0' or '1')
+ * char as an integer
  * int
  * long
  */
@@ -166,6 +189,21 @@ void bf2str_ip(const struct bitfield *input, char *output)
 			output[(bitnslots - 1) * LONG_BIT + j] = '0';
 	}
 	output[input->size] = '\0';
+}
+
+unsigned char *bf2char(const struct bitfield *input)
+{
+	int bitnslots = (input->size - 1) / CHAR_BIT + 1;
+	unsigned char *output = calloc(1, bitnslots * sizeof(unsigned char));
+	memcpy(output, input->field, bitnslots * sizeof(unsigned char));
+	return output;
+}
+
+void bf2char_ip(const struct bitfield *input, unsigned char *output)
+{
+	int bitnslots = (input->size - 1) / CHAR_BIT + 1;
+	memcpy(output, input->field, bitnslots * sizeof(unsigned char));
+	return;
 }
 
 unsigned int *bf2int(const struct bitfield *input)
