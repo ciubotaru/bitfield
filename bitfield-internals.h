@@ -16,6 +16,20 @@
 #define BITTOGGLE(a, b) ((a)->field[BITSLOT(b)] ^= BITMASK(b))
 #define BITNSLOTS(nb) ((nb + LONG_BIT - 1) / LONG_BIT)
 
+#if __BYTE_ORDER == __BIG_ENDIAN
+/* big-endian systems */
+#define bf_letoh_ip(x) _bf_letoh_ip(x)
+#define int_letoh_ip(x, y) _int_letoh_ip(x, y)
+#define bf_htole(x) (struct bitfield *) _bf_htole(x)
+#define int_htole(x, y) (unsigned int *) _int_htole(x, y)
+#else
+/* little-endian systems (mixed endians?) */
+#define bf_letoh_ip(x)
+#define int_letoh_ip(x, y)
+#define bf_htole(x) x
+#define int_htole(x, y) x
+#endif
+
 struct bitfield {		/* defines a bitfield */
 	unsigned long *field;
 	int size;

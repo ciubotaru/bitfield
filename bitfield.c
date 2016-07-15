@@ -25,6 +25,79 @@ inline void bfcleartail(struct bitfield *instance)
 	}
 }
 
+inline void _bf_letoh_ip(struct bitfield *instance)
+/**
+ * convert long integers inside a bitfield from little endian to host.
+ * needed after memcpy to bf on big endian machines
+ **/
+{
+	int i;
+	for (i = 0; i < BITNSLOTS(bfsize(instance)); i++) {
+		if (sizeof(unsigned long) == 4)
+		/* 32-bit systems */
+			instance->field[i] = le32toh(instance->field[i]);
+		else
+		/* 64-bit systems */
+			instance->field[i] = le32toh(instance->field[i]);
+	}
+}
+
+inline void _int_letoh_ip(unsigned int *input, const int size)
+/**
+ * convert integers from little endian to host.
+ * needed when memcpy from bitfield to int on big endian machines
+ **/
+{
+	int i;
+	for (i = 0; i < size; i++) {
+		if (sizeof(unsigned int) == 2)
+		/* if int is 2 bits */
+			input[i] = le16toh(input[i]);
+		else
+		/* if int is 4 bits */
+			input[i] = le32toh(input[i]);
+	}
+	return;
+}
+
+inline struct bitfield *_bf_htole(const struct bitfield *input)
+/**
+ * convert long integers inside a bitfield from host to little endian.
+ * needed after memcpy from bitfield on big endian machines
+ **/
+{
+	struct bitfield *output = bfclone(input);
+	int i;
+	for (i = 0; i < BITNSLOTS(bfsize(input)); i++) {
+		if (sizeof(unsigned long) == 4)
+		/* if long is 4 bits */
+			output->field[i] = htole32(input->field[i]);
+		else
+		/* if long is 8 bits */
+			output->field[i] = htole32(input->field[i]);
+	}
+	return output;
+}
+
+inline unsigned int *_int_htole(const unsigned int *input, const int size)
+/**
+ * convert integers from host to little endian.
+ * needed when memcpy from int to bitfield on big endian machines
+ **/
+{
+	int i;
+	unsigned int *output = malloc(size * sizeof(unsigned long));
+	for (i = 0; i < size; i++) {
+		if (sizeof(unsigned int) == 2)
+		/* if int is 2 bits */
+			output[i] = htole16(input[i]);
+		else
+		/* if int is 4 bits */
+			output[i] = htole32(input[i]);
+	}
+	return output;
+}
+
 /*
  * Convert integer data types, all unsigned, to bitfield structures, with
  * in-place equivalents:
@@ -85,6 +158,8 @@ struct bitfield *char2bf(const unsigned char *input, int size)
 	struct bitfield *output = bfnew(size);
 	int bitnslots = (size - 1) / CHAR_BIT + 1;
 	memcpy(output->field, input, bitnslots * sizeof(unsigned char));
+	/* memcpy from *char to *long always produces little-endian */
+	bf_letoh_ip(output);
 	/**
 	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
 	 * memcpy did not cover the end of bitfield memory.
@@ -98,6 +173,7 @@ void char2bf_ip(const unsigned char *input, struct bitfield *output)
 	int size = bfsize(output);
 	int bitnslots = (size - 1) / CHAR_BIT + 1;
 	memcpy(output->field, input, bitnslots * sizeof(unsigned char));
+	bf_letoh_ip(output);
 	return;
 }
 
@@ -105,7 +181,9 @@ struct bitfield *int2bf(const unsigned int *input, int size)
 {
 	struct bitfield *output = bfnew(size);
 	int bitnslots = (size - 1) / INT_BIT + 1;
-	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
+	/* order ints in LE, memcpy to bifield, order result in host endian */
+	memcpy(output->field, int_htole(input, bitnslots), bitnslots * sizeof(unsigned int));
+	bf_letoh_ip(output);
 	/**
 	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
 	 * memcpy did not cover the end of bitfield memory.
@@ -118,7 +196,9 @@ void int2bf_ip(const unsigned int *input, struct bitfield *output)
 {
 	int size = bfsize(output);
 	int bitnslots = (size - 1) / INT_BIT + 1;
-	memcpy(output->field, input, bitnslots * sizeof(unsigned int));
+	/* order ints in LE, memcpy to bifield, order result in host endian */
+	memcpy(output->field, int_htole(input, bitnslots), bitnslots * sizeof(unsigned int));
+	bf_letoh_ip(output);
 	return;
 }
 
@@ -195,14 +275,14 @@ unsigned char *bf2char(const struct bitfield *input)
 {
 	int bitnslots = (input->size - 1) / CHAR_BIT + 1;
 	unsigned char *output = calloc(1, bitnslots * sizeof(unsigned char));
-	memcpy(output, input->field, bitnslots * sizeof(unsigned char));
+	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(unsigned char));
 	return output;
 }
 
 void bf2char_ip(const struct bitfield *input, unsigned char *output)
 {
 	int bitnslots = (input->size - 1) / CHAR_BIT + 1;
-	memcpy(output, input->field, bitnslots * sizeof(unsigned char));
+	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(unsigned char));
 	return;
 }
 
@@ -210,14 +290,18 @@ unsigned int *bf2int(const struct bitfield *input)
 {
 	int bitnslots = (input->size - 1) / INT_BIT + 1;
 	unsigned int *output = calloc(1, bitnslots * sizeof(unsigned int));
-	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
+	/* order bitfield in LE, memcpy to int, order result in host endian */
+	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(unsigned int));
+	int_letoh_ip(output, bitnslots);
 	return output;
 }
 
 void bf2int_ip(const struct bitfield *input, unsigned int *output)
 {
 	int bitnslots = (input->size - 1) / INT_BIT + 1;
-	memcpy(output, input->field, bitnslots * sizeof(unsigned int));
+	/* order bitfield in LE, memcpy to int, order result in host endian */
+	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(unsigned int));
+	int_letoh_ip(output, bitnslots);
 	return;
 }
 
