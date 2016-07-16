@@ -25,7 +25,7 @@ int main()
 		if (rand() % 2)
 			bfsetbit(input, i);
 	}
-	bfprint(input);
+	bfprint_msb(input);
 	printf("\n");
 	printf("---\n");
 	return 0;

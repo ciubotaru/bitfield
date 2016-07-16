@@ -25,7 +25,7 @@ int main()
 		if (rand() % 2 == 1)
 			bfsetbit(input, i);
 	/* show it */
-	bfprint(input);
+	bfprint_lsb(input);
 	printf("\n");
 	/* Because the state of every cell depends on its parent and the parent's neighbours from right and left,
 	 * we need three arrays: neighbours from left, parents (center) and neighbours from right.
@@ -39,7 +39,7 @@ int main()
 	struct bitfield *output = bfxor(left, bfor(center, right));
 	/* show it */
 	printf(" ");
-	bfprint(output);
+	bfprint_lsb(output);
 	printf("\n");
 	printf("---\n");
 	return 0;

@@ -610,10 +610,19 @@ int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
 	return -1;
 }
 
-void bfprint(const struct bitfield *instance)
+void bfprint_lsb(const struct bitfield *instance)
 {
 	int i;
 	for (i = 0; i < instance->size; i++)
+		printf("%lu",
+		       (instance->field[i / LONG_BIT] >> (i % LONG_BIT)) & 1UL);
+	/* maybe it would be quicker to convert bitfield to string (bf2str) and print it all at once */
+}
+
+void bfprint_msb(const struct bitfield *instance)
+{
+	int i;
+	for (i = instance->size - 1; i >= 0; i--)
 		printf("%lu",
 		       (instance->field[i / LONG_BIT] >> (i % LONG_BIT)) & 1UL);
 }

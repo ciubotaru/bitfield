@@ -124,7 +124,9 @@ int bfpopcount(const struct bitfield *instance);	/* counts the set bits in a bit
 
 int bfpos(const struct bitfield *haystack, const struct bitfield *needle);	/* check whether an array of bits contains a sub-array */
 
-void bfprint(const struct bitfield *instance);	/* prints a bitfield as a series of ones and zeroes */
+void bfprint_lsb(const struct bitfield *instance);	/* prints a bitfield as a series of ones and zeroes, least significant bit first */
+
+void bfprint_msb(const struct bitfield *instance);	/* prints a bitfield as a series of ones and zeroes, most significant bit first */
 
 void bfresize(struct bitfield *instance, int new_size);	/* resizes an existing bitfield */
 

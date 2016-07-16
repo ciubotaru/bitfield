@@ -118,8 +118,11 @@ bfpopcount() counts the set bits in a bitfield.
 
 bfpos() checks whether an array of bits contains a sub-array.
 
-bfprint() prints a bitfield as a series of ones and zeroes, left to right, the
+bfprint_lsb() prints a bitfield as a series of ones and zeroes, left to right, the
 least significant bit first.
+
+bfprint_msb() prints a bitfield as a series of ones and zeroes, left to right, the
+most significant bit first.
 
 bfresize() resizes an existing bitfield.
 

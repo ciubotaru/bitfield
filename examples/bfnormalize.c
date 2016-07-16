@@ -36,9 +36,9 @@ int main()
 			input_ints[j] = rand();
 		input = int2bf(input_ints, len_chars);
 		output = bfnormalize(input);
-		bfprint(input);
+		bfprint_msb(input);
 		printf("->");
-		bfprint(output);
+		bfprint_msb(output);
 		printf("\n");
 	}
 	bfdel(input);
