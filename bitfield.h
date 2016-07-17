@@ -103,6 +103,9 @@ struct bitfield *bfxor(const struct bitfield *input1, const struct bitfield *inp
 /*
  * Manipulate bitfields
  */
+struct bitfield * _bfcat(int count, ...);
+
+int count_arguments(char *s);
 
 #define bfcat(...) (struct bitfield *) _bfcat( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* concatenates two bitfields into one */
 

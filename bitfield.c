@@ -491,7 +491,7 @@ inline struct bitfield *__bfcat(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield * _bfcat(int count, ...)
+struct bitfield *_bfcat(int count, ...)
 {
 	int i;
 	va_list args;

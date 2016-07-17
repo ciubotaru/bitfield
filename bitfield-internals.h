@@ -35,9 +35,5 @@ struct bitfield {		/* defines a bitfield */
 	int size;
 };
 
-struct bitfield * _bfcat(int count, ...);
-
 struct bitfield *__bfcat(const struct bitfield *input1,
 		       const struct bitfield *input2);
-
-int count_arguments(char *s);
