@@ -104,7 +104,7 @@ struct bitfield *bfxor(const struct bitfield *input1, const struct bitfield *inp
  * Manipulate bitfields
  */
 
-struct bitfield *bfcat(const struct bitfield *input1, const struct bitfield *input2);	/* concatenates two bitfields into one */
+#define bfcat(...) (struct bitfield *) _bfcat( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* concatenates two bitfields into one */
 
 void bfclearall(struct bitfield *instance);	/* fills a bitfield with zeroes */
 

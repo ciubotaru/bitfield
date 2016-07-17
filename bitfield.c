@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include <assert.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
@@ -463,7 +464,7 @@ struct bitfield *bfxor(const struct bitfield *input1,
  * Manipulate bitfields
  */
 
-struct bitfield *bfcat(const struct bitfield *input1,
+inline struct bitfield *__bfcat(const struct bitfield *input1,
 		       const struct bitfield *input2)
 {
 	int i;
@@ -488,6 +489,27 @@ struct bitfield *bfcat(const struct bitfield *input1,
 		}
 	}
 	return output;
+}
+
+struct bitfield * _bfcat(int count, ...)
+{
+	int i;
+	va_list args;
+	va_start(args, count);
+	struct bitfield *output = va_arg(args, struct bitfield *);
+	for(i=1 ; i < count ; i++ ) {
+		output = __bfcat(output, va_arg(args, struct bitfield *));
+	}
+	va_end(args);
+	return output;
+}
+
+inline int count_arguments(char *s){
+	unsigned i,argc = 1;
+		for(i = 0; s[i]; i++)
+			if(s[i] == ',')
+				argc++;
+	return argc;
 }
 
 void bfclearall(struct bitfield *instance)

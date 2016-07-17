@@ -77,7 +77,7 @@ starting from the least significant bit "in-place".
 
 bfand() performs bitwise AND over a pair of bitfields.
 
-bfcat() concatenates two bitfields into one.
+bfcat() concatenates several bitfields into one.
 
 bfclearall() clears all bits in a bitfield (i.e. fills the bitfield with 
 zeroes).

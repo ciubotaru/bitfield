@@ -1,4 +1,4 @@
-EXAMPLES=bfnormalize int2bf random rule30
+EXAMPLES=bfnormalize int2bf random rule30 bfcat
 LIBS=-L.. -I..
 
 examples: build-examples run-examples
