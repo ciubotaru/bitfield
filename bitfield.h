@@ -58,6 +58,10 @@ unsigned char *bf2char(const struct bitfield *input);	/* return the bitfield as 
 
 void bf2char_ip(const struct bitfield *input, unsigned char *output);	/* converts a bitfield into an array of unsigned chars */
 
+unsigned short *bf2short(const struct bitfield *input);	/* return the bitfield as an array of unsigned short integers */
+
+void bf2short_ip(const struct bitfield *input, unsigned short *output);	/* converts a bitfield into an array of unsigned short integers */
+
 unsigned int *bf2int(const struct bitfield *input);	/* return the bitfield as an array of unsigned integers */
 
 void bf2int_ip(const struct bitfield *input, unsigned int *output);	/* converts a bitfield into an array of unsigned integers */
