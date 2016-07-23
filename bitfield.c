@@ -43,6 +43,17 @@ inline void _bf_letoh_ip(struct bitfield *instance)
 	}
 }
 
+inline void _short_letoh_ip(unsigned short *input, const int size)
+/**
+ * convert short integers from little endian to host.
+ * needed when memcpy from bitfield to short on big endian machines
+ **/
+{
+	int i;
+	for (i = 0; i < size; i++)
+		input[i] = le16toh(input[i]);
+}
+
 inline void _int_letoh_ip(unsigned int *input, const int size)
 /**
  * convert integers from little endian to host.
@@ -75,6 +86,21 @@ inline struct bitfield *_bf_htole(const struct bitfield *input)
 		else
 		/* if long is 8 bits */
 			output->field[i] = htole32(input->field[i]);
+	}
+	return output;
+}
+
+inline unsigned int *_short_htole(const unsigned short *input, const int size)
+/**
+ * convert integers from host to little endian.
+ * needed when memcpy from int to bitfield on big endian machines
+ **/
+{
+	int i;
+	unsigned int *output = malloc(size * sizeof(unsigned long));
+	for (i = 0; i < size; i++) {
+		/* assumed to always equal 2 bytes / 16 bits */
+		output[i] = htole16(input[i]);
 	}
 	return output;
 }
