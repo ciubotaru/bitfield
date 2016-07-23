@@ -67,7 +67,15 @@ manual page.
 
 bf2int() converts the bit array to an array of integers.
 
+bf2int_ip() converts the bit array to an array of integers "in-place".
+
 bf2long() converts the bit array to an array of long integers.
+
+bf2long_ip() converts the bit array to an array of long integers "in-place".
+
+bf2short() converts a bitfield to an array of short integers.
+
+bf2short_ip() converts a bitfield to an array of short integers "in-place".
 
 bf2str() converts a bitfield into a character string of ones and zeroes,
 starting from the least significant bit.
@@ -150,7 +158,15 @@ bfxor() performs bitwise exclusive OR over a pair of bitfields.
 
 int2bf() converts an array of integers into a bitfield structure.
 
+int2bf_ip() converts an array of integers into a bitfield structure "in-place".
+
 long2bf() converts an array of long integers into a bitfield structure.
+
+long2bf_ip() converts an array of long integers into a bitfield structure "in-place".
+
+short2bf() converts an array of short integers into a bitfield structure.
+
+short2bf_ip() converts an array of short integers into a bitfield structure "in-place".
 
 str2bf() converts a character string of ones and zeroes into a bitfield,
 starting from the least significant bit.
