@@ -65,6 +65,10 @@ Functions
 For function syntax, see "bitfield.h". For details on every function, see its 
 manual page.
 
+bf2char() converts the bit array to an array of unsigned chars.
+
+bf2char_ip() converts the bit array to an array of unsigned chars "in-place".
+
 bf2int() converts the bit array to an array of integers.
 
 bf2int_ip() converts the bit array to an array of integers "in-place".
@@ -155,6 +159,10 @@ bfsub() extracts a sub-bitfield from a bitfield.
 bftogglebit() toggles (i.e. reverses the state of) a bit in a bitfield.
 
 bfxor() performs bitwise exclusive OR over a pair of bitfields.
+
+char2bf() writes the contents of an array of chars into a bitfield structure.
+
+char2bf_ip() writes the contents of an array of chars into a bitfield structure "in-place".
 
 int2bf() converts an array of integers into a bitfield structure.
 
