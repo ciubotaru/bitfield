@@ -1,11 +1,14 @@
 #ifndef CHAR_BIT
 #include <limits.h>
 #endif
-#ifndef LONG_BIT
-#define LONG_BIT (unsigned int) (sizeof(unsigned long) * CHAR_BIT)
+#ifndef SHORT_BIT
+#define SHORT_BIT (unsigned int) (sizeof(unsigned short) * CHAR_BIT)
 #endif
 #ifndef INT_BIT
 #define INT_BIT (unsigned int) (sizeof(unsigned int) * CHAR_BIT)
+#endif
+#ifndef LONG_BIT
+#define LONG_BIT (unsigned int) (sizeof(unsigned long) * CHAR_BIT)
 #endif
 #define BITMASK(b) (1UL << ((b) % LONG_BIT))
 #define BITSLOT(b) ((b) / LONG_BIT)
