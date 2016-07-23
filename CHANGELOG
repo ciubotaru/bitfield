@@ -1,7 +1,11 @@
 Changelog
 
 0.6
-* Added bf2char(), bf2char_ip(), bf2int_ip(), char2bf(), char2bf_ip() and int2bf_ip().
+* Added bf2char(), bf2char_ip(), bf2short(), bf2short_ip(), bf2int_ip(),
+  char2bf(), char2bf_ip(), int2bf_ip(), bf2long_ip(), long2bf_ip().
+* bfprint() splitted into bfprint_lsb() and bfrint_msb().
+* bfcat() modified to accept variable number of arguments.
+* Added support for big-endian architectures.
 
 0.5.1
 * Fixed error in bfnormalize().
