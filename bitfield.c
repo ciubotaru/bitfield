@@ -39,7 +39,7 @@ inline void _bf_letoh_ip(struct bitfield *instance)
 			instance->field[i] = le32toh(instance->field[i]);
 		else
 		/* 64-bit systems */
-			instance->field[i] = le32toh(instance->field[i]);
+			instance->field[i] = le64toh(instance->field[i]);
 	}
 }
 
@@ -85,7 +85,7 @@ inline struct bitfield *_bf_htole(const struct bitfield *input)
 			output->field[i] = htole32(input->field[i]);
 		else
 		/* if long is 8 bits */
-			output->field[i] = htole32(input->field[i]);
+			output->field[i] = htole64(input->field[i]);
 	}
 	return output;
 }
@@ -200,7 +200,30 @@ void char2bf_ip(const unsigned char *input, struct bitfield *output)
 	int bitnslots = (size - 1) / CHAR_BIT + 1;
 	memcpy(output->field, input, bitnslots * sizeof(unsigned char));
 	bf_letoh_ip(output);
-	return;
+}
+
+struct bitfield *short2bf(const unsigned short *input, int size)
+{
+	struct bitfield *output = bfnew(size);
+	int bitnslots = (size - 1) / SHORT_BIT + 1;
+	/* order ints in LE, memcpy to bifield, order result in host endian */
+	memcpy(output->field, short_htole(input, bitnslots), bitnslots * sizeof(unsigned short));
+	bf_letoh_ip(output);
+	/**
+	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
+	 * memcpy did not cover the end of bitfield memory.
+	 **/
+	bfcleartail(output);
+	return output;
+}
+
+void short2bf_ip(const unsigned short *input, struct bitfield *output)
+{
+	int size = bfsize(output);
+	int bitnslots = (size - 1) / SHORT_BIT + 1;
+	/* order ints in LE, memcpy to bifield, order result in host endian */
+	memcpy(output->field, short_htole(input, bitnslots), bitnslots * sizeof(unsigned short));
+	bf_letoh_ip(output);
 }
 
 struct bitfield *int2bf(const unsigned int *input, int size)

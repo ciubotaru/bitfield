@@ -29,6 +29,10 @@ struct bitfield *char2bf(const unsigned char *input, int size);	/* write the con
 
 void char2bf_ip(const unsigned char *input, struct bitfield *output); /* convert an array of chars into a bitfield structure */
 
+struct bitfield *short2bf(const unsigned short *input, int size);	/* write the contents of an array of short integers into a bitfield structure */
+
+void short2bf_ip(const unsigned short *input, struct bitfield *output); /* convert an array of short integers into a bitfield structure */
+
 struct bitfield *int2bf(const unsigned int *input, int size);	/* write the contents of an array of integers into a bitfield structure */
 
 void int2bf_ip(const unsigned int *input, struct bitfield *output); /* convert an array of integers into a bitfield structure */
