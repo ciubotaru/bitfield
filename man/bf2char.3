@@ -1,0 +1,31 @@
+.TH bf2char 3 "SEPTEMBER 1, 2016" "bitfield 0.6.0" "Bitfield manipulation library"
+.SH NAME
+bf2char, bf2char_ip, char2bf, char2bf_ip \- convert bitfields to char strings of zeroes and ones, and vice-versa, starting from the least significant bit.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "char *bf2char(const struct bitfield *"input ");
+.BI "void bf2char_ip(const struct bitfield *"input ", char *"output ");
+.BI "struct bitfield *char2bf(const char *"input ");
+.BI "void char2bf_ip(const char *"input ", struct bitfield *"output ");
+.fi
+.SH DESCRIPTION
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+.sp
+The \fBbf2char()\fR function takes a pointer to bitfield \fIinput\fR and returns a char string filled with '0' and '1' characters.
+.sp
+The \fBbf2char_ip()\fR function takes a pointer to bitfield \fIinput\fR and a char string \fIoutput\fR, and fills \fIoutput\fR with '0' and '1' characters "in-place".
+.sp
+The \fBchar2bf()\fR function takes a null-terminated char string \fIinput\fR, consitsting of ones and zeroes, and returns a pointer to a bitfield filled with '0' and '1' bits.
+.sp
+The \fBchar2bf_ip()\fR function takes a char string \fIinput\fR, consitsting of ones and zeroes, and a pointer to a properly initialized bitfield \fIoutput\fR, and fills \fIoutput\fR with '0' and '1' bits "in place".
+.sp
+The conversion is done from the least significant bit to the most significant bit. This means that \fBbf2str\fR will convert 0b1000 into "0001", and \fBstr2bf\fR will convert it back in the same order.
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+
