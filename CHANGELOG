@@ -2,7 +2,8 @@ Changelog
 
 0.6
 * Added bf2char(), bf2char_ip(), bf2short(), bf2short_ip(), bf2int_ip(),
-  char2bf(), char2bf_ip(), int2bf_ip(), bf2long_ip(), long2bf_ip().
+  char2bf(), char2bf_ip(), int2bf_ip(), bf2long_ip(), long2bf_ip(),
+  short2bf().3, short2bf_ip().3.
 * bfprint() splitted into bfprint_lsb() and bfrint_msb().
 * bfcat() modified to accept variable number of arguments.
 * Added support for big-endian architectures.
@@ -23,15 +24,15 @@ Changelog
 * Changed the algo of bfrev() to a quicker one.
 
 0.2
-* Added bfcmp(), bfsub(), bfshift(), bfclearall(), bfsetall(), bfresize(), 
-  bfsetbit(), bfclearbit(), bfrev(), bfrev_ip(), bfsize(), bfgetbit(), 
+* Added bfcmp(), bfsub(), bfshift(), bfclearall(), bfsetall(), bfresize(),
+  bfsetbit(), bfclearbit(), bfrev(), bfrev_ip(), bfsize(), bfgetbit(),
   bftogglebit(), bfpopcount(), bfhamming(), bf2long() and bfisempty().
 * Renamed char2bf() to str2bf() and bf2char() to bf2str() (thus incompatible
   with versions 0.1.x).
 
 0.1.1
-* Added bfnew_quick(), bfnew_ones(), bfclone(), bfcat(), bfshift_ip(), 
-bfnot_ip(), bfcleartail(), bfcpy().
+* Added bfnew_quick(), bfnew_ones(), bfclone(), bfcat(), bfshift_ip(),
+  bfnot_ip(), bfcleartail(), bfcpy().
 
 0.1
 * Initial release.
