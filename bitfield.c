@@ -809,8 +809,8 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset)
 	int bitnslots = BITNSLOTS(input->size);
 	/* removing extra rotations */
 	int offset_internal = offset % input->size;
-	struct bitfield *output = bfnew(input->size);
 	if (offset_internal == 0) {
+		struct bitfield *output = bfnew(input->size);
 		memcpy(output->field, input->field,
 		       bitnslots * sizeof(unsigned long));
 		return output;	/* nothing to shift */
@@ -823,11 +823,9 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset)
 	struct bitfield *second_chunk =
 	    bfsub(input, input->size - offset_internal, input->size);
 
-	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
-	memcpy(output->field, tmp->field, bitnslots * sizeof(unsigned long));
+	struct bitfield *output = bfcat(second_chunk, first_chunk);
 	bfdel(first_chunk);
 	bfdel(second_chunk);
-	bfdel(tmp);
 	return output;
 }
 
