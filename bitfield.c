@@ -90,14 +90,14 @@ inline struct bitfield *_bf_htole(const struct bitfield *input)
 	return output;
 }
 
-inline unsigned int *_short_htole(const unsigned short *input, const int size)
+inline unsigned short *_short_htole(const unsigned short *input, const int size)
 /**
  * convert integers from host to little endian.
- * needed when memcpy from int to bitfield on big endian machines
+ * needed when memcpy from short to bitfield on big endian machines
  **/
 {
 	int i;
-	unsigned int *output = malloc(size * sizeof(unsigned long));
+	unsigned short *output = malloc(size * sizeof(unsigned short));
 	for (i = 0; i < size; i++) {
 		/* assumed to always equal 2 bytes / 16 bits */
 		output[i] = htole16(input[i]);
@@ -112,7 +112,7 @@ inline unsigned int *_int_htole(const unsigned int *input, const int size)
  **/
 {
 	int i;
-	unsigned int *output = malloc(size * sizeof(unsigned long));
+	unsigned int *output = malloc(size * sizeof(unsigned int));
 	for (i = 0; i < size; i++) {
 		if (sizeof(unsigned int) == 2)
 		/* if int is 2 bits */
