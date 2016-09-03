@@ -647,7 +647,9 @@ int bfcpy(const struct bitfield *src, struct bitfield *dest)
 
 int bfhamming(const struct bitfield *input1, const struct bitfield *input2)
 {
-	int hamming = bfpopcount(bfxor(input1, input2));
+	struct bitfield *input_xored = bfxor(input1, input2);
+	int hamming = bfpopcount(input_xored);
+	bfdel(input_xored);
 	return hamming;
 }
 
