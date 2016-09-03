@@ -557,9 +557,14 @@ struct bitfield *_bfcat(int count, ...)
 	int i;
 	va_list args;
 	va_start(args, count);
-	struct bitfield *output = va_arg(args, struct bitfield *);
-	for(i=1 ; i < count ; i++ ) {
-		output = __bfcat(output, va_arg(args, struct bitfield *));
+	struct bitfield *output = bfclone(va_arg(args, struct bitfield *));
+	for (i = 1; i < count; i++) {
+
+		struct bitfield *tmp = __bfcat(output, va_arg(args, struct bitfield *));
+		/* reassign *output to point to new struct without leaking memory */
+		free(output->field);
+		*output = *tmp;
+		free(tmp);
 	}
 	va_end(args);
 	return output;
