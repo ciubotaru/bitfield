@@ -344,7 +344,7 @@ unsigned short *bf2short(const struct bitfield *input)
 
 void bf2short_ip(const struct bitfield *input, unsigned short *output)
 {
-	int bitnslots = (input->size - 1) / INT_BIT + 1;
+	int bitnslots = (input->size - 1) / SHORT_BIT + 1;
 	/* order bitfield in LE, memcpy to int, order result in host endian */
 	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(unsigned short));
 	int_letoh_ip(output, bitnslots);
