@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j;			//counter
+	int i;			//counter
 	int len = 80;
 	char *msg = "Testing bf2short_ip() and short2bf_ip()";
 	char *failed = "[FAIL]";
