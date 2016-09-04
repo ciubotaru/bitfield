@@ -790,12 +790,15 @@ void bfsetall(struct bitfield *instance)
 
 void bfshift_ip(struct bitfield *input, const int offset)
 {
+	if (input->size <= 1) {
+		return;		/* input too short to shift */
+	}
 	/* positive offset moves the last offset characters to the beginning */
 	int bitnslots = BITNSLOTS(input->size);
 	/* removing extra rotations */
 	int offset_internal = offset % input->size;
 	if (offset_internal == 0) {
-		return;		/* nothing to shift */
+		return;		/* no need to shift */
 	}
 	/* changing a negative offset to a positive equivalent */
 	if (offset < 0)
