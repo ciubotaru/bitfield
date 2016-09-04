@@ -929,15 +929,24 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 		for (j = bitnslots - 1; j >= 0; j--) {
 			/* special check for tail chunks (may be underfull) */
 			if (j == bitnslots - 1 && length_last_chunk != 0) {
+				/* this can probably be optimized */
 				chunk_a = output->field[j];
-				chunk_b = bfsub(bfshift(input, length_last_chunk + i), 0, length_last_chunk)->field[0]; /* this can be optimized */
+				struct bitfield *tmp = bfshift(input, length_last_chunk + i);
+				chunk_b = bfsub(tmp, 0, length_last_chunk)->field[0];
+				bfdel(tmp);
 			} else {
+				/* this can probably be optimized */
 				chunk_a = output->field[j];
-				chunk_b = bfshift(input, i)->field[j];  /* this can be optimized */
+				struct bitfield *tmp = bfshift(input, i);
+				chunk_b = tmp->field[j];
+				bfdel(tmp);
 			}
 			/* compare. if a is greater, offset i becomes new best candidate. move to next i */
 			if (chunk_a > chunk_b) {
-				output = bfshift(input, i);
+				struct bitfield *tmp = bfshift(input, i);
+				free(output->field);
+				*output = *tmp;
+				free(tmp);
 				break;
 			}
 			/* if a is smaller, move to next offset */
