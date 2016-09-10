@@ -22,19 +22,29 @@
 #if __BYTE_ORDER == __BIG_ENDIAN
 /* big-endian systems */
 #define bf_letoh_ip(x) _bf_letoh_ip(x)
-#define short_letoh_ip(x, y) _short_letoh_ip(x, y)
-#define int_letoh_ip(x, y) _int_letoh_ip(x, y)
 #define bf_htole(x) (struct bitfield *) _bf_htole(x)
-#define short_htole(x, y) (unsigned short *) _short_htole(x, y)
-#define int_htole(x, y) (unsigned int *) _int_htole(x, y)
+
+#define uint16_letoh_ip(x, y) _uint16_letoh_ip(x, y)
+#define uint32_letoh_ip(x, y) _uint32_letoh_ip(x, y)
+#define uint64_letoh_ip(x, y) _uint64_letoh_ip(x, y)
+
+#define uint16_htole(x, y) (uint16_t *) _uint16_htole(x, y)
+#define uint32_htole(x, y) (uint32_t *) _uint32_htole(x, y)
+#define uint64_htole(x, y) (uint64_t *) _uint64_htole(x, y)
+
 #else
 /* little-endian systems (mixed endians?) */
 #define bf_letoh_ip(x)
-#define short_letoh_ip(x, y)
-#define int_letoh_ip(x, y)
 #define bf_htole(x) x
-#define short_htole(x, y) x
-#define int_htole(x, y) x
+
+#define uint16_letoh_ip(x, y)
+#define uint32_letoh_ip(x, y)
+#define uint64_letoh_ip(x, y)
+
+#define uint16_htole(x, y) x
+#define uint32_htole(x, y) x
+#define uint64_htole(x, y) x
+
 #endif
 
 struct bitfield {		/* defines a bitfield */
