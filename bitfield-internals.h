@@ -10,6 +10,9 @@
 #ifndef LONG_BIT
 #define LONG_BIT (unsigned int) (sizeof(unsigned long) * CHAR_BIT)
 #endif
+#ifndef LONG_LONG_BIT
+#define LONG_LONG_BIT (unsigned int) (sizeof(unsigned long long) * CHAR_BIT)
+#endif
 #define BITMASK(b) (1UL << ((b) % LONG_BIT))
 #define BITSLOT(b) ((b) / LONG_BIT)
 #define BITGET(a, b) (((a)->field[BITSLOT(b)] >> ((b) % LONG_BIT))  & 1UL)
