@@ -78,6 +78,8 @@ unsigned short *bf2short(const struct bitfield *input); /* return the bitfield a
 
 unsigned long *bf2long(const struct bitfield *input); /* return the bitfield as an array of unsigned long integers */
 
+unsigned long long *bf2ll(const struct bitfield *input);	/* return the bitfield as an array of unsigned longlong integers */
+
 uint8_t *bftouint8(const struct bitfield *input);
 
 uint16_t *bftouint16(const struct bitfield *input);
@@ -95,6 +97,8 @@ void bf2short_ip(const struct bitfield *input, unsigned short *output); /* conve
 #define bf2int_ip(X, Y) bftouint32_ip(X, (uint32_t *) Y)	/* converts a bitfield into an array of unsigned integers */
 
 void bf2long_ip(const struct bitfield *input, unsigned long *output);	/* converts a bitfield into an array of unsigned long integers */
+
+void bf2ll_ip(const struct bitfield *input, unsigned long long *output);	/* converts a bitfield into an array of unsigned longlong integers */
 
 void bftouint8_ip(const struct bitfield *input, uint8_t *output);
 
