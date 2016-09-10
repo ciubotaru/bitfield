@@ -33,6 +33,8 @@ struct bitfield *short2bf(const unsigned short *input, int size); /* write the c
 
 struct bitfield *long2bf(const unsigned long *input, int size); /* write the contents of an array of long integers into a bitfield structure */
 
+struct bitfield *ll2bf(const unsigned long long *input, int size);	/* write the contents of an array of longlong integers into a bitfield structure */
+
 struct bitfield *uint8tobf(const uint8_t *input, int size);
 
 struct bitfield *uint16tobf(const uint16_t *input, int size);
@@ -50,6 +52,8 @@ void short2bf_ip(const unsigned short *intput, struct bitfield *output); /* conv
 #define int2bf_ip(X, Y) uint32tobf_ip((const uint32_t *) X, Y) /* convert an array of integers into a bitfield structure */
 
 void long2bf_ip(const unsigned long *input, struct bitfield *output); /* convert an array of long integers into a bitfield structure */
+
+void ll2bf_ip(const unsigned long long *input, struct bitfield *output); /* convert an array of longlong integers into a bitfield structure */
 
 void uint8tobf_ip(const uint8_t *input, struct bitfield *output);
 

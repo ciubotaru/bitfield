@@ -184,6 +184,13 @@ struct bitfield *long2bf(const unsigned long *input, int size)
 	return output;
 }
 
+struct bitfield *ll2bf(const unsigned long long *input, int size)
+{
+	struct bitfield *output;
+	output = uint64tobf((uint64_t *) input, size);
+	return output;
+}
+
 struct bitfield *uint8tobf(const uint8_t *input, int size)
 {
 	struct bitfield *output = bfnew(size);
@@ -278,6 +285,11 @@ void long2bf_ip(const unsigned long *input, struct bitfield *output){
 		uint32tobf_ip((const uint32_t *) input, output);
 	else
 		uint64tobf_ip((const uint64_t *) input, output);
+}
+
+void ll2bf_ip(const unsigned long long *input, struct bitfield *output)
+{
+	uint64tobf_ip((const uint64_t *) input, output);
 }
 
 void uint8tobf_ip(const uint8_t *input, struct bitfield *output)
