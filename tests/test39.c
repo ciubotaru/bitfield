@@ -36,14 +36,12 @@ int main()
 	uint16_t *input_uint16 = malloc(bitnslots * sizeof(uint16_t));
 	bftouint16_ip(input, input_uint16);
 	/* check first function */
-	for (i = 0; i < bitnslots; i++) {
-		if (memcmp(&input_uint16[i], bfsub(input, i * 16,
-			  (i + 1) * 16)->field, sizeof(uint16_t)) != 0)
-		{
-			printf("%s\n", failed);
-			return 1;
-		}
+	int min_memory_length = (bitnslots * sizeof(uint16_t) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(uint16_t)) : BITNSLOTS(len) * sizeof(unsigned long);
+	if (memcmp(input_uint16, input->field, min_memory_length) != 0) {
+		printf("%s\n", failed);
+		return 1;
 	}
+
 	struct bitfield *output = bfnew(len);
 	uint16tobf_ip(input_uint16, output);
 	/* check second function */

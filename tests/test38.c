@@ -36,14 +36,12 @@ int main()
 	uint8_t *input_uint8 = malloc(bitnslots * sizeof(uint8_t));
 	bftouint8_ip(input, input_uint8);
 	/* check first function */
-	for (i = 0; i < bitnslots; i++) {
-		if (memcmp(&input_uint8[i], bfsub(input, i * 8,
-			  (i + 1) * 8)->field, sizeof(uint8_t)) != 0)
-		{
-			printf("%s\n", failed);
-			return 1;
-		}
+	int min_memory_length = (bitnslots * sizeof(uint8_t) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(uint8_t)) : BITNSLOTS(len) * sizeof(unsigned long);
+	if (memcmp(input_uint8, input->field, min_memory_length) != 0) {
+		printf("%s\n", failed);
+		return 1;
 	}
+
 	struct bitfield *output = bfnew(len);
 	uint8tobf_ip(input_uint8, output);
 	/* check second function */

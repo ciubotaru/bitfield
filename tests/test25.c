@@ -34,13 +34,10 @@ int main()
 			BITSET(input, i);
 	int bitnslots = (len - 1) / CHAR_BIT + 1;
 	unsigned char *input_char = bf2char(input);
-	for (i = 0; i < bitnslots; i++) {
-		if (input_char[i] !=
-		    (unsigned char)bfsub(input, i * CHAR_BIT,
-					(i + 1) * CHAR_BIT)->field[0]) {
-			printf("%s\n", failed);
-			return 1;
-		}
+	int min_memory_length = (bitnslots * sizeof(unsigned char) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(unsigned char)) : BITNSLOTS(len) * sizeof(unsigned long);
+	if (memcmp(input_char, input->field, min_memory_length) != 0) {
+		printf("%s\n", failed);
+		return 1;
 	}
 	printf("%s\n", passed);
 	return 0;

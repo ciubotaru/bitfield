@@ -36,13 +36,10 @@ int main()
 	uint64_t *input_uint64 = malloc(bitnslots * sizeof(uint64_t));
 	bftouint64_ip(input, input_uint64);
 	/* check first function */
-	for (i = 0; i < bitnslots; i++) {
-		if (memcmp(&input_uint64[i], bfsub(input, i * 64,
-			  (i + 1) * 64)->field, sizeof(uint64_t)) != 0)
-		{
-			printf("%s\n", failed);
-			return 1;
-		}
+	int min_memory_length = (bitnslots * sizeof(uint64_t) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(uint64_t)) : BITNSLOTS(len) * sizeof(unsigned long);
+	if (memcmp(input_uint64, input->field, min_memory_length) != 0) {
+		printf("%s\n", failed);
+		return 1;
 	}
 	struct bitfield *output = bfnew(len);
 	uint64tobf_ip(input_uint64, output);

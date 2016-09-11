@@ -41,12 +41,10 @@ int main()
 		if (rand() % 2)
 			input[bitnslots - 1] |= (unit << i);
 	struct bitfield *output = uint64tobf(input, len);
-	for (i = 0; i < bitnslots; i++) {
-		if (memcmp(&input[i], bfsub(output, i * 64,
-			  (i + 1) * 64)->field, sizeof(uint64_t)) != 0) {
-			printf("%s\n", failed);
-			return 1;
-		}
+	int min_memory_length = (bitnslots * sizeof(uint64_t) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(uint64_t)) : BITNSLOTS(len) * sizeof(unsigned long);
+	if (memcmp(input, output->field, min_memory_length) != 0) {
+		printf("%s\n", failed);
+		return 1;
 	}
 	printf("%s\n", passed);
 	return 0;

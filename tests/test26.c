@@ -36,12 +36,10 @@ int main()
 	unsigned char *input_char = malloc(bitnslots * sizeof(unsigned char));
 	bf2char_ip(input, input_char);
 	/* check first function */
-	for (i = 0; i < bitnslots; i++) {
-		if (input_char[i] != (unsigned char)bfsub(input, i * CHAR_BIT, (i + 1) * CHAR_BIT)->field[0])
-		{
-			printf("%s\n", failed);
-			return 1;
-		}
+	int min_memory_length = (bitnslots * sizeof(unsigned char) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(unsigned char)) : BITNSLOTS(len) * sizeof(unsigned long);
+	if (memcmp(input_char, input->field, min_memory_length) != 0) {
+		printf("%s\n", failed);
+		return 1;
 	}
 	struct bitfield *output = bfnew(len);
 	char2bf_ip(input_char, output);

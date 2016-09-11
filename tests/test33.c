@@ -34,13 +34,10 @@ int main()
 			BITSET(input, i);
 	int bitnslots = (len - 1) / 16 + 1;
 	uint16_t *input_int = bftouint16(input);
-	for (i = 0; i < bitnslots; i++) {
-		if (input_int[i] !=
-		    (uint16_t)bfsub(input, i * 16,
-					(i + 1) * 16)->field[0]) {
-			printf("%s\n", failed);
-			return 1;
-		}
+	int min_memory_length = (bitnslots * sizeof(uint16_t) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(uint16_t)) : BITNSLOTS(len) * sizeof(unsigned long);
+	if (memcmp(input_int, input->field, min_memory_length) != 0) {
+		printf("%s\n", failed);
+		return 1;
 	}
 	printf("%s\n", passed);
 	return 0;

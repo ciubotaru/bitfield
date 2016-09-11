@@ -36,12 +36,10 @@ int main()
 	unsigned short *input_short = malloc(bitnslots * sizeof(unsigned short));
 	bf2short_ip(input, input_short);
 	/* check first function */
-	for (i = 0; i < bitnslots; i++) {
-		if (input_short[i] != (unsigned short)bfsub(input, i * SHORT_BIT, (i + 1) * SHORT_BIT)->field[0])
-		{
-			printf("%s\n", failed);
-			return 1;
-		}
+	int min_memory_length = (bitnslots * sizeof(unsigned short) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(unsigned short)) : BITNSLOTS(len) * sizeof(unsigned long);
+	if (memcmp(input_short, input->field, min_memory_length) != 0) {
+		printf("%s\n", failed);
+		return 1;
 	}
 	struct bitfield *output = bfnew(len);
 	short2bf_ip(input_short, output);

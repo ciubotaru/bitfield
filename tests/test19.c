@@ -40,13 +40,10 @@ int main()
 		if (rand() % 2)
 			input[bitnslots - 1] |= (1U << i);
 	struct bitfield *output = int2bf(input, len);
-	for (i = 0; i < bitnslots; i++) {
-		if ((unsigned int)
-		    bfsub(output, i * INT_BIT,
-			  (i + 1) * INT_BIT)->field[0] != input[i]) {
-			printf("%s\n", failed);
-			return 1;
-		}
+	int min_memory_length = (bitnslots * sizeof(unsigned int) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(unsigned int)) : BITNSLOTS(len) * sizeof(unsigned long);
+	if (memcmp(input, output->field, min_memory_length) != 0) {
+		printf("%s\n", failed);
+		return 1;
 	}
 	printf("%s\n", passed);
 	return 0;
