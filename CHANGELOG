@@ -1,11 +1,20 @@
 Changelog
 
 0.6
-* Added bf2char(), bf2char_ip(), bf2short(), bf2short_ip(), bf2int_ip(),
-  char2bf(), char2bf_ip(), int2bf_ip(), bf2long_ip(), long2bf_ip(),
-  short2bf().3, short2bf_ip().3.
+* Completed converters to/from common data types. New functions: bf2char(),
+  bf2char_ip(), bf2short(), bf2short_ip(), bf2int_ip(), bf2long_ip(), bf2ll(),
+  bf2ll_ip(), char2bf(), char2bf_ip(), short2bf(), short2bf_ip(), int2bf_ip(),
+  long2bf_ip(), ll2bf(), ll2bf_ip().
+* Added converters to/from fixed-width data types: bftouint8(), bftouint8_ip(),
+  bftouint16(), bftouint16_ip(), bftouint32(), bftouint32_ip(), bftouint64(),
+  bftouint64_ip(), uint8tobf(), uint8tobf_ip(), uint16tobf(), uint16tobf_ip(),
+  uint32tobf(), uint32tobf_ip(), uint64tobf(), uint64tobf_ip().
 * bfprint() splitted into bfprint_lsb() and bfrint_msb().
+* Minor optimization in bfshift().
 * bfcat() modified to accept variable number of arguments.
+* Fixed some memory leaks.
+* Added some magic to makefiles to rebuild on change only.
+* Cleanup in man pages.
 * Added support for big-endian architectures.
 
 0.5.1
