@@ -1,0 +1,18 @@
+EXAMPLES=bfnormalize int2bf random rule30 bfcat
+LIBS=-L.. -I..
+
+examples: build-examples run-examples
+build-examples:
+	for i in $(EXAMPLES); do \
+	$(CC) $(CFLAGS) -Wl,-rpath=$(CURDIR) -o $$i $$i.c $(LIBS) -lbitfield; done
+
+run-examples:
+	for i in $(EXAMPLES); do \
+	./$$i; \
+	done
+
+clean:
+	rm -rvf $(EXAMPLES)
+
+distclean:
+	rm Makefile

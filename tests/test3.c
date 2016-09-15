@@ -30,8 +30,6 @@ int main()
 		printf(".");
 	struct bitfield *input1 = bfnew(len);
 	struct bitfield *input2 = bfnew(len);
-	struct bitfield *output1 = bfnew(len);
-	struct bitfield *output2 = bfnew(len);
 	for (i = 0; i < len; i++) {
 		if (rand() % 2)
 			BITSET(input1, i);
@@ -39,8 +37,8 @@ int main()
 			BITSET(input2, i);
 	}
 
-	output1 = bfxor(input1, input2);
-	output2 = bfand(bfor(input1, input2), bfnot(bfand(input1, input2)));
+	struct bitfield *output1 = bfxor(input1, input2);
+	struct bitfield *output2 = bfand(bfor(input1, input2), bfnot(bfand(input1, input2)));
 	if (bfcmp(output1, output2, NULL) != 0) {
 		printf("%s\n", failed);
 		return 1;

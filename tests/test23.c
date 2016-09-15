@@ -1,5 +1,5 @@
 /**
- * File name: tests/test19.c
+ * File name: tests/test23.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
@@ -14,37 +14,41 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing int2bf() */
+/* Testing bf2int_ip() and int2bf_ip() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j;		//counters
+	int i;			//counter
 	int len = 80;
-	char *msg = "Testing int2bf()";
+	char *msg = "Testing bf2int_ip() and int2bf_ip()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int bitnslots = (len - 1) / INT_BIT + 1;
-	unsigned int *input = calloc(1, bitnslots * sizeof(unsigned int));
-	for (i = 0; i < bitnslots - 1; i++) {
-		for (j = 0; j < INT_BIT; j++) {
-			if (rand() % 2)
-				input[i] |= (1U << j);
-		}
-	}
-	for (i = 0; i < len % INT_BIT; i++)
+	struct bitfield *input = bfnew(len);
+	for (i = 0; i < len; i++)
 		if (rand() % 2)
-			input[bitnslots - 1] |= (1U << i);
-	struct bitfield *output = int2bf(input, len);
+			BITSET(input, i);
+	int bitnslots = (len - 1) / INT_BIT + 1;
+	unsigned int *input_int = malloc(bitnslots * sizeof(unsigned int));
+	bf2int_ip(input, input_int);
+	/* check first function */
 	int min_memory_length = (bitnslots * sizeof(unsigned int) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(unsigned int)) : BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input, output->field, min_memory_length) != 0) {
+	if (memcmp(input_int, input->field, min_memory_length) != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}
+	struct bitfield *output = bfnew(len);
+	int2bf_ip(input_int, output);
+	/* check second function */
+	if (bfcmp(input, output, NULL) != 0)
+		{
+			printf("%s\n", failed);
+			return 1;
+		}
 	printf("%s\n", passed);
 	return 0;
 }

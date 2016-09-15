@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([bitfield], [0.5.1], [vitalie@ciubotaru.tk])
+AC_INIT([bitfield], [0.6.0], [vitalie@ciubotaru.tk])
 AC_CONFIG_SRCDIR([bitfield.c])
 AC_CONFIG_HEADERS([config.h])
 
@@ -26,4 +26,4 @@ AC_C_INLINE
 AC_FUNC_MALLOC
 
 #AC_CONFIG_FILES([Makefile])
-AC_OUTPUT([Makefile] [tests/Makefile] [man/Makefile])
+AC_OUTPUT([Makefile] [tests/Makefile] [man/Makefile] [examples/Makefile])

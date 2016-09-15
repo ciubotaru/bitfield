@@ -1,4 +1,4 @@
-.TH bfclone 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.TH bfcmp 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
 .SH NAME
 bfcmp \- compare two bitfields.
 .SH SYNOPSIS
@@ -10,7 +10,7 @@ bfcmp \- compare two bitfields.
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
 .sp
-The \fBbfclone()\fR function takes pointers to two bitfields, \fIinput1\fR and \fIinput2\fR, and a pointer to a string \fIerrmsg\fR, and compares them bit-to-bit. The function returns 0 if the two bitfields are identical and 1 otherwise. In case the bitfields are different or have different size, the function also returns an error message \fIerrmsg\fR.
+The \fBbfcmp()\fR function takes pointers to two bitfields, \fIinput1\fR and \fIinput2\fR, and a pointer to a string \fIerrmsg\fR, and compares them bit-to-bit. The function returns 0 if the two bitfields are identical and 1 otherwise. In case the bitfields are different or have different size, the function also returns an error message \fIerrmsg\fR.
 .sp
 .SH "SEE ALSO"
 For the full list of bitfield functions and their descriptions, see manual page for

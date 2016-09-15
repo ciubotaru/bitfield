@@ -1,4 +1,4 @@
-.TH bitfield 3 "JULY 1, 2016" "bitfield 0.5.0" "Bitfield manipulation library"
+.TH bitfield 3 "SEPTEMBER 10, 2016" "bitfield 0.6.0" "Bitfield manipulation library"
 .SH NAME
 bitfield \- API for manipulating bit arrays.
 .SH DESCRIPTION
@@ -10,372 +10,485 @@ is a data structure for storing bit arrays. It has two elements: an array of
 unsigned long integers \fIfield\fR for storing the values of bits and an 
 integer \fIsize\fR for storing the number of bits in the array.
 .SH EXPORTS
+For details of each function, refer to its manual page.
 .LP
-.B
-bf2long()
-.br
-.RS
 .LP
-converts the bit array to an array of long integers. For details, see manual 
-page for
-.BR bf2long (3).
-.RE
-.LP
-.B
-bf2str()
-.br
-.RS
-.LP
-converts a bitfield into a character string of ones and zeroes. For details, 
-see manual page for
-.BR bf2str (3).
-.RE
-.LP
-.B
-bf2str_ip()
-.br
-.RS
-.LP
-converts a bitfield into a character string of ones and zeroes "in-place". For 
-details, see manual page for
-.BR bf2str_ip (3).
-.RE
-.LP
-.B
-bfand()
-.br
-.RS
-.LP
-performs bitwise AND over a pair of bitfields. For details, see manual page for
-.BR bfand (3).
-.RE
-.LP
-.B
-bfcat()
-.br
-.RS
-.LP
-concatenates two bitfields into one. For details, see manual page for
-.BR bfcat (3).
-.RE
-.LP
-.B
-bfclearall()
-.br
-.RS
-.LP
-clears all bits in a bitfield (i.e. fills it with zeroes). For details, see 
-manual page for
-.BR bfclearall (3).
-.RE
-.LP
-.B
-bfclearbit()
-.br
-.RS
-.LP
-clears one bit in a bitfield. For details, see manual page for
-.BR bfclearbit (3).
-.RE
-.LP
-.B
-bfclone()
-.br
-.RS
-.LP
-creates a copy of an existing bitfield. For details, see manual page for
-.BR bfclone (3).
-.RE
-.LP
-.B
-bfcmp()
-.br
-.RS
-.LP
-compares two bitfields and returns 0 if same or non-zero and error message if 
-different. For details, see manual page for
-.BR bfcmp (3).
-.RE
-.LP
-.B
-bfcpy()
-.br
-.RS
-.LP
-copies the contents of a bitfield into another pre-existing bitfield. For 
-details, see manual page for
-.BR bfcpy (3).
-.RE
-.LP
-.B
-bfdel()
-.br
-.RS
-.LP
-destroys a bitfield structure and frees memory. For details, see manual page for
-.BR bfdel (3).
-.RE
-.LP
-.B
-bfgetbit()
-.br
-.RS
-.LP
-checks the state of a bit in a bitfield. For details, see manual page for
-.BR bfgetbit (3).
-.RE
-.LP
-.B
-bfhamming()
-.br
-.RS
-.LP
-counts the Humming distance between two bitfields. For details, see manual page
-for
-.BR bfhamming (3).
-.RE
-.LP
-.B
-bfisempty()
-.br
-.RS
-.LP
-checks whether all bit of an array are unset. For details, see manual page for
-.BR bfisempty (3).
-.RE
+Creating and deleting bit arrays:
 .LP
 .B
 bfnew()
 .br
 .RS
-.LP
-creates an empty bitfield structure, and returns a pointer to it. For details, 
-see manual page for
-.BR bfnew (3).
+creates an empty bitfield structure, and returns a pointer to it
 .RE
 .LP
 .B
 bfnew_ones()
 .br
 .RS
-.LP
-creates a bitfield structure, sets all its bits to true with and returns a 
-pointer to it. For details, see manual page for
-.BR bfnew_ones (3).
+creates a bitfield structure, sets all its bits and returns a pointer to it
 .RE
 .LP
 .B
 bfnew_quick()
 .br
 .RS
+creates a bitfield structure and returns a pointer to it
+.RE
 .LP
-creates a [possibly non-empty] bitfield structure and returns a pointer to it. 
-For details, see manual page for
-.BR bfnew_quick (3).
+.B
+bfdel()
+.br
+.RS
+destroys a bitfield structure and frees memory
+.RE
+.LP
+Operations with bit arrays:
+.LP
+.B
+bfresize()
+.br
+.RS
+resizes an existing bitfield
+.RE
+.LP
+.B
+bfcat()
+.br
+.RS
+concatenates several bitfields into one
+.RE
+.LP
+.B
+bfclearall()
+.br
+.RS
+clears all bits in a bitfield (i.e. fills it with zeroes)
+.RE
+.LP
+.B
+bfclone()
+.br
+.RS
+creates a copy of an existing bitfield
+.RE
+.LP
+.B
+bfcpy()
+.br
+.RS
+copies the contents of a bitfield into another pre-existing bitfield
+.RE
+.LP
+.B
+bfhamming()
+.br
+.RS
+counts the Hamming distance between two bitfields
+.RE
+.LP
+.B
+bfisempty()
+.br
+.RS
+checks whether all bit of an array are unset
 .RE
 .LP
 .B
 bfnormalize()
 .br
 .RS
-.LP
-treats a bitfield as a closed loop, shifts it to produce the smallest binary 
-number and return the result in new bitfield. For details, see manual page for
-.BR bfnormalize (3).
-.RE
-.LP
-.B
-bfnot()
-.br
-.RS
-.LP
-reverses all bits in a bitfield and return the result in new bitfield. For 
-details, see manual page for
-.BR bfnot (3).
-.RE
-.LP
-.B
-bfnot_ip()
-.br
-.RS
-.LP
-reverses all bits in a bitfield. For details, see manual page for
-.BR bfnot_ip (3).
-.RE
-.LP
-.B
-bfor()
-.br
-.RS
-.LP
-performs bitwise inclusive OR over a pair of bitfields. For details, see manual 
-page for
-.BR bfor (3).
+represents a bitfield as a smallest value of a closed ring
 .RE
 .LP
 .B
 bfpopcount()
 .br
 .RS
-.LP
-counts the set bits in a bit array. For details, see manual page for
-.BR bfpopcount (3).
+counts the set bits in a bitfield
 .RE
 .LP
 .B
 bfpos()
 .br
 .RS
-.LP
-checks whether an array of bits contains a sub-array. For details, see manual 
-page for
-.BR bfpos (3).
-.RE
-.LP
-.B
-bfprint()
-.br
-.RS
-.LP
-prints a bitfield as a series of ones and zeroes. For details, see manual page 
-for
-.BR bfprint (3).
-.RE
-.LP
-.B
-bfresize()
-.br
-.RS
-.LP
-resizes an existing bitfield. For details, see manual page for
-.BR bfresize (3).
+checks whether an array of bits contains a sub-array
 .RE
 .LP
 .B
 bfrev()
 .br
 .RS
-.LP
-reverses the order of bits of a bitfield and returns the result in new 
-bitfield. For details, see manual page for
-.BR bfrev (3).
+reverses the order of bits in a bitfield and returns result in new bitfield
 .RE
 .LP
 .B
 bfrev_ip()
 .br
 .RS
-.LP
-reverses the order of bits of an existing bitfield. For details, see manual 
-page for
-.BR bfrev_ip (3).
+reverses the order of bits in an existing bitfield
 .RE
 .LP
 .B
 bfsetall()
 .br
 .RS
-.LP
-sets all bits in a bitfield (i.e. fills it with ones). For details, see manual 
-page for
-.BR bfsetall (3).
-.RE
-.LP
-.B
-bfsetbit()
-.br
-.RS
-.LP
-sets one bit in a bitfield. For details, see manual page for
-.BR bfsetbit (3).
+sets all bits in a bitfield (i.e. fills it with ones)
 .RE
 .LP
 .B
 bfshift()
 .br
 .RS
-.LP
-circular-shifts the contents of a bitfield and returns the result in new 
-bitfield. For details, see manual page for
-.BR bfshift (3).
+circular-shifts the contents of a bitfield and returns the result in new
+bitfield
 .RE
 .LP
 .B
 bfshift_ip()
 .br
 .RS
-.LP
-circular-shifts the contents of a bitfield. For details, see manual page for
-.BR bfshift_ip (3).
-.RE
-.LP
-.B
-bfsize()
-.br
-.RS
-.LP
-obtains the number of bits of a bitfield. For details, see manual page for
-.BR bfsize (3).
+circular-shifts the contents of an existing bitfield
 .RE
 .LP
 .B
 bfsub()
 .br
 .RS
+extracts a sub-bitfield in a new bitfield
+.RE
 .LP
-extracts a sub-bitfield from a bitfield. For details, see manual page for
-.BR bfsub (3).
+Operations with individual bits:
+.LP
+.B
+bfgetbit()
+.br
+.RS
+checks the state of a bit in a bitfield
+.RE
+.LP
+.B
+bfsetbit()
+.br
+.RS
+sets one bit in a bitfield
+.RE
+.LP
+.B
+bfclearbit()
+.br
+.RS
+clears one bit in a bitfield
 .RE
 .LP
 .B
 bftogglebit()
 .br
 .RS
+toggles (i.e. reverses the state of) a bit in a bitfield
+.RE
 .LP
-toggles (i.e. reverses the state of) a bit in a bitfield. For details, see 
-manual page for
-.BR bftogglebit (3).
+Printing bit arrays:
+.LP
+.B
+bfprint_lsb()
+.br
+.RS
+prints a bitfield as a series of ones and zeroes, left to right, the least
+significant bit first
+.RE
+.LP
+.B
+bfprint_msb()
+.br
+.RS
+prints a bitfield as a series of ones and zeroes, left to right, the most
+significant bit first
+.RE
+.LP
+Logical operations with bit arrays:
+.LP
+.B
+bfand()
+.br
+.RS
+performs bitwise AND over a pair of bitfields
+.RE
+.LP
+.B
+bfnot()
+.br
+.RS
+reverses all bits in a bitfield and return the result in a new bitfield
+.RE
+.LP
+.B
+bfnot_ip()
+.br
+.RS
+reverses all bits in an existing bitfield
+.RE
+.LP
+.B
+bfor()
+.br
+.RS
+performs bitwise inclusive OR over a pair of bitfields
 .RE
 .LP
 .B
 bfxor()
 .br
 .RS
-.LP
-performs bitwise exclusive OR over a pair of bitfields. For details, see manual 
-page for
-.BR bfxor (3).
+performs bitwise exclusive OR over a pair of bitfields
 .RE
 .LP
 .B
-long2bf()
+bfcmp()
 .br
 .RS
+compares two bitfields and returns 0 if same or non-zero and error
+message if different
+.RE
 .LP
-converts an array of long integers into a bitfield structure. For details, see 
-manual page for
-.BR long2bf (3).
+Bitfield-to-something converters:
+.LP
+.B
+bf2char()
+.br
+.RS
+converts a bitfield structure into an array of unsigned chars
+.RE
+.LP
+.B
+bf2str()
+.br
+.RS
+converts into a character string of '1's and '0's
+.RE
+.LP
+.B
+bf2short()
+.br
+.RS
+converts into an array of short integers
+.RE
+.LP
+.B
+bf2int()
+.br
+.RS
+converts into an array of integers
+.RE
+.LP
+.B
+bf2long()
+.br
+.RS
+converts into an array of long integers
+.RE
+.LP
+.B
+bf2ll()
+.br
+.RS
+converts into an array of long long integers
+.RE
+.LP
+.B
+bftouint8()
+.br
+.RS
+converts into an array of uint8_t
+.RE
+.LP
+.B
+bftouint16()
+.br
+.RS
+converts into an array of uint16_t
+.RE
+.LP
+.B
+bftouint32()
+.br
+.RS
+converts into an array of uint32_t
+.RE
+.LP
+.B
+bftouint64()
+.br
+.RS
+converts into an array of uin64_t
+.RE
+.LP
+"In-place" bitfield-to-something converters are same as above, except that
+instead of creating a new array, these functions fill an existing one:
+.LP
+.B
+bf2char_ip()
+.RE
+.LP
+.B
+bf2str_ip()
+.RE
+.LP
+.B
+bf2short_ip()
+.RE
+.LP
+.B
+bf2int_ip()
+.RE
+.LP
+.B
+bf2long_ip()
+.RE
+.LP
+.B
+bf2ll_ip()
+.RE
+.LP
+.B
+bftouint8_ip()
+.RE
+.LP
+.B
+bftouint16_ip()
+.RE
+.LP
+.B
+bftouint32_ip()
+.RE
+.LP
+.B
+bftouint64_ip()
+.RE
+.LP
+Something-to-bitfield converters:
+.LP
+.B
+char2bf()
+.br
+.RS
+converts an array of unsigned chars into a bitfield structure
 .RE
 .LP
 .B
 str2bf()
 .br
 .RS
+converts a character string of '1's and '0's
+.RE
 .LP
-converts a character string of ones and zeroes into a bitfield. For details, 
-see manual page for
-.BR str2bf (3).
+.B
+short2bf()
+.br
+.RS
+converts an array of short integers
+.RE
+.LP
+.B
+int2bf()
+.br
+.RS
+converts an array of integers
+.RE
+.LP
+.B
+long2bf()
+.br
+.RS
+converts an array of long integers
+.RE
+.LP
+.B
+ll2bf()
+.br
+.RS
+converts an array of long long integers
+.RE
+.LP
+.B
+uint8tobf()
+.br
+.RS
+converts an array of uint8_t
+.RE
+.LP
+.B
+uint16tobf()
+.br
+.RS
+converts an array of uint16_t
+.RE
+.LP
+.B
+uint32tobf()
+.br
+.RS
+converts an array of uint32_t
+.RE
+.LP
+.B
+uint64tobf()
+.br
+.RS
+converts an array of uint64_t
+.RE
+.LP
+"In-place" something-to-bitfield converters are same as above, except that
+instead of creating a new bitfield, these functions fill an existing one:
+.LP
+.B
+char2bf_ip()
 .RE
 .LP
 .B
 str2bf_ip()
+.RE
+.LP
+.B
+short2bf_ip()
+.RE
+.LP
+.B
+int2bf_ip()
+.RE
+.LP
+.B
+long2bf_ip()
+.RE
+.LP
+.B
+ll2bf_ip()
+.RE
+.LP
+.B
+uint8tobf_ip()
+.RE
+.LP
+.B
+uint16tobf_ip()
+.RE
+.LP
+.B
+uint32tobf_ip()
+.RE
+.LP
+.B
+uint64tobf_ip()
+.RE
+.LP
+Miscellaneous:
+.LP
+.B
+bfsize()
 .br
 .RS
 .LP
-converts a character string of ones and zeroes into a bitfield "in-place". For 
-details, see manual page for
-.BR str2bf_ip (3).
+obtains the number of bits of a bitfield
 .RE
 .SH AUTHOR
 Vitalie CIUBOTARU
-

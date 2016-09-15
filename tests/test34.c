@@ -1,10 +1,10 @@
 /**
- * File name: tests/test19.c
+ * File name: tests/test34.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
  * License: General Public License, version 3 or later
- * Date: April 1, 2016
+ * Date: September 10, 2016
 **/
 
 #include <stdio.h>
@@ -14,33 +14,34 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing int2bf() */
+/* Testing uint32tobf() */
 
 int main()
 {
+	uint32_t unit = 1;
 	srand((unsigned)time(NULL));
 	int i, j;		//counters
 	int len = 80;
-	char *msg = "Testing int2bf()";
+	char *msg = "Testing uint32tobf()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int bitnslots = (len - 1) / INT_BIT + 1;
-	unsigned int *input = calloc(1, bitnslots * sizeof(unsigned int));
+	int bitnslots = (len - 1) / 32 + 1;
+	uint32_t *input = calloc(1, bitnslots * sizeof(uint32_t));
 	for (i = 0; i < bitnslots - 1; i++) {
-		for (j = 0; j < INT_BIT; j++) {
+		for (j = 0; j < 32; j++) {
 			if (rand() % 2)
-				input[i] |= (1U << j);
+				input[i] |= (unit << j);
 		}
 	}
-	for (i = 0; i < len % INT_BIT; i++)
+	for (i = 0; i < len % 32; i++)
 		if (rand() % 2)
-			input[bitnslots - 1] |= (1U << i);
-	struct bitfield *output = int2bf(input, len);
-	int min_memory_length = (bitnslots * sizeof(unsigned int) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(unsigned int)) : BITNSLOTS(len) * sizeof(unsigned long);
+			input[bitnslots - 1] |= (unit << i);
+	struct bitfield *output = uint32tobf(input, len);
+	int min_memory_length = (bitnslots * sizeof(uint32_t) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(uint32_t)) : BITNSLOTS(len) * sizeof(unsigned long);
 	if (memcmp(input, output->field, min_memory_length) != 0) {
 		printf("%s\n", failed);
 		return 1;

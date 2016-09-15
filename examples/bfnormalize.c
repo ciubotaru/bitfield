@@ -22,6 +22,7 @@
 
 int main()
 {
+	printf("Representing a random array of bits as the least binary number...\n");
 	srand(time(NULL));
 	int len = 80;		/* terminal width */
 	int len_chars = (len - 2) / 2;	/* fit 2 strings and a '->' in one line */
@@ -29,16 +30,19 @@ int main()
 	int len_ints = (len_chars - 1) / int_size + 1;	/* nr of ints to hold one len_str */
 	int i, j;
 	unsigned int *input_ints = malloc(sizeof(unsigned int) * len_ints);
+	struct bitfield *input, *output;
 	for (i = 0; i < 50; i++) {
 		for (j = 0; j < len_ints; j++)
 			input_ints[j] = rand();
-		struct bitfield *input = int2bf(input_ints, len_chars);
-		struct bitfield *output = bfnormalize(input);
-		bfprint(input);
+		input = int2bf(input_ints, len_chars);
+		output = bfnormalize(input);
+		bfprint_msb(input);
 		printf("->");
-		bfprint(output);
+		bfprint_msb(output);
 		printf("\n");
-		bfdel(input);
-		bfdel(output);
 	}
+	bfdel(input);
+	bfdel(output);
+	printf("---\n");
+	return 0;
 }

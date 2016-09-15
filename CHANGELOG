@@ -1,4 +1,25 @@
 Changelog
+
+0.6
+* Completed converters to/from common data types. New functions: bf2char(),
+  bf2char_ip(), bf2short(), bf2short_ip(), bf2int_ip(), bf2long_ip(), bf2ll(),
+  bf2ll_ip(), char2bf(), char2bf_ip(), short2bf(), short2bf_ip(), int2bf_ip(),
+  long2bf_ip(), ll2bf(), ll2bf_ip().
+* Added converters to/from fixed-width data types: bftouint8(), bftouint8_ip(),
+  bftouint16(), bftouint16_ip(), bftouint32(), bftouint32_ip(), bftouint64(),
+  bftouint64_ip(), uint8tobf(), uint8tobf_ip(), uint16tobf(), uint16tobf_ip(),
+  uint32tobf(), uint32tobf_ip(), uint64tobf(), uint64tobf_ip().
+* bfprint() splitted into bfprint_lsb() and bfrint_msb().
+* Minor optimization in bfshift().
+* bfcat() modified to accept variable number of arguments.
+* Fixed some memory leaks.
+* Added some magic to makefiles to rebuild on change only.
+* Cleanup in man pages.
+* Added support for big-endian architectures.
+
+0.5.1
+* Fixed error in bfnormalize().
+
 0.5
 * Added bf2int(), int2bf() and bfnormalize().
 
@@ -12,15 +33,15 @@ Changelog
 * Changed the algo of bfrev() to a quicker one.
 
 0.2
-* Added bfcmp(), bfsub(), bfshift(), bfclearall(), bfsetall(), bfresize(), 
-  bfsetbit(), bfclearbit(), bfrev(), bfrev_ip(), bfsize(), bfgetbit(), 
+* Added bfcmp(), bfsub(), bfshift(), bfclearall(), bfsetall(), bfresize(),
+  bfsetbit(), bfclearbit(), bfrev(), bfrev_ip(), bfsize(), bfgetbit(),
   bftogglebit(), bfpopcount(), bfhamming(), bf2long() and bfisempty().
 * Renamed char2bf() to str2bf() and bf2char() to bf2str() (thus incompatible
   with versions 0.1.x).
 
 0.1.1
-* Added bfnew_quick(), bfnew_ones(), bfclone(), bfcat(), bfshift_ip(), 
-bfnot_ip(), bfcleartail(), bfcpy().
+* Added bfnew_quick(), bfnew_ones(), bfclone(), bfcat(), bfshift_ip(),
+  bfnot_ip(), bfcleartail(), bfcpy().
 
 0.1
 * Initial release.

@@ -49,12 +49,10 @@ int main()
 		nr_ones_tail = len - nr_zeroes - nr_ones_head;
 		ones_tail = bfnew_ones(nr_ones_tail);
 
-		input = bfcat(ones_head, zeroes);
-		input = bfcat(input, ones_tail);
+		input = bfcat(ones_head, zeroes, ones_tail);
 //bfprint(input);
 //printf("\n");
-		check = bfcat(ones_head, ones_tail);
-		check = bfcat(check, zeroes);
+		check = bfcat(ones_head, ones_tail, zeroes);
 //bfprint(check);
 //printf("\n");
 		output = bfnormalize(input);
