@@ -29,7 +29,8 @@ int main()
 	for (i = 0; i < dots; i++)
 		printf(".");
 	int bitnslots = (len - 1) / LONG_LONG_BIT + 1;
-	unsigned long long *input = calloc(1, bitnslots * sizeof(unsigned long long));
+	unsigned long long *input =
+	    calloc(1, bitnslots * sizeof(unsigned long long));
 	for (i = 0; i < bitnslots - 1; i++) {
 		for (j = 0; j < LONG_LONG_BIT; j++) {
 			if (rand() % 2)
@@ -40,7 +41,12 @@ int main()
 		if (rand() % 2)
 			input[bitnslots - 1] |= (1ULL << i);
 	struct bitfield *output = ll2bf(input, len);
-	int min_memory_length = (bitnslots * sizeof(unsigned long long) < BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots * sizeof(unsigned long long)) : BITNSLOTS(len) * sizeof(unsigned long);
+	int min_memory_length =
+	    (bitnslots * sizeof(unsigned long long) <
+	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
+							sizeof(unsigned long
+							       long)) :
+	    BITNSLOTS(len) * sizeof(unsigned long);
 	if (memcmp(input, output->field, min_memory_length) != 0) {
 		printf("%s\n", failed);
 		return 1;

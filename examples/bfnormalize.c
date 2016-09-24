@@ -22,7 +22,8 @@
 
 int main()
 {
-	printf("Representing a random array of bits as the least binary number...\n");
+	printf
+	    ("Representing a random array of bits as the least binary number...\n");
 	srand(time(NULL));
 	int len = 80;		/* terminal width */
 	int len_chars = (len - 2) / 2;	/* fit 2 strings and a '->' in one line */

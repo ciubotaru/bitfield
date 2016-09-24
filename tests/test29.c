@@ -33,10 +33,15 @@ int main()
 		if (rand() % 2)
 			BITSET(input, i);
 	int bitnslots = (len - 1) / SHORT_BIT + 1;
-	unsigned short *input_short = malloc(bitnslots * sizeof(unsigned short));
+	unsigned short *input_short =
+	    malloc(bitnslots * sizeof(unsigned short));
 	bf2short_ip(input, input_short);
 	/* check first function */
-	int min_memory_length = (bitnslots * sizeof(unsigned short) < BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots * sizeof(unsigned short)) : BITNSLOTS(len) * sizeof(unsigned long);
+	int min_memory_length =
+	    (bitnslots * sizeof(unsigned short) <
+	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
+							sizeof(unsigned short))
+	    : BITNSLOTS(len) * sizeof(unsigned long);
 	if (memcmp(input_short, input->field, min_memory_length) != 0) {
 		printf("%s\n", failed);
 		return 1;
@@ -44,11 +49,10 @@ int main()
 	struct bitfield *output = bfnew(len);
 	short2bf_ip(input_short, output);
 	/* check second function */
-	if (bfcmp(input, output, NULL) != 0)
-		{
-			printf("%s\n", failed);
-			return 1;
-		}
+	if (bfcmp(input, output, NULL) != 0) {
+		printf("%s\n", failed);
+		return 1;
+	}
 	printf("%s\n", passed);
 	return 0;
 }

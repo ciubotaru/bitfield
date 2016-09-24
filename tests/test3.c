@@ -38,7 +38,8 @@ int main()
 	}
 
 	struct bitfield *output1 = bfxor(input1, input2);
-	struct bitfield *output2 = bfand(bfor(input1, input2), bfnot(bfand(input1, input2)));
+	struct bitfield *output2 =
+	    bfand(bfor(input1, input2), bfnot(bfand(input1, input2)));
 	if (bfcmp(output1, output2, NULL) != 0) {
 		printf("%s\n", failed);
 		return 1;

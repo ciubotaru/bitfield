@@ -34,7 +34,11 @@ int main()
 			BITSET(input, i);
 	int bitnslots = (len - 1) / LONG_LONG_BIT + 1;
 	unsigned long long *input_ll = bf2ll(input);
-	int min_memory_length = (bitnslots * sizeof(uint64_t) < BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots * sizeof(uint64_t)) : BITNSLOTS(len) * sizeof(unsigned long);
+	int min_memory_length =
+	    (bitnslots * sizeof(uint64_t) <
+	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
+							sizeof(uint64_t)) :
+	    BITNSLOTS(len) * sizeof(unsigned long);
 	if (memcmp(input_ll, input->field, min_memory_length) != 0) {
 		printf("%s\n", failed);
 		return 1;

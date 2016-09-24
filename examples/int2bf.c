@@ -22,9 +22,10 @@
 
 int main()
 {
-	printf("Converting a random integer into a bit array of fixed length...\n");
+	printf
+	    ("Converting a random integer into a bit array of fixed length...\n");
 	srand(time(NULL));
-	int bitfield_size = sizeof(unsigned int) * CHAR_BIT; /* equal to the number of bits in an unsigned int */
+	int bitfield_size = sizeof(unsigned int) * CHAR_BIT;	/* equal to the number of bits in an unsigned int */
 	int i;
 	unsigned int input;
 	struct bitfield *output = bfnew(bitfield_size);
