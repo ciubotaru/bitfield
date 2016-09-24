@@ -17,7 +17,7 @@ AC_PROG_LN_S
 #AC_CHECK_LIB([rt], [main])
 
 # Checks for header files.
-AC_CHECK_HEADERS([limits.h stdlib.h string.h])
+AC_CHECK_HEADERS([limits.h stdlib.h string.h endian.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE

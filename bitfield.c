@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <assert.h>
+#include <endian.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
