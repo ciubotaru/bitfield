@@ -36,7 +36,7 @@ int main()
 	unsigned char *input_char = malloc(bitnslots * sizeof(unsigned char));
 	bf2char_ip(input, input_char);
 	/* check first function */
-	int min_memory_length = (bitnslots * sizeof(unsigned char) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(unsigned char)) : BITNSLOTS(len) * sizeof(unsigned long);
+	int min_memory_length = (bitnslots * sizeof(unsigned char) < BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots * sizeof(unsigned char)) : BITNSLOTS(len) * sizeof(unsigned long);
 	if (memcmp(input_char, input->field, min_memory_length) != 0) {
 		printf("%s\n", failed);
 		return 1;
