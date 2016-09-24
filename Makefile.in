@@ -16,7 +16,7 @@ EXAMPLEDIR=examples
 LD_LIBRARY_PATH := $(shell pwd):$(LD_LIBRARY_PATH)
 export LD_LIBRARY_PATH
 
-.PHONY: check man shared static install install-lib install-man install-header clean distclean uninstall uninstall-lib uninstall-man uninstall-header
+.PHONY: test check man shared static install install-lib install-man install-header clean distclean uninstall uninstall-lib uninstall-man uninstall-header
 
 all: shared static
 
@@ -30,6 +30,8 @@ static: libbitfield.a
 libbitfield.a: bitfield.c
 	$(CC) $(CFLAGS) -c bitfield.c -o bf-static.o $(LIBS)
 	$(AR) rcs libbitfield.a bf-static.o
+
+test: check
 
 check:
 	$(MAKE) -C $(TESTDIR)

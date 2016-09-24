@@ -21,7 +21,7 @@ replace "make" with "make static" or "make shared".
 
 To test the compiled library:
 
-    $ make check
+    $ make test
 
 To build and run some example applications:
 
