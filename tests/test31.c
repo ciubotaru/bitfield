@@ -34,7 +34,11 @@ int main()
 			BITSET(input, i);
 	int bitnslots = (len - 1) / 8 + 1;
 	uint8_t *input_int = bftouint8(input);
-	int min_memory_length = (bitnslots * sizeof(uint8_t) - BITNSLOTS(len) * sizeof(unsigned long) < 0) ? (bitnslots * sizeof(uint8_t)) : BITNSLOTS(len) * sizeof(unsigned long);
+	int min_memory_length =
+	    (bitnslots * sizeof(uint8_t) <
+	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
+							sizeof(uint8_t)) :
+	    BITNSLOTS(len) * sizeof(unsigned long);
 	if (memcmp(input_int, input->field, min_memory_length) != 0) {
 		printf("%s\n", failed);
 		return 1;

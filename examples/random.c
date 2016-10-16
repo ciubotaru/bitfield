@@ -16,7 +16,8 @@
 
 int main()
 {
-	printf("Generating a long random sequence and storing it in a bit array...\n");
+	printf
+	    ("Generating a long random sequence and storing it in a bit array...\n");
 	srand(time(NULL));
 	int size = 80;
 	int i;

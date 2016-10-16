@@ -37,8 +37,7 @@ int main()
 	bf2long_ip(input, input_long);
 	/* check first function */
 	for (i = 0; i < bitnslots; i++) {
-		if (input_long[i] != input->field[i])
-		{
+		if (input_long[i] != input->field[i]) {
 			printf("%s\n", failed);
 			return 1;
 		}
@@ -46,11 +45,10 @@ int main()
 	struct bitfield *output = bfnew(len);
 	long2bf_ip(input_long, output);
 	/* check second function */
-	if (bfcmp(input, output, NULL) != 0)
-		{
-			printf("%s\n", failed);
-			return 1;
-		}
+	if (bfcmp(input, output, NULL) != 0) {
+		printf("%s\n", failed);
+		return 1;
+	}
 	printf("%s\n", passed);
 	return 0;
 }

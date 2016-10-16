@@ -1,7 +1,7 @@
 bitfield
 ========
 
-Version 0.6 (September 10, 2016)
+Version 0.6.1 (October 16, 2016)
 
 bitfield is a library of functions for creating, modifying and destroying bit
 fields (or bit arrays), i.e. series of zeroes and ones spread across an array
@@ -21,7 +21,7 @@ replace "make" with "make static" or "make shared".
 
 To test the compiled library:
 
-$ make check
+$ make test
 
 To build and run some example applications:
 

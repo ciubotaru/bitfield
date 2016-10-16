@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([bitfield], [0.6.0], [vitalie@ciubotaru.tk])
+AC_INIT([bitfield], [0.6.1], [vitalie@ciubotaru.tk])
 AC_CONFIG_SRCDIR([bitfield.c])
 AC_CONFIG_HEADERS([config.h])
 
@@ -17,7 +17,7 @@ AC_PROG_LN_S
 #AC_CHECK_LIB([rt], [main])
 
 # Checks for header files.
-AC_CHECK_HEADERS([limits.h stdlib.h string.h])
+AC_CHECK_HEADERS([limits.h stdlib.h string.h endian.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
