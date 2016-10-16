@@ -1,5 +1,12 @@
 Changelog
 
+0.6.1
+* Fixed a bug (memory-corruption in bfcat())
+* Added some magic to makefiles ('make test' as alias to 'make check', 'make
+  distclean' to also run 'make clean')
+* Fixed some compile-time warnings (explicitly added 'endian.h', rewrote
+  always-false "uint < 0")
+
 0.6
 * Completed converters to/from common data types. New functions: bf2char(),
   bf2char_ip(), bf2short(), bf2short_ip(), bf2int_ip(), bf2long_ip(), bf2ll(),
