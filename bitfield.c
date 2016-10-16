@@ -667,9 +667,28 @@ inline struct bitfield *__bfcat(const struct bitfield *input1,
 		output->field[i + offset_slot] |=
 		    (input2->field[i] << offset_bit);
 	}
-	if (offset_bit != 0) {
+
+	/*
+	 * If offset_bit is not zero, additional operations are needed.
+	 * Number of iterations depends on the nr of slots in output. Two
+	 * options:
+	 * (a) nr of slots in output is the sum of inputs' slots. In this
+	 * case, the nr of bits in the last slot of output is less than the
+	 * nr of bits in second input (i.e. ), OR
+	 * (b) nr of slots of output is the sum of inputs' slots less one
+	 * (i.e. less iterations needed). In this case, the nr of bits in
+	 * the last slot of output is greater than the nr of bits in second
+	 * input.
+	 * If offset_bit is zero, no additional copies needed.
+	 */
+	if ((output_size - 1) % LONG_BIT < (input2->size - 1) % LONG_BIT) {
 		for (i = 0; i < BITNSLOTS(input2->size); i++) {
-			output->field[i + offset_slot + 1] |= (input2->field[i] >> (LONG_BIT - offset_bit));	// what if output doesn't stretch to i + offset_slot + 1???
+			output->field[i + offset_slot + 1] |= (input2->field[i] >> (LONG_BIT - offset_bit));
+		}
+	}
+	else if ((output_size - 1) % LONG_BIT > (input2->size - 1) % LONG_BIT) {
+		for (i = 0; i < (BITNSLOTS(input2->size) - 1); i++) {
+			output->field[i + offset_slot + 1] |= (input2->field[i] >> (LONG_BIT - offset_bit));
 		}
 	}
 	return output;
