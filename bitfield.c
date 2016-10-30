@@ -419,7 +419,7 @@ inline uint32_t *bftouint32(const struct bitfield * input)
 {
 	int bitnslots = (input->size - 1) / 32 + 1;
 	uint32_t *output = calloc(1, bitnslots * sizeof(uint32_t));
-	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(uint32_t));
+	memcpy(output, bf_htole(input)->field, (input->size - 1 ) / CHAR_BIT + 1);
 	return output;
 }
 
@@ -427,7 +427,7 @@ inline uint64_t *bftouint64(const struct bitfield * input)
 {
 	int bitnslots = (input->size - 1) / 64 + 1;
 	uint64_t *output = calloc(1, bitnslots * sizeof(uint64_t));
-	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(uint64_t));
+	memcpy(output, bf_htole(input)->field, (input->size - 1 ) / CHAR_BIT + 1);
 	return output;
 }
 
