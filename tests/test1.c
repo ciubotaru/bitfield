@@ -65,5 +65,6 @@ int main()
 		bfdel(swapped);
 	}
 	printf("%s\n", passed);
+	bfdel(input);
 	return 0;
 }

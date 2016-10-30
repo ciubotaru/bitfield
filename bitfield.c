@@ -955,6 +955,8 @@ void bfshift_ip(struct bitfield *input, const int offset)
 	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
 	memcpy(input->field, tmp->field, bitnslots * sizeof(unsigned long));
 	bfdel(tmp);
+	bfdel(first_chunk);
+	bfdel(second_chunk);
 }
 
 struct bitfield *bfshift(const struct bitfield *input, const int offset)
