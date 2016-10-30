@@ -938,7 +938,6 @@ void bfshift_ip(struct bitfield *input, const int offset)
 		return;		/* input too short to shift */
 	}
 	/* positive offset moves the last offset characters to the beginning */
-	int bitnslots = BITNSLOTS(input->size);
 	/* removing extra rotations */
 	int offset_internal = offset % input->size;
 	if (offset_internal == 0) {
@@ -953,8 +952,9 @@ void bfshift_ip(struct bitfield *input, const int offset)
 	    bfsub(input, input->size - offset_internal, input->size);
 
 	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
-	memcpy(input->field, tmp->field, bitnslots * sizeof(unsigned long));
-	bfdel(tmp);
+	free(input->field);
+	*input = *tmp;
+	free(tmp);
 	bfdel(first_chunk);
 	bfdel(second_chunk);
 }
@@ -978,7 +978,6 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset)
 	    bfsub(input, 0, input->size - offset_internal);
 	struct bitfield *second_chunk =
 	    bfsub(input, input->size - offset_internal, input->size);
-
 	struct bitfield *output = bfcat(second_chunk, first_chunk);
 	bfdel(first_chunk);
 	bfdel(second_chunk);
