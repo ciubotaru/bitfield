@@ -195,9 +195,9 @@ struct bitfield *ll2bf(const unsigned long long *input, int size)
 struct bitfield *uint8tobf(const uint8_t * input, int size)
 {
 	struct bitfield *output = bfnew(size);
-	int bitnslots = (size - 1) / 8 + 1;
+	int bitnslots = (size - 1) / CHAR_BIT + 1;
 	/* order ints in LE, memcpy to bifield, order result in host endian */
-	memcpy(output->field, input, bitnslots * sizeof(uint8_t));
+	memcpy(output->field, input, bitnslots);
 	bf_letoh_ip(output);
 	/**
 	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
@@ -210,10 +210,10 @@ struct bitfield *uint8tobf(const uint8_t * input, int size)
 struct bitfield *uint16tobf(const uint16_t * input, int size)
 {
 	struct bitfield *output = bfnew(size);
-	int bitnslots = (size - 1) / 16 + 1;
+	int bitnslots = (size - 1) / CHAR_BIT + 1;
 	/* order ints in LE, memcpy to bifield, order result in host endian */
 	memcpy(output->field, uint16_htole(input, bitnslots),
-	       bitnslots * sizeof(uint16_t));
+	       bitnslots);
 	bf_letoh_ip(output);
 	/**
 	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
@@ -226,10 +226,10 @@ struct bitfield *uint16tobf(const uint16_t * input, int size)
 struct bitfield *uint32tobf(const uint32_t * input, int size)
 {
 	struct bitfield *output = bfnew(size);
-	int bitnslots = (size - 1) / 32 + 1;
+	int bitnslots = (size - 1) / CHAR_BIT + 1;
 	/* order ints in LE, memcpy to bifield, order result in host endian */
 	memcpy(output->field, uint32_htole(input, bitnslots),
-	       bitnslots * sizeof(uint32_t));
+	       bitnslots);
 	bf_letoh_ip(output);
 	/**
 	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
@@ -242,10 +242,10 @@ struct bitfield *uint32tobf(const uint32_t * input, int size)
 struct bitfield *uint64tobf(const uint64_t * input, int size)
 {
 	struct bitfield *output = bfnew(size);
-	int bitnslots = (size - 1) / 64 + 1;
+	int bitnslots = (size - 1) / CHAR_BIT + 1;
 	/* order ints in LE, memcpy to bifield, order result in host endian */
 	memcpy(output->field, uint64_htole(input, bitnslots),
-	       bitnslots * sizeof(uint64_t));
+	       bitnslots);
 	bf_letoh_ip(output);
 	/**
 	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
