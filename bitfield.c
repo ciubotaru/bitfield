@@ -18,6 +18,9 @@
 
 #if __BYTE_ORDER == __BIG_ENDIAN
 /* big-endian systems */
+
+/* big-endian-specific macros */
+
 #define bf_letoh_ip(x) _bf_letoh_ip(x)
 #define uint16_letoh_ip(x, y) _uint16_letoh_ip(x, y)
 #define uint32_letoh_ip(x, y) _uint32_letoh_ip(x, y)
@@ -26,6 +29,26 @@
 #define uint16_htole_ip(x, y) _uint16_htole_ip(x, y)
 #define uint32_htole_ip(x, y) _uint32_htole_ip(x, y)
 #define uint64_htole_ip(x, y) _uint64_htole_ip(x, y)
+
+/* big-endian-specific function declarations */
+
+static inline void _bf_letoh_ip(struct bitfield *instance);
+
+/* big-endian-specific function definitions */
+
+static inline void _bf_letoh_ip(struct bitfield *instance)
+/**
+ * convert long integers inside a bitfield from little endian to host.
+ * needed after memcpy to bf on big endian machines
+ **/
+{
+	if (sizeof(unsigned long) == 4)
+		/* 32-bit systems */
+		uint32_letoh_ip((uint32_t *) instance->field, BITNSLOTS(bfsize(instance)));
+	else
+		/* 64-bit systems */
+		uint64_letoh_ip((uint64_t *) instance->field, BITNSLOTS(bfsize(instance)));
+}
 
 #else
 /* little-endian systems (mixed endians?) */
@@ -49,20 +72,6 @@ inline void bfcleartail(struct bitfield *instance)
 		/* clear the extra bits */
 		instance->field[BITNSLOTS(instance->size) - 1] &= mask;
 	}
-}
-
-static inline void _bf_letoh_ip(struct bitfield *instance)
-/**
- * convert long integers inside a bitfield from little endian to host.
- * needed after memcpy to bf on big endian machines
- **/
-{
-	if (sizeof(unsigned long) == 4)
-		/* 32-bit systems */
-		uint32_letoh_ip((uint32_t *) instance->field, BITNSLOTS(bfsize(instance)));
-	else
-		/* 64-bit systems */
-		uint64_letoh_ip((uint64_t *) instance->field, BITNSLOTS(bfsize(instance)));
 }
 
 static inline void _uint16_letoh_ip(uint16_t * input, const int size)
