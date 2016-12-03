@@ -426,33 +426,78 @@ unsigned long *bf2long(const struct bitfield *input)
 
 inline uint8_t *bftouint8(const struct bitfield * input)
 {
-	int bitnslots = (input->size - 1) / CHAR_BIT + 1;
-	uint8_t *output = calloc(1, bitnslots * sizeof(uint8_t));
-	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(uint8_t));
+	int nr_bytes = (input->size - 1) / CHAR_BIT + 1;
+	uint8_t *output = calloc(1, nr_bytes);
+	#if __BYTE_ORDER == __BIG_ENDIAN
+	struct bitfield *tmp = bf_htole(input);
+	memcpy(output, tmp->field, nr_bytes);
+	bfdel(tmp);
+	#else
+	memcpy(output, input->field, nr_bytes);
+	#endif
 	return output;
 }
 
 inline uint16_t *bftouint16(const struct bitfield * input)
 {
 	int bitnslots = (input->size - 1) / 16 + 1;
+	int nr_bytes = (input->size - 1) / CHAR_BIT + 1;
 	uint16_t *output = calloc(1, bitnslots * sizeof(uint16_t));
-	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(uint16_t));
+	#if __BYTE_ORDER == __BIG_ENDIAN
+	struct bitfield *tmp = bf_htole(input);
+	memcpy(output, tmp->field, nr_bytes);
+	bfdel(tmp);
+	uint16_letoh_ip(output, bitnslots);
+	#else
+	memcpy(output, input->field, nr_bytes);
+	#endif
 	return output;
 }
 
 inline uint32_t *bftouint32(const struct bitfield * input)
 {
 	int bitnslots = (input->size - 1) / 32 + 1;
-	uint32_t *output = calloc(1, bitnslots * sizeof(uint32_t));
-	memcpy(output, bf_htole(input)->field, (input->size - 1 ) / CHAR_BIT + 1);
+	uint32_t *output;
+	if (sizeof(uint32_t) == sizeof(unsigned long)) {
+		output = malloc(bitnslots * sizeof(uint32_t));
+		int i;
+		for (i = 0; i < bitnslots; i++) output[i] = input->field[i];
+	}
+	else {
+		int nr_bytes = (input->size - 1 ) / CHAR_BIT + 1;
+		output = calloc(1, bitnslots * sizeof(uint32_t));
+		#if __BYTE_ORDER == __BIG_ENDIAN
+		struct bitfield *tmp = bf_htole(input);
+		memcpy(output, tmp->field, nr_bytes);
+		bfdel(tmp);
+		uint32_letoh_ip(output, bitnslots);
+		#else
+		memcpy(output, input->field, nr_bytes);
+		#endif
+	}
 	return output;
 }
 
 inline uint64_t *bftouint64(const struct bitfield * input)
 {
 	int bitnslots = (input->size - 1) / 64 + 1;
-	uint64_t *output = calloc(1, bitnslots * sizeof(uint64_t));
-	memcpy(output, bf_htole(input)->field, (input->size - 1 ) / CHAR_BIT + 1);
+	uint64_t *output;
+	if (sizeof(uint64_t) == sizeof(unsigned long)) {
+		output = malloc(bitnslots * sizeof(uint64_t));
+		memcpy(output, input->field, bitnslots * sizeof(uint64_t));
+	}
+	else {
+		int nr_bytes = (input->size - 1 ) / CHAR_BIT + 1;
+		output = calloc(1, bitnslots * sizeof(uint64_t));
+		#if __BYTE_ORDER == __BIG_ENDIAN
+		struct bitfield *tmp = bf_htole(input);
+		memcpy(output, tmp->field, nr_bytes);
+		bfdel(tmp);
+		uint64_letoh_ip(output, bitnslots);
+		#else
+		memcpy(output, input->field, nr_bytes);
+		#endif
+	}
 	return output;
 }
 
