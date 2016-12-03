@@ -387,39 +387,43 @@ void ll2bf_ip(const unsigned long long *input, struct bitfield *output)
 void uint8tobf_ip(const uint8_t * input, struct bitfield *output)
 {
 	int size = bfsize(output);
-	int bitnslots = (size - 1) / 8 + 1;
-	memcpy(output->field, input, bitnslots * sizeof(uint8_t));
+	int nr_bytes = (size - 1) / CHAR_BIT + 1;
+	memcpy(output->field, input, nr_bytes);
 	bf_letoh_ip(output);
 }
 
 void uint16tobf_ip(const uint16_t * input, struct bitfield *output)
 {
-	int size = bfsize(output);
-	int bitnslots = (size - 1) / 16 + 1;
-	/* order ints in LE, memcpy to bifield, order result in host endian */
-	memcpy(output->field, uint16_htole(input, bitnslots),
-	       bitnslots * sizeof(uint16_t));
+	memcpy(output->field, input, ((output->size - 1 ) / 16 + 1) * sizeof(uint16_t));
+	uint16_htole_ip((uint16_t *) output->field, (output->size - 1) / 16 + 1);
 	bf_letoh_ip(output);
 }
 
 void uint32tobf_ip(const uint32_t * input, struct bitfield *output)
 {
-	int size = bfsize(output);
-	int bitnslots = (size - 1) / 32 + 1;
-	/* order ints in LE, memcpy to bifield, order result in host endian */
-	memcpy(output->field, uint32_htole(input, bitnslots),
-	       bitnslots * sizeof(uint32_t));
-	bf_letoh_ip(output);
+	memcpy(output->field, input, ((output->size - 1) / 32 + 1) * sizeof(uint32_t));
+	if (sizeof(unsigned long) != sizeof(uint32_t)) {
+		uint32_htole_ip((uint32_t *) output->field, (output->size - 1) / 32 + 1);
+		bf_letoh_ip(output);
+	}
 }
 
 void uint64tobf_ip(const uint64_t * input, struct bitfield *output)
 {
-	int size = bfsize(output);
-	int bitnslots = (size - 1) / 64 + 1;
-	/* order ints in LE, memcpy to bifield, order result in host endian */
-	memcpy(output->field, uint64_htole(input, bitnslots),
-	       bitnslots * sizeof(uint64_t));
-	bf_letoh_ip(output);
+	int long_slots = (output->size - 1) / (sizeof(unsigned long) * CHAR_BIT) + 1;
+	int uint64_slots = (output->size - 1) / 64 + 1;
+/* rewrite for bigendian-only */
+	if (sizeof(unsigned long) != sizeof(uint64_t)) {
+		struct bitfield *tmp = bfnew(uint64_slots * sizeof(uint64_t) * CHAR_BIT);
+		memcpy(tmp->field, input, uint64_slots * sizeof(uint64_t));
+		uint64_htole_ip((uint64_t *) tmp->field, (output->size - 1) / 64 + 1);
+		bf_letoh_ip(tmp);
+		memcpy(output->field, tmp->field, long_slots * sizeof(unsigned long));
+		bfdel(tmp);
+	}
+	else {
+		memcpy(output->field, input, uint64_slots * sizeof(uint64_t));
+	}
 }
 
 /*
