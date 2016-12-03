@@ -539,32 +539,68 @@ void bf2long_ip(const struct bitfield *input, unsigned long *output)
 
 inline void bftouint8_ip(const struct bitfield *input, uint8_t * output)
 {
-	int bitnslots = (input->size - 1) / 8 + 1;
-	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(uint8_t));
+	int nr_bytes = (input->size - 1) / CHAR_BIT + 1;
+	#if __BYTE_ORDER == __BIG_ENDIAN
+	struct bitfield *tmp = bf_htole(input);
+	memcpy(output, tmp->field, nr_bytes);
+	bfdel(tmp);
+	#else
+	memcpy(output, input->field, nr_bytes);
+	#endif
 }
 
 inline void bftouint16_ip(const struct bitfield *input, uint16_t * output)
 {
+	int nr_bytes = (input->size - 1) / CHAR_BIT + 1;
+	#if __BYTE_ORDER == __BIG_ENDIAN
+	struct bitfield *tmp = bf_htole(input);
 	int bitnslots = (input->size - 1) / 16 + 1;
-	/* order bitfield in LE, memcpy to int, order result in host endian */
-	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(uint16_t));
+	memcpy(output, tmp->field, nr_bytes);
+	bfdel(tmp);
 	uint16_letoh_ip(output, bitnslots);
+	#else
+	memcpy(output, input->field, nr_bytes);
+	#endif
 }
 
 inline void bftouint32_ip(const struct bitfield *input, uint32_t * output)
 {
-	int bitnslots = (input->size - 1) / 32 + 1;
-	/* order bitfield in LE, memcpy to int, order result in host endian */
-	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(uint32_t));
-	uint32_letoh_ip(output, bitnslots);
+	if (sizeof(uint32_t) == sizeof(unsigned long)) {
+		int i;
+		for (i = 0; i < BITNSLOTS(input->size); i++) output[i] = input->field[i];
+	}
+	else {
+		int nr_bytes = (input->size - 1 ) / CHAR_BIT + 1;
+		#if __BYTE_ORDER == __BIG_ENDIAN
+		int bitnslots = (input->size - 1) / 32 + 1;
+		struct bitfield *tmp = bf_htole(input);
+		memcpy(output, tmp->field, nr_bytes);
+		bfdel(tmp);
+		uint32_letoh_ip(output, bitnslots);
+		#else
+		memcpy(output, input->field, nr_bytes);
+		#endif
+	}
 }
 
 inline void bftouint64_ip(const struct bitfield *input, uint64_t * output)
 {
-	int bitnslots = (input->size - 1) / 64 + 1;
-	/* order bitfield in LE, memcpy to int, order result in host endian */
-	memcpy(output, bf_htole(input)->field, bitnslots * sizeof(uint64_t));
-	uint64_letoh_ip(output, bitnslots);
+	if (sizeof(uint64_t) == sizeof(unsigned long)) {
+		int i;
+		for (i = 0; i < BITNSLOTS(input->size); i++) output[i] = input->field[i];
+	}
+	else {
+		int nr_bytes = (input->size - 1 ) / CHAR_BIT + 1;
+		#if __BYTE_ORDER == __BIG_ENDIAN
+		int bitnslots = (input->size - 1) / 64 + 1;
+		struct bitfield *tmp = bf_htole(input);
+		memcpy(output, tmp->field, nr_bytes);
+		bfdel(tmp);
+		uint64_letoh_ip(output, bitnslots);
+		#else
+		memcpy(output, input->field, nr_bytes);
+		#endif
+	}
 }
 
 /*
