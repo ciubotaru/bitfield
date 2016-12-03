@@ -55,7 +55,7 @@ inline void bfcleartail(struct bitfield *instance)
 	}
 }
 
-inline void _bf_letoh_ip(struct bitfield *instance)
+static inline void _bf_letoh_ip(struct bitfield *instance)
 /**
  * convert long integers inside a bitfield from little endian to host.
  * needed after memcpy to bf on big endian machines
@@ -72,7 +72,7 @@ inline void _bf_letoh_ip(struct bitfield *instance)
 	}
 }
 
-inline void _uint16_letoh_ip(uint16_t * input, const int size)
+static inline void _uint16_letoh_ip(uint16_t * input, const int size)
 /**
  * convert short integers from little endian to host.
  * needed when memcpy from bitfield to short on big endian machines
@@ -83,7 +83,7 @@ inline void _uint16_letoh_ip(uint16_t * input, const int size)
 		input[i] = le16toh(input[i]);
 }
 
-inline void _uint32_letoh_ip(uint32_t * input, const int size)
+static inline void _uint32_letoh_ip(uint32_t * input, const int size)
 /**
  * convert integers from little endian to host.
  * needed when memcpy from bitfield to int/long on big endian machines
@@ -95,7 +95,7 @@ inline void _uint32_letoh_ip(uint32_t * input, const int size)
 	}
 }
 
-inline void _uint64_letoh_ip(uint64_t * input, const int size)
+static inline void _uint64_letoh_ip(uint64_t * input, const int size)
 /**
  * convert integers from little endian to host.
  * needed when memcpy from bitfield to long on big endian machines
@@ -107,7 +107,7 @@ inline void _uint64_letoh_ip(uint64_t * input, const int size)
 	}
 }
 
-inline struct bitfield *_bf_htole(const struct bitfield *input)
+static inline struct bitfield *_bf_htole(const struct bitfield *input)
 /**
  * convert long integers inside a bitfield from host to little endian.
  * needed after memcpy from bitfield on big endian machines
@@ -126,7 +126,7 @@ inline struct bitfield *_bf_htole(const struct bitfield *input)
 	return output;
 }
 
-inline unsigned short *_short_htole(const unsigned short *input, const int size)
+static inline unsigned short *_short_htole(const unsigned short *input, const int size)
 /**
  * convert integers from host to little endian.
  * needed when memcpy from short to bitfield on big endian machines
@@ -141,7 +141,7 @@ inline unsigned short *_short_htole(const unsigned short *input, const int size)
 	return output;
 }
 
-inline unsigned int *_int_htole(const unsigned int *input, const int size)
+static inline unsigned int *_int_htole(const unsigned int *input, const int size)
 /**
  * convert integers from host to little endian.
  * needed when memcpy from int to bitfield on big endian machines
@@ -676,7 +676,7 @@ struct bitfield *bfxor(const struct bitfield *input1,
  * Manipulate bitfields
  */
 
-inline struct bitfield *__bfcat(const struct bitfield *input1,
+static inline struct bitfield *__bfcat(const struct bitfield *input1,
 				const struct bitfield *input2)
 {
 	int i;
