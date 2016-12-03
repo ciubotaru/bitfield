@@ -27,5 +27,3 @@ struct bitfield {		/* defines a bitfield */
 	int size;
 };
 
-struct bitfield *__bfcat(const struct bitfield *input1,
-		       const struct bitfield *input2);
