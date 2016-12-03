@@ -225,11 +225,8 @@ struct bitfield *short2bf(const unsigned short *input, int size)
 
 struct bitfield *long2bf(const unsigned long *input, int size)
 {
-	struct bitfield *output;
-	if (sizeof(unsigned long) == 4)
-		output = uint32tobf((uint32_t *) input, size);
-	else
-		output = uint64tobf((uint64_t *) input, size);
+	struct bitfield *output = bfnew_quick(size);
+	memcpy(output->field, input, BITNSLOTS(size) * sizeof(unsigned long));
 	return output;
 }
 
