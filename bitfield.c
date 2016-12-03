@@ -36,6 +36,7 @@ static inline void _bf_letoh_ip(struct bitfield *instance);
 static inline void _uint16_letoh_ip(uint16_t * input, const int size);
 static inline void _uint32_letoh_ip(uint32_t * input, const int size);
 static inline void _uint64_letoh_ip(uint64_t * input, const int size);
+static inline struct bitfield *_bf_htole(const struct bitfield *input);
 
 /* big-endian-specific function definitions */
 
@@ -91,6 +92,26 @@ static inline void _uint64_letoh_ip(uint64_t * input, const int size)
 	}
 }
 
+static inline struct bitfield *_bf_htole(const struct bitfield *input)
+/**
+ * convert long integers inside a bitfield from host to little endian.
+ * needed after memcpy from bitfield on big endian machines
+ * Used ad bf_htole() in big-endian architectures
+ **/
+{
+	struct bitfield *output = bfclone(input);
+	int i;
+	for (i = 0; i < BITNSLOTS(bfsize(input)); i++) {
+		if (sizeof(unsigned long) == 4)
+			/* if long is 4 bits */
+			output->field[i] = htole32(input->field[i]);
+		else
+			/* if long is 8 bits */
+			output->field[i] = htole64(input->field[i]);
+	}
+	return output;
+}
+
 #else
 /* little-endian systems (mixed endians?) */
 #define bf_letoh_ip(x)
@@ -113,25 +134,6 @@ inline void bfcleartail(struct bitfield *instance)
 		/* clear the extra bits */
 		instance->field[BITNSLOTS(instance->size) - 1] &= mask;
 	}
-}
-
-static inline struct bitfield *_bf_htole(const struct bitfield *input)
-/**
- * convert long integers inside a bitfield from host to little endian.
- * needed after memcpy from bitfield on big endian machines
- **/
-{
-	struct bitfield *output = bfclone(input);
-	int i;
-	for (i = 0; i < BITNSLOTS(bfsize(input)); i++) {
-		if (sizeof(unsigned long) == 4)
-			/* if long is 4 bits */
-			output->field[i] = htole32(input->field[i]);
-		else
-			/* if long is 8 bits */
-			output->field[i] = htole64(input->field[i]);
-	}
-	return output;
 }
 
 static inline unsigned short *_short_htole(const unsigned short *input, const int size)
