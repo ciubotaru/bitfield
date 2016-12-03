@@ -13,13 +13,14 @@
 #include <time.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
+#include <endian.h>
 
 /* Testing ll2bf() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j;		//counters
+	int i, j, cmp;		//counters
 	int len = 80;
 	char *msg = "Testing ll2bf()";
 	char *failed = "[FAIL]";
@@ -28,10 +29,10 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int bitnslots = (len - 1) / LONG_LONG_BIT + 1;
+	int lls = (len - 1) / LONG_LONG_BIT + 1;
 	unsigned long long *input =
-	    calloc(1, bitnslots * sizeof(unsigned long long));
-	for (i = 0; i < bitnslots - 1; i++) {
+	    calloc(1, lls * sizeof(unsigned long long));
+	for (i = 0; i < lls - 1; i++) {
 		for (j = 0; j < LONG_LONG_BIT; j++) {
 			if (rand() % 2)
 				input[i] |= (1ULL << j);
@@ -39,15 +40,24 @@ int main()
 	}
 	for (i = 0; i < len % LONG_LONG_BIT; i++)
 		if (rand() % 2)
-			input[bitnslots - 1] |= (1ULL << i);
+			input[lls - 1] |= (1ULL << i);
 	struct bitfield *output = ll2bf(input, len);
-	int min_memory_length =
-	    (bitnslots * sizeof(unsigned long long) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(unsigned long
-							       long)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input, output->field, min_memory_length) != 0) {
+	/* assume long long is always 64 bit */
+	for (i = 0; i < lls; i++) input[i] = (unsigned long long) htole64((uint64_t) input[i]);
+	for (i = 0; i < BITNSLOTS(len); i++) {
+		switch (sizeof(unsigned long)) {
+			case 8:
+				output->field[i] = (unsigned long) htole64((uint64_t) output->field[i]);
+				break;
+			case 4:
+				output->field[i] = (unsigned long) htole32((uint32_t) output->field[i]);
+				break;
+		}
+	}
+	cmp = memcmp(input, output->field, (len - 1) / CHAR_BIT + 1);
+	free(input);
+	bfdel(output);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

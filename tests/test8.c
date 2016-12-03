@@ -45,14 +45,11 @@ int main()
 	}
 	input_char_rev[len] = '\0';
 
-//      printf("%s\n", input_char);
-//      printf("%s\n", input_char_rev);
-
 	struct bitfield *input1 = str2bf(input_char);
-//      bfprint(input1);
 
 	struct bitfield *input2 = bfrev(input1);
-//      bfprint(input2);
+	bfdel(input1);
+
 	for (i = 0; i < len; i++) {
 		if (BITGET(input2, i) != input_char_rev[i] - '0') {
 			printf("%s\n", failed);
@@ -68,6 +65,7 @@ int main()
 			printf("%s\n", failed);
 			free(input_char);
 			free(input_char_rev);
+			bfdel(input2);
 			return 1;
 		}
 	}
@@ -75,5 +73,6 @@ int main()
 	printf("%s\n", passed);
 	free(input_char);
 	free(input_char_rev);
+	bfdel(input2);
 	return 0;
 }

@@ -17,7 +17,7 @@
 
 int main()
 {
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bfnew_ones(), bfsetall() and bfclearall()";
 	char *failed = "[FAIL]";
@@ -30,21 +30,28 @@ int main()
 	struct bitfield *output1 = str2bf(input_char);
 
 	struct bitfield *output2 = bfnew_ones(len);
-	if (bfcmp(output1, output2, NULL) != 0) {
+	cmp = bfcmp(output1, output2, NULL);
+	bfdel(output2);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}
 
 	struct bitfield *output3 = bfnew_quick(len);
 	bfsetall(output3);
-	if (bfcmp(output1, output3, NULL) != 0) {
+	cmp = bfcmp(output1, output3, NULL);
+	bfdel(output1);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}
 
 	struct bitfield *output4 = bfnew(len);
 	bfclearall(output3);
-	if (bfcmp(output3, output4, NULL) != 0) {
+	cmp = bfcmp(output3, output4, NULL);
+	bfdel(output3);
+	bfdel(output4);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

@@ -13,13 +13,14 @@
 #include <time.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
+#include <endian.h>
 
 /* Testing bftouint8() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bftouint8()";
 	char *failed = "[FAIL]";
@@ -32,14 +33,22 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int bitnslots = (len - 1) / 8 + 1;
+	int chars = (len - 1) / 8 + 1;
 	uint8_t *input_int = bftouint8(input);
-	int min_memory_length =
-	    (bitnslots * sizeof(uint8_t) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(uint8_t)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input_int, input->field, min_memory_length) != 0) {
+	for (i = 0; i < BITNSLOTS(len); i++) {
+		switch (sizeof(unsigned long)) {
+			case 4:
+				input->field[i] = (unsigned long) htole32((uint32_t) input->field[i]);
+				break;
+			case 8:
+				input->field[i] = (unsigned long) htole64((uint64_t) input->field[i]);
+				break;
+		}
+	}
+	cmp = memcmp(input_int, input->field, chars);
+	free(input_int);
+	bfdel(input);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

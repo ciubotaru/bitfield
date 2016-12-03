@@ -37,21 +37,18 @@ int main()
 			input_char[i] = '0';
 	}
 	input_char[len] = '\0';
-//      printf("%s\n", input_char);
 
 	/* population count in char string */
 	int count_s = 0;
 	for (i = 0; i < len; i++)
 		if (input_char[i] == '1')
 			count_s++;
-//      printf("%i\n", count_s);
 
 	struct bitfield *input = str2bf(input_char);
-//      bfprint(input);
-
+	free(input_char);
 	/* population count in bitfield */
 	int count_b = bfpopcount(input);
-//      printf("%i\n", count_b);
+	bfdel(input);
 
 	if (count_s != count_b) {
 		printf("%s\n", failed);

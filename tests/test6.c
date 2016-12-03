@@ -39,10 +39,12 @@ int main()
 		bfclearbit(input, i);
 		if (BITGET(input, i) != 0) {
 			printf("%s\n", failed);
+			bfdel(input);
 			return 1;
 		}
 	}
 
 	printf("%s\n", passed);
+	bfdel(input);
 	return 0;
 }

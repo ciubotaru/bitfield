@@ -13,13 +13,14 @@
 #include <time.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
+#include <endian.h>
 
 /* Testing char2bf() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j;		//counters
+	int i, j, cmp;		//counters
 	int len = 80;
 	char *msg = "Testing char2bf()";
 	char *failed = "[FAIL]";
@@ -28,24 +29,35 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int bitnslots = (len - 1) / CHAR_BIT + 1;
-	unsigned char *input = calloc(1, bitnslots * sizeof(unsigned char));
-	for (i = 0; i < bitnslots - 1; i++) {
+	int chars = (len - 1) / CHAR_BIT + 1;
+	unsigned char *input = calloc(1, chars);
+	for (i = 0; i < chars - 1; i++) {
 		for (j = 0; j < CHAR_BIT; j++) {
 			if (rand() % 2)
 				input[i] |= (1U << j);
 		}
 	}
-	for (i = 0; i < len % CHAR_BIT; i++)
+	for (i = 0; i < (len - 1) % CHAR_BIT + 1; i++)
 		if (rand() % 2)
-			input[bitnslots - 1] |= (1U << i);
+			input[chars - 1] |= (1U << i);
 	struct bitfield *output = char2bf(input, len);
-	int min_memory_length =
-	    (bitnslots * sizeof(unsigned char) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(unsigned char)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input, output->field, min_memory_length) != 0) {
+	struct bitfield *output2 = bfnew(len);
+	memcpy(output2->field, input, chars);
+	for (i = 0; i < BITNSLOTS(len); i++) {
+		switch (sizeof(unsigned long)) {
+			case 4:
+				output2->field[i] = le32toh((uint32_t) output2->field[i]);
+				break;
+			case 8:
+				output2->field[i] = le64toh((uint64_t) output2->field[i]);
+				break;
+		}
+	}
+	cmp = memcmp(output->field, output2->field, BITNSLOTS(len) * sizeof(unsigned long));
+	free(input);
+	bfdel(output);
+	bfdel(output2);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

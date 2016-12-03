@@ -53,18 +53,16 @@ int main()
 		if (input_char1[i] != input_char2[i])
 			hamming_s++;
 	}
-//      printf("%s\n", input_char1);
-//      printf("%s\n", input_char2);
-//      printf("%i\n", humming_s);
 
 	struct bitfield *input1 = str2bf(input_char1);
+	free(input_char1);
 	struct bitfield *input2 = str2bf(input_char2);
-//      bfprint(input1);
-//      bfprint(input2);
+	free(input_char2);
 
 	/* Hamming distance for bitfield */
 	int hamming_b = bfhamming(input1, input2);
-//      printf("%i\n", humming_b);
+	bfdel(input1);
+	bfdel(input2);
 
 	if (hamming_s != hamming_b) {
 		printf("%s\n", failed);

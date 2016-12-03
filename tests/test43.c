@@ -13,13 +13,14 @@
 #include <time.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
+#include <endian.h>
 
 /* Testing bf2ll() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bf2ll()";
 	char *failed = "[FAIL]";
@@ -32,14 +33,23 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int bitnslots = (len - 1) / LONG_LONG_BIT + 1;
-	unsigned long long *input_ll = bf2ll(input);
-	int min_memory_length =
-	    (bitnslots * sizeof(uint64_t) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(uint64_t)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input_ll, input->field, min_memory_length) != 0) {
+	int lls = (len - 1) / LONG_LONG_BIT + 1;
+	unsigned long long *output = bf2ll(input);
+	for (i = 0; i < BITNSLOTS(len); i++) {
+		switch (sizeof(unsigned long)) {
+			case 8:
+				input->field[i] = (unsigned long) htole64((uint64_t) input->field[i]);
+				break;
+			case 4:
+				input->field[i] = (unsigned long) htole32((uint32_t) input->field[i]);
+				break;
+		}
+	}
+	for (i = 0; i < lls; i++) output[i] = (unsigned long long) htole64((uint64_t) output[i]);
+	cmp = memcmp(input->field, output, (len - 1) / CHAR_BIT + 1);
+	free(output);
+	bfdel(input);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

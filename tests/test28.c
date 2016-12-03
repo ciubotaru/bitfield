@@ -13,13 +13,14 @@
 #include <time.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
+#include <endian.h>
 
 /* Testing bf2short() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bf2short()";
 	char *failed = "[FAIL]";
@@ -28,18 +29,40 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
+	int shorts = (len - 1) / SHORT_BIT + 1;
 	struct bitfield *input = bfnew(len);
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int bitnslots = (len - 1) / SHORT_BIT + 1;
 	unsigned short *input_short = bf2short(input);
-	int min_memory_length =
-	    (bitnslots * sizeof(unsigned char) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(unsigned char)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input_short, input->field, min_memory_length) != 0) {
+	for (i = 0; i < BITNSLOTS(len); i++) {
+		switch (sizeof(unsigned long)) {
+			case 4:
+				input->field[i] = (unsigned long) htole32((uint32_t) input->field[i]);
+				break;
+			case 8:
+				input->field[i] = (unsigned long) htole64((uint64_t) input->field[i]);
+				break;
+		}
+	}
+//	long_htole_ip(input, BITNSLOTS(len));
+	unsigned short *check = malloc(shorts * sizeof(unsigned short));
+	memcpy(check, input->field, shorts * sizeof(unsigned short));
+	bfdel(input);
+	for (i = 0; i < shorts; i++) {
+		switch (sizeof(unsigned short)) {
+			case 2:
+				check[i] = (unsigned short) le16toh((uint16_t) check[i]);
+				break;
+			case 4:
+				check[i] = (unsigned short) le32toh((uint32_t) check[i]);
+				break;
+		}
+	}
+	cmp = memcmp(input_short, check, shorts * sizeof(unsigned short));
+	free(input_short);
+	free(check);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}
