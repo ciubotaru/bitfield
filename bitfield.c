@@ -327,10 +327,7 @@ void short2bf_ip(const unsigned short *input, struct bitfield *output)
 
 void long2bf_ip(const unsigned long *input, struct bitfield *output)
 {
-	if (sizeof(unsigned long) == 4)
-		uint32tobf_ip((const uint32_t *)input, output);
-	else
-		uint64tobf_ip((const uint64_t *)input, output);
+	memcpy(output->field, input, BITNSLOTS(output->size) * sizeof(unsigned long));
 }
 
 void uint8tobf_ip(const uint8_t * input, struct bitfield *output)
