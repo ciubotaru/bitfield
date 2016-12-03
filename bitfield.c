@@ -157,9 +157,6 @@ static inline void uint64tobf_be(const uint64_t * input, struct bitfield *output
 #define uint32_letoh_ip(x, y)
 #define uint64_letoh_ip(x, y)
 #define bf_htole(x) x
-#define uint16_htole(x, y) x
-#define uint32_htole(x, y) x
-#define uint64_htole(x, y) x
 #define uint16_htole_ip(x, y)
 #define uint32_htole_ip(x, y)
 #define uint64_htole_ip(x, y)
