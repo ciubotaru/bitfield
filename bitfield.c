@@ -37,6 +37,9 @@ static inline void _uint16_letoh_ip(uint16_t * input, const int size);
 static inline void _uint32_letoh_ip(uint32_t * input, const int size);
 static inline void _uint64_letoh_ip(uint64_t * input, const int size);
 static inline struct bitfield *_bf_htole(const struct bitfield *input);
+static inline void _uint16_htole_ip(uint16_t *input, const int size);
+static inline void _uint32_htole_ip(uint32_t *input, const int size);
+static inline void _uint64_htole_ip(uint64_t *input, const int size);
 
 /* big-endian-specific function definitions */
 
@@ -110,6 +113,33 @@ static inline struct bitfield *_bf_htole(const struct bitfield *input)
 			output->field[i] = htole64(input->field[i]);
 	}
 	return output;
+}
+
+static inline void _uint16_htole_ip(uint16_t *input, const int size)
+/**
+ * write something here!!!
+ **/
+{
+	int i;
+	for (i = 0; i < size; i++) input[i] = htole16(input[i]);
+}
+
+static inline void _uint32_htole_ip(uint32_t *input, const int size)
+/**
+ * write something here!!!
+ **/
+{
+	int i;
+	for (i = 0; i < size; i++) input[i] = htole32(input[i]);
+}
+
+static inline void _uint64_htole_ip(uint64_t *input, const int size)
+/**
+ * write something here!!!
+ **/
+{
+	int i;
+	for (i = 0; i < size; i++) input[i] = htole64(input[i]);
 }
 
 #else
