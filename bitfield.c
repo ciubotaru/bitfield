@@ -384,7 +384,7 @@ void uint64tobf_ip(const uint64_t * input, struct bitfield *output)
 char *bf2str(const struct bitfield *input)
 {
 	int input_len = input->size;
-	char *output = malloc((input_len + 1) * sizeof(char));
+	char *output = malloc(input_len + 1);
 	int bitnslots = BITNSLOTS(input_len);
 	int i, j;
 	for (i = 0; i < bitnslots - 1; i++) {
@@ -417,11 +417,10 @@ unsigned short *bf2short(const struct bitfield *input)
 
 unsigned long *bf2long(const struct bitfield *input)
 {
-	unsigned long *output;
-	if (sizeof(unsigned long) == 4)
-		output = (unsigned long *)bftouint32(input);
-	else
-		output = (unsigned long *)bftouint64(input);
+	int i;
+	int bitnslots = BITNSLOTS(input->size);
+	unsigned long *output = malloc(bitnslots * sizeof(unsigned long));
+	for (i = 0; i < bitnslots; i++) output[i] = input->field[i];
 	return output;
 }
 
