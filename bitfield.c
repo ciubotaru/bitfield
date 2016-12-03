@@ -33,6 +33,9 @@
 /* big-endian-specific function declarations */
 
 static inline void _bf_letoh_ip(struct bitfield *instance);
+static inline void _uint16_letoh_ip(uint16_t * input, const int size);
+static inline void _uint32_letoh_ip(uint32_t * input, const int size);
+static inline void _uint64_letoh_ip(uint64_t * input, const int size);
 
 /* big-endian-specific function definitions */
 
@@ -50,34 +53,11 @@ static inline void _bf_letoh_ip(struct bitfield *instance)
 		uint64_letoh_ip((uint64_t *) instance->field, BITNSLOTS(bfsize(instance)));
 }
 
-#else
-/* little-endian systems (mixed endians?) */
-#define bf_letoh_ip(x)
-#define uint16_letoh_ip(x, y)
-#define uint32_letoh_ip(x, y)
-#define uint64_letoh_ip(x, y)
-#define bf_htole(x) x
-#define uint16_htole_ip(x, y)
-#define uint32_htole_ip(x, y)
-#define uint64_htole_ip(x, y)
-
-#endif
-
-inline void bfcleartail(struct bitfield *instance)
-{
-	int tail = instance->size % LONG_BIT;
-	if (tail != 0) {
-		/* create a mask for the tail */
-		unsigned long mask = (1UL << tail) - 1UL;
-		/* clear the extra bits */
-		instance->field[BITNSLOTS(instance->size) - 1] &= mask;
-	}
-}
-
 static inline void _uint16_letoh_ip(uint16_t * input, const int size)
 /**
  * convert short integers from little endian to host.
  * needed when memcpy from bitfield to short on big endian machines
+ * Used in bftouint16() and bftouint16_ip().
  **/
 {
 	int i;
@@ -89,6 +69,7 @@ static inline void _uint32_letoh_ip(uint32_t * input, const int size)
 /**
  * convert integers from little endian to host.
  * needed when memcpy from bitfield to int/long on big endian machines
+ * Used in bftouint32() and bftouint32_ip()
  **/
 {
 	int i;
@@ -101,11 +82,36 @@ static inline void _uint64_letoh_ip(uint64_t * input, const int size)
 /**
  * convert integers from little endian to host.
  * needed when memcpy from bitfield to long on big endian machines
+ * Used in bftouint64() and bftouint64_ip()
  **/
 {
 	int i;
 	for (i = 0; i < size; i++) {
 		input[i] = le64toh(input[i]);
+	}
+}
+
+#else
+/* little-endian systems (mixed endians?) */
+#define bf_letoh_ip(x)
+#define uint16_letoh_ip(x, y)
+#define uint32_letoh_ip(x, y)
+#define uint64_letoh_ip(x, y)
+#define bf_htole(x) x
+#define uint16_htole(x, y) x
+#define uint32_htole(x, y) x
+#define uint64_htole(x, y) x
+
+#endif
+
+inline void bfcleartail(struct bitfield *instance)
+{
+	int tail = instance->size % LONG_BIT;
+	if (tail != 0) {
+		/* create a mask for the tail */
+		unsigned long mask = (1UL << tail) - 1UL;
+		/* clear the extra bits */
+		instance->field[BITNSLOTS(instance->size) - 1] &= mask;
 	}
 }
 
