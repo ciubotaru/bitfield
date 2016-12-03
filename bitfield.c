@@ -57,15 +57,12 @@ static inline void _bf_letoh_ip(struct bitfield *instance)
  * needed after memcpy to bf on big endian machines
  **/
 {
-	int i;
-	for (i = 0; i < BITNSLOTS(bfsize(instance)); i++) {
-		if (sizeof(unsigned long) == 4)
-			/* 32-bit systems */
-			instance->field[i] = le32toh(instance->field[i]);
-		else
-			/* 64-bit systems */
-			instance->field[i] = le64toh(instance->field[i]);
-	}
+	if (sizeof(unsigned long) == 4)
+		/* 32-bit systems */
+		uint32_letoh_ip((uint32_t *) instance->field, BITNSLOTS(bfsize(instance)));
+	else
+		/* 64-bit systems */
+		uint64_letoh_ip((uint64_t *) instance->field, BITNSLOTS(bfsize(instance)));
 }
 
 static inline void _uint16_letoh_ip(uint16_t * input, const int size)
