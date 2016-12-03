@@ -29,6 +29,7 @@
 #define uint16_htole_ip(x, y) _uint16_htole_ip(x, y)
 #define uint32_htole_ip(x, y) _uint32_htole_ip(x, y)
 #define uint64_htole_ip(x, y) _uint64_htole_ip(x, y)
+#define _uint64tobf(x, y, z) uint64tobf_be(x, y, z)
 
 /* big-endian-specific function declarations */
 
@@ -142,6 +143,13 @@ static inline void _uint64_htole_ip(uint64_t *input, const int size)
 	for (i = 0; i < size; i++) input[i] = htole64(input[i]);
 }
 
+static inline void uint64tobf_be(const uint64_t * input, struct bitfield *output, int size) {
+	memcpy(output->field, input, ((size - 1) / 64 + 1) * sizeof(uint64_t));
+	uint64_htole_ip((uint64_t *) output->field, (size - 1) / 64 + 1);
+	bf_letoh_ip(output);
+	bfresize(output, size);
+}
+
 #else
 /* little-endian systems (mixed endians?) */
 #define bf_letoh_ip(x)
@@ -155,6 +163,11 @@ static inline void _uint64_htole_ip(uint64_t *input, const int size)
 #define uint16_htole_ip(x, y)
 #define uint32_htole_ip(x, y)
 #define uint64_htole_ip(x, y)
+#define _uint64tobf(x, y, z) uint64tobf_le(x, y, z)
+
+static inline void uint64tobf_le(const uint64_t * input, struct bitfield *output, int size) {
+	memcpy(output->field, input, (size - 1) / CHAR_BIT + 1);
+}
 
 #endif
 
