@@ -41,6 +41,7 @@ static inline struct bitfield *_bf_htole(const struct bitfield *input);
 static inline void _uint16_htole_ip(uint16_t *input, const int size);
 static inline void _uint32_htole_ip(uint32_t *input, const int size);
 static inline void _uint64_htole_ip(uint64_t *input, const int size);
+static inline void uint64tobf_be(const uint64_t * input, struct bitfield *output, int size);
 
 /* big-endian-specific function definitions */
 
