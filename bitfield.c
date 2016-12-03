@@ -230,13 +230,6 @@ struct bitfield *long2bf(const unsigned long *input, int size)
 	return output;
 }
 
-struct bitfield *ll2bf(const unsigned long long *input, int size)
-{
-	struct bitfield *output;
-	output = uint64tobf((uint64_t *) input, size);
-	return output;
-}
-
 struct bitfield *uint8tobf(const uint8_t * input, int size)
 {
 	struct bitfield *output = bfnew(size);
@@ -340,11 +333,6 @@ void long2bf_ip(const unsigned long *input, struct bitfield *output)
 		uint64tobf_ip((const uint64_t *)input, output);
 }
 
-void ll2bf_ip(const unsigned long long *input, struct bitfield *output)
-{
-	uint64tobf_ip((const uint64_t *)input, output);
-}
-
 void uint8tobf_ip(const uint8_t * input, struct bitfield *output)
 {
 	int size = bfsize(output);
@@ -440,16 +428,6 @@ unsigned long *bf2long(const struct bitfield *input)
 	return output;
 }
 
-unsigned long long *bf2ll(const struct bitfield *input)
-{
-	int bitnslots =
-	    (input->size - 1) / (sizeof(unsigned long long) * CHAR_BIT) + 1;
-	unsigned long long *output =
-	    calloc(1, bitnslots * sizeof(unsigned long long));
-	memcpy(output, input->field, bitnslots * sizeof(unsigned long long));
-	return output;
-}
-
 inline uint8_t *bftouint8(const struct bitfield * input)
 {
 	int bitnslots = (input->size - 1) / CHAR_BIT + 1;
@@ -517,13 +495,6 @@ void bf2long_ip(const struct bitfield *input, unsigned long *output)
 		bftouint32_ip(input, (uint32_t *) output);
 	else
 		bftouint64_ip(input, (uint64_t *) output);
-}
-
-void bf2ll_ip(const struct bitfield *input, unsigned long long *output)
-{
-	int bitnslots =
-	    (input->size - 1) / (sizeof(unsigned long long) * CHAR_BIT) + 1;
-	memcpy(output, input->field, bitnslots * sizeof(unsigned long long));
 }
 
 inline void bftouint8_ip(const struct bitfield *input, uint8_t * output)
