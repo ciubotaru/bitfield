@@ -1,5 +1,6 @@
 Changelog
 
+0.6.2
 * Fixed memory leaks in shift_ip() and bfnormalize().
 * Fixed bugs in uint64tobf() and bftouint64().
 * Rewrote uint**tobf(), uint**tobf_ip(), bftouint**(), bftouint**_ip(),
