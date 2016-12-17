@@ -13,13 +13,14 @@
 #include <time.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
+#include <endian.h>
 
 /* Testing uint8tobf() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j;		//counters
+	int i, j, cmp;		//counters
 	int len = 80;
 	char *msg = "Testing uint8tobf()";
 	char *failed = "[FAIL]";
@@ -28,9 +29,9 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int bitnslots = (len - 1) / 8 + 1;
-	uint8_t *input = calloc(1, bitnslots * sizeof(uint8_t));
-	for (i = 0; i < bitnslots - 1; i++) {
+	int chars = (len - 1) / 8 + 1;
+	uint8_t *input = calloc(1, chars);
+	for (i = 0; i < chars - 1; i++) {
 		for (j = 0; j < 8; j++) {
 			if (rand() % 2)
 				input[i] |= (1U << j);
@@ -38,14 +39,22 @@ int main()
 	}
 	for (i = 0; i < len % 8; i++)
 		if (rand() % 2)
-			input[bitnslots - 1] |= (1U << i);
+			input[chars - 1] |= (1U << i);
 	struct bitfield *output = uint8tobf(input, len);
-	int min_memory_length =
-	    (bitnslots * sizeof(uint8_t) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(uint8_t)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input, output->field, min_memory_length) != 0) {
+	for (i = 0; i < BITNSLOTS(len); i++) {
+		switch (sizeof(unsigned long)) {
+			case 4:
+				output->field[i] = (unsigned long) htole32((uint32_t) output->field[i]);
+				break;
+			case 8:
+				output->field[i] = (unsigned long) htole64((uint64_t) output->field[i]);
+				break;
+		}
+	}
+	cmp = memcmp(input, output->field, chars);
+	free(input);
+	bfdel(output);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

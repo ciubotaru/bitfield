@@ -13,13 +13,14 @@
 #include <time.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
+#include <endian.h>
 
 /* Testing bf2short_ip() and short2bf_ip() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bf2short_ip() and short2bf_ip()";
 	char *failed = "[FAIL]";
@@ -32,24 +33,51 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int bitnslots = (len - 1) / SHORT_BIT + 1;
+	int shorts = (len - 1) / SHORT_BIT + 1;
 	unsigned short *input_short =
-	    malloc(bitnslots * sizeof(unsigned short));
+	    malloc(shorts * sizeof(unsigned short));
 	bf2short_ip(input, input_short);
 	/* check first function */
-	int min_memory_length =
-	    (bitnslots * sizeof(unsigned short) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(unsigned short))
-	    : BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input_short, input->field, min_memory_length) != 0) {
+	struct bitfield *check = bfclone(input);
+	for (i = 0; i < BITNSLOTS(len); i++) {
+		switch (sizeof(unsigned long)) {
+			case 4:
+				check->field[i] = (unsigned long) htole32((uint32_t) check->field[i]);
+				break;
+			case 8:
+				check->field[i] = (unsigned long) htole64((uint64_t) check->field[i]);
+				break;
+		}
+	}
+	unsigned short *check_short = calloc(1, shorts * sizeof(unsigned short));
+	memcpy(check_short, check->field, shorts * sizeof(unsigned short));
+	bfdel(check);
+	for (i = 0; i < shorts; i++) {
+		switch (sizeof(unsigned short)) {
+			case 2:
+				check_short[i] = (unsigned short) le16toh((uint16_t) check_short[i]);
+				break;
+			case 4:
+				check_short[i] = (unsigned short) le32toh((uint32_t) check_short[i]);
+				break;
+		}
+	}
+	cmp = memcmp(input_short, check_short, shorts * sizeof(unsigned short));
+	free(check_short);
+	if (cmp != 0) {
 		printf("%s\n", failed);
+		free(input_short);
+		bfdel(input);
 		return 1;
 	}
 	struct bitfield *output = bfnew(len);
 	short2bf_ip(input_short, output);
+	free(input_short);
 	/* check second function */
-	if (bfcmp(input, output, NULL) != 0) {
+	cmp = bfcmp(input, output, NULL);
+	bfdel(input);
+	bfdel(output);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

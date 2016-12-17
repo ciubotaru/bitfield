@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bf2str() and str2bf()";
 	char *failed = "[FAIL]";
@@ -34,7 +34,11 @@ int main()
 			BITSET(input, i);
 	char *input_char = bf2str(input);
 	struct bitfield *output = str2bf(input_char);
-	if (bfcmp(input, output, NULL) != 0) {
+	free(input_char);
+	cmp = bfcmp(input, output, NULL);
+	bfdel(input);
+	bfdel(output);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

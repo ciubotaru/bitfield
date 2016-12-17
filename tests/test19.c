@@ -47,8 +47,12 @@ int main()
 	    BITNSLOTS(len) * sizeof(unsigned long);
 	if (memcmp(input, output->field, min_memory_length) != 0) {
 		printf("%s\n", failed);
+		free(input);
+		bfdel(output);
 		return 1;
 	}
 	printf("%s\n", passed);
+	free(input);
+	bfdel(output);
 	return 0;
 }

@@ -13,13 +13,14 @@
 #include <time.h>
 #include "bitfield.h"
 #include "bitfield-internals.h"
+#include <endian.h>
 
 /* Testing bftouint64_ip() and uint64tobf_ip() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bftouint64_ip() and uint64tobf_ip()";
 	char *failed = "[FAIL]";
@@ -32,23 +33,40 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int bitnslots = (len - 1) / 64 + 1;
-	uint64_t *input_uint64 = malloc(bitnslots * sizeof(uint64_t));
+	int int64s = (len - 1) / 64 + 1;
+	uint64_t *input_uint64 = malloc(int64s * sizeof(uint64_t));
 	bftouint64_ip(input, input_uint64);
 	/* check first function */
-	int min_memory_length =
-	    (bitnslots * sizeof(uint64_t) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(uint64_t)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input_uint64, input->field, min_memory_length) != 0) {
+	struct bitfield *check = bfclone(input);
+	uint64_t *check_uint64 = malloc(int64s * sizeof(uint64_t));
+	for (i = 0; i < BITNSLOTS(len); i++) {
+		switch (sizeof(unsigned long)) {
+			case 8:
+				check->field[i] = (unsigned long) htole64((uint64_t) input->field[i]);
+				break;
+			case 4:
+				check->field[i] = (unsigned long) htole32((uint32_t) input->field[i]);
+				break;
+		}
+	}
+	for (i = 0; i < int64s; i++) check_uint64[i] = htole64(input_uint64[i]);
+	cmp = memcmp(check_uint64, check->field, (len - 1) / CHAR_BIT + 1);
+	bfdel(check);
+	free(check_uint64);
+	if (cmp != 0) {
+		free(input_uint64);
+		bfdel(input);
 		printf("%s\n", failed);
 		return 1;
 	}
 	struct bitfield *output = bfnew(len);
 	uint64tobf_ip(input_uint64, output);
+	free(input_uint64);
 	/* check second function */
-	if (bfcmp(input, output, NULL) != 0) {
+	cmp = bfcmp(input, output, NULL);
+	bfdel(input);
+	bfdel(output);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

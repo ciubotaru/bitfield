@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bfnormalize()";
 	char *failed = "[FAIL]";
@@ -50,15 +50,16 @@ int main()
 		ones_tail = bfnew_ones(nr_ones_tail);
 
 		input = bfcat(ones_head, zeroes, ones_tail);
-//bfprint(input);
-//printf("\n");
 		check = bfcat(ones_head, ones_tail, zeroes);
-//bfprint(check);
-//printf("\n");
+		bfdel(zeroes);
+		bfdel(ones_head);
+		bfdel(ones_tail);
 		output = bfnormalize(input);
-//bfprint(output);
-//printf("\n");
-		if (bfcmp(output, check, NULL)) {
+		cmp = bfcmp(output, check, NULL);
+		bfdel(input);
+		bfdel(check);
+		bfdel(output);
+		if (cmp) {
 			printf("%s\n", failed);
 			return 1;
 		}

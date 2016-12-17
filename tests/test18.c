@@ -43,9 +43,13 @@ int main()
 	for (i = 0; i < bitnslots; i++) {
 		if (output->field[i] != input[i]) {
 			printf("%s\n", failed);
+			free(input);
+			bfdel(output);
 			return 1;
 		}
 	}
 	printf("%s\n", passed);
+	free(input);
+	bfdel(output);
 	return 0;
 }

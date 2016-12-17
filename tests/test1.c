@@ -32,7 +32,7 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int point;
+	int point, cmp;
 	/* try all possible points of division */
 	for (point = 1; point < (len - 1); point++) {
 		/* divide a bitfield into two subfields */
@@ -40,7 +40,9 @@ int main()
 		struct bitfield *chunk2 = bfsub(input, point, input->size);
 		/* concatenate them back into one and compare to the original */
 		struct bitfield *output = bfcat(chunk1, chunk2);
-		if (bfcmp(input, output, NULL) != 0) {
+		cmp = bfcmp(input, output, NULL);
+		bfdel(output);
+		if (cmp != 0) {
 			printf("%s\n", failed);
 			return 1;
 		}
@@ -48,22 +50,25 @@ int main()
 		struct bitfield *shifted = bfshift(input, -point);
 		/* shift a bitfield by swapping chunks */
 		struct bitfield *swapped = bfcat(chunk2, chunk1);
-		if (bfcmp(shifted, swapped, NULL) != 0) {
+		bfdel(chunk1);
+		bfdel(chunk2);
+		cmp = bfcmp(shifted, swapped, NULL);
+		bfdel(swapped);
+		if (cmp != 0) {
 			printf("%s\n", failed);
 			return 1;
 		}
 		/* shift it back and compare to the original bitfield */
 		bfshift_ip(shifted, point);
-		if (bfcmp(input, shifted, NULL) != 0) {
+		cmp = bfcmp(input, shifted, NULL);
+		bfdel(shifted);
+		if (cmp != 0) {
 			printf("%s\n", failed);
+			bfdel(input);
 			return 1;
 		}
-		bfdel(output);
-		bfdel(chunk1);
-		bfdel(chunk2);
-		bfdel(shifted);
-		bfdel(swapped);
 	}
 	printf("%s\n", passed);
+	bfdel(input);
 	return 0;
 }

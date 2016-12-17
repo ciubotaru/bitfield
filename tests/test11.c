@@ -41,7 +41,14 @@ int main()
 	for (i = 0; i < len; i++)
 		bftogglebit(output, i);
 
-	if (bfcmp(input, bfnot(output), NULL) != 0) {
+	struct bitfield *not = bfnot(output);
+	bfdel(output);
+
+	int cmp = bfcmp(input, not, NULL);
+	bfdel(input);
+	bfdel(not);
+
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}

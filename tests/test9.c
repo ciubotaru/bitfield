@@ -43,11 +43,13 @@ int main()
 		if (bfgetbit(input, i) != input_char[i] - '0') {
 			printf("%s\n", failed);
 			free(input_char);
+			bfdel(input);
 			return 1;
 		}
 	}
 
 	printf("%s\n", passed);
 	free(input_char);
+	bfdel(input);
 	return 0;
 }

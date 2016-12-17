@@ -33,7 +33,7 @@ struct bitfield *short2bf(const unsigned short *input, int size); /* write the c
 
 struct bitfield *long2bf(const unsigned long *input, int size); /* write the contents of an array of long integers into a bitfield structure */
 
-struct bitfield *ll2bf(const unsigned long long *input, int size);	/* write the contents of an array of longlong integers into a bitfield structure */
+#define ll2bf(x, y) (struct bitfield *) uint64tobf((uint64_t *) x, y)	/* write the contents of an array of longlong integers into a bitfield structure */
 
 struct bitfield *uint8tobf(const uint8_t *input, int size);
 
@@ -53,7 +53,7 @@ void short2bf_ip(const unsigned short *intput, struct bitfield *output); /* conv
 
 void long2bf_ip(const unsigned long *input, struct bitfield *output); /* convert an array of long integers into a bitfield structure */
 
-void ll2bf_ip(const unsigned long long *input, struct bitfield *output); /* convert an array of longlong integers into a bitfield structure */
+#define ll2bf_ip(x, y) uint64tobf_ip((uint64_t *) x, y); /* convert an array of longlong integers into a bitfield structure */
 
 void uint8tobf_ip(const uint8_t *input, struct bitfield *output);
 
@@ -82,7 +82,7 @@ unsigned short *bf2short(const struct bitfield *input); /* return the bitfield a
 
 unsigned long *bf2long(const struct bitfield *input); /* return the bitfield as an array of unsigned long integers */
 
-unsigned long long *bf2ll(const struct bitfield *input);	/* return the bitfield as an array of unsigned longlong integers */
+#define bf2ll(x) (unsigned long long *) bftouint64(x);	/* return the bitfield as an array of unsigned longlong integers */
 
 uint8_t *bftouint8(const struct bitfield *input);
 
@@ -102,7 +102,7 @@ void bf2short_ip(const struct bitfield *input, unsigned short *output); /* conve
 
 void bf2long_ip(const struct bitfield *input, unsigned long *output);	/* converts a bitfield into an array of unsigned long integers */
 
-void bf2ll_ip(const struct bitfield *input, unsigned long long *output);	/* converts a bitfield into an array of unsigned longlong integers */
+#define bf2ll_ip(x, y) bftouint64_ip(x, (uint64_t *) y);	/* converts a bitfield into an array of unsigned longlong integers */
 
 void bftouint8_ip(const struct bitfield *input, uint8_t *output);
 

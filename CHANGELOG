@@ -1,5 +1,16 @@
 Changelog
 
+0.6.2
+* Fixed memory leaks in shift_ip() and bfnormalize().
+* Fixed bugs in uint64tobf() and bftouint64().
+* Rewrote uint**tobf(), uint**tobf_ip(), bftouint**(), bftouint**_ip(),
+  long2bf(), long2bf_ip(), bf2long(), bf2long_ip().
+* Replaced ll2bf(), ll2bf_ip(), bf2ll() and bf2ll_ip() with macros (assume
+  long long is always same length as uint64_t).
+* Minor optimization in shift_ip() and bftouint32().
+* Removed internal functions from the list of exported symbols.
+* Rewrote tests so they do not rely on internat functions from bitfield library.
+
 0.6.1
 * Fixed a bug (memory-corruption in bfcat())
 * Added some magic to makefiles ('make test' as alias to 'make check', 'make

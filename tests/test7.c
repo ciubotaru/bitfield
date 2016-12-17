@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bfclone() and bfcpy()";
 	char *failed = "[FAIL]";
@@ -37,10 +37,13 @@ int main()
 	}
 	input_char[len] = '\0';
 	struct bitfield *input = str2bf(input_char);
+	free(input_char);
 
 	struct bitfield *input2 = bfclone(input);
 
-	if (bfcmp(input, input2, NULL) != 0) {
+	cmp = bfcmp(input, input2, NULL);
+	bfdel(input2);
+	if (cmp != 0) {
 		printf("zyu1");
 		printf("%s\n", failed);
 		return 1;
@@ -54,7 +57,10 @@ int main()
 		return 1;
 	}
 
-	if (bfcmp(input, input3, NULL) != 0) {
+	cmp = bfcmp(input, input3, NULL);
+	bfdel(input);
+	bfdel(input3);
+	if (cmp != 0) {
 		printf("zyu3");
 		printf("%s\n", failed);
 		return 1;

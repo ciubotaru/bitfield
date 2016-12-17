@@ -36,14 +36,14 @@ int main()
 			input_char[i] = '0';
 	}
 	input_char[len] = '\0';
-//      printf("%s\n", input_char);
+
 	/* create a small bitfield */
 	struct bitfield *input = bfnew_quick(1);
 	if (input_char[0] == '1')
 		BITSET(input, 0);
 	else
 		BITCLEAR(input, 0);
-//      bfprint(input);
+
 	/* enlarge the bit field one bit at a time */
 	for (i = 1; i < len; i++) {
 		bfresize(input, i + 1);
@@ -58,16 +58,17 @@ int main()
 		else
 			BITCLEAR(input, i);
 	}
+	free(input_char);
+
 	/* shrink it back one bit at a time */
 	for (i = len; i > 1; i--) {
 		bfresize(input, i - 1);
 		if (input->size != (i - 1)) {
 			printf("%s\n", failed);
-			free(input_char);
 			return 1;
 		}
 	}
 	printf("%s\n", passed);
-	free(input_char);
+	bfdel(input);
 	return 0;
 }

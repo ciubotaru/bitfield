@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bf2long()";
 	char *failed = "[FAIL]";
@@ -32,13 +32,17 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int bitnslots = BITNSLOTS(input->size);
 	unsigned long *input_long = bf2long(input);
-	for (i = 0; i < bitnslots; i++) {
-		if (input_long[i] != input->field[i]) {
-			printf("%s\n", failed);
-			return 1;
-		}
+	int bitnslots = BITNSLOTS(len);
+	unsigned long *input_long2 = malloc(bitnslots * sizeof(unsigned long));
+	for (i = 0; i < bitnslots; i++) input_long2[i] = input->field[i];
+	cmp = memcmp(input_long, input_long2, bitnslots * sizeof(unsigned long));
+	bfdel(input);
+	free(input_long);
+	free(input_long2);
+	if (cmp) {
+		printf("%s\n", failed);
+		return 1;
 	}
 	printf("%s\n", passed);
 	return 0;

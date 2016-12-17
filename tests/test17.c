@@ -60,25 +60,30 @@ int main()
 			/* if there is space between the start of the haystack and the sought needle, fill it with zeroes */
 			if (j > 0) {
 				struct bitfield *start = bfnew(j);
-				haystack = bfcat(start, haystack);
+				struct bitfield *tmp = bfcat(start, haystack);
+				bfresize(haystack, bfsize(tmp));
+				bfcpy(tmp, haystack);
 				bfdel(start);
+				bfdel(tmp);
 			}
 
 			/* if there is space between the sought needle and the end of haystack, fill it with zeroes */
 			if (j + i < len) {
 				struct bitfield *end = bfnew(len - j - i);
-				haystack = bfcat(haystack, end);
+				struct bitfield *tmp2 = bfcat(haystack, end);
+				bfresize(haystack, bfsize(tmp2));
+				bfcpy(tmp2, haystack);
 				bfdel(end);
+				bfdel(tmp2);
 			}
 
 			/* now let's test */
 			result = bfpos(haystack, needle);
-
+			bfdel(haystack);
+			bfdel(needle);
 			/* the result should be equal to j */
 			if (result != j) {
 				printf("%s\n", failed);
-				bfdel(haystack);
-				bfdel(needle);
 				return 1;
 			}
 		}

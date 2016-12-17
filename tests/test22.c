@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
+	int i, cmp;			//counter
 	int len = 80;
 	char *msg = "Testing bf2long_ip() and long2bf_ip()";
 	char *failed = "[FAIL]";
@@ -33,7 +33,7 @@ int main()
 		if (rand() % 2)
 			BITSET(input, i);
 	int bitnslots = BITNSLOTS(len);
-	unsigned long *input_long = malloc(bitnslots * sizeof(unsigned long));
+	unsigned long *input_long = calloc(bitnslots, sizeof(unsigned long));
 	bf2long_ip(input, input_long);
 	/* check first function */
 	for (i = 0; i < bitnslots; i++) {
@@ -44,8 +44,12 @@ int main()
 	}
 	struct bitfield *output = bfnew(len);
 	long2bf_ip(input_long, output);
+	free(input_long);
 	/* check second function */
-	if (bfcmp(input, output, NULL) != 0) {
+	cmp = bfcmp(input, output, NULL);
+	bfdel(input);
+	bfdel(output);
+	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;
 	}
