@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "bitfield.h"
+#include <bitfield.h>
 #include <stdio.h>
 #include <stdarg.h>
 

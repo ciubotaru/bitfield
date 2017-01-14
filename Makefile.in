@@ -16,7 +16,7 @@ EXAMPLEDIR=examples
 LD_LIBRARY_PATH := $(shell pwd):$(LD_LIBRARY_PATH)
 export LD_LIBRARY_PATH
 
-.PHONY: test check man shared static install install-lib install-man install-header clean distclean uninstall uninstall-lib uninstall-man uninstall-header
+.PHONY: test check man shared static install install-lib install-man install-header clean distclean uninstall uninstall-lib uninstall-man uninstall-header example examples
 
 all: shared static
 
@@ -35,6 +35,8 @@ test: check
 
 check:
 	$(MAKE) -C $(TESTDIR)
+
+examples: example
 
 example:
 	$(MAKE) -C $(EXAMPLEDIR)
