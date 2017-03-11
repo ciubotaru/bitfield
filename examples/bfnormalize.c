@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <bitfield.h>
 #include <limits.h>
 #include <time.h>
+#include <bitfield.h>
 #ifdef RAND_MAX
 #undef RAND_MAX
 #define RAND_MAX UINT_MAX

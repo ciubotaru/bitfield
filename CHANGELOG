@@ -1,5 +1,8 @@
 Changelog
 
+0.6.3
+* Rewrote bfand(), bfor() and bfxor() to accept variable number of arguments.
+
 0.6.2
 * Fixed memory leaks in shift_ip() and bfnormalize().
 * Fixed bugs in uint64tobf() and bftouint64().

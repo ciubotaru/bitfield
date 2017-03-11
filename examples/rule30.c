@@ -36,7 +36,8 @@ int main()
 	/* compute the child generation by Rule 30:
 	 * Child(i) = Parent(i-1) XOR ( Parent(i) OR Parent(i+1) )
 	 */
-	struct bitfield *output = bfxor(left, bfor(center, right));
+	struct bitfield *tmp = bfor(center, right);
+	struct bitfield *output = bfxor(left, tmp);
 	/* show it */
 	printf(" ");
 	bfprint_lsb(output);

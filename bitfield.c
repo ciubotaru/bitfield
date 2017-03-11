@@ -4,7 +4,7 @@
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
  * License: General Public License, version 3 or later
- * Copyright 2015, 2016
+ * Copyright 2015, 2016, 2017
 **/
 
 #include <stdio.h>
@@ -669,7 +669,7 @@ void bftogglebit(struct bitfield *instance, const int bit)
  * Logical operations with bitfields
  */
 
-struct bitfield *bfand(const struct bitfield *input1,
+static inline struct bitfield *__bfand(const struct bitfield *input1,
 		       const struct bitfield *input2)
 {
 	/* If the inputs are different size, take the shorter, and ignore the difference.
@@ -683,6 +683,25 @@ struct bitfield *bfand(const struct bitfield *input1,
 		output->field[i] = input1->field[i] & input2->field[i];
 	/* make sure to clear the trailing bits, if there are any */
 	bfcleartail(output);
+	return output;
+}
+
+struct bitfield *_bfand(int count, ...)
+{
+	int i;
+	va_list args;
+	va_start(args, count);
+	struct bitfield *output = bfclone(va_arg(args, struct bitfield *));
+	for (i = 1; i < count; i++) {
+
+		struct bitfield *tmp =
+		    __bfand(output, va_arg(args, struct bitfield *));
+		/* reassign *output to point to new struct without leaking memory */
+		free(output->field);
+		*output = *tmp;
+		free(tmp);
+	}
+	va_end(args);
 	return output;
 }
 
@@ -708,7 +727,7 @@ void bfnot_ip(struct bitfield *instance)
 	bfcleartail(instance);
 }
 
-struct bitfield *bfor(const struct bitfield *input1,
+static inline struct bitfield *__bfor(const struct bitfield *input1,
 		      const struct bitfield *input2)
 {
 	/* If the inputs are different size, take the shorter, and ignore the difference.
@@ -725,7 +744,26 @@ struct bitfield *bfor(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *bfxor(const struct bitfield *input1,
+struct bitfield *_bfor(int count, ...)
+{
+	int i;
+	va_list args;
+	va_start(args, count);
+	struct bitfield *output = bfclone(va_arg(args, struct bitfield *));
+	for (i = 1; i < count; i++) {
+
+		struct bitfield *tmp =
+		    __bfor(output, va_arg(args, struct bitfield *));
+		/* reassign *output to point to new struct without leaking memory */
+		free(output->field);
+		*output = *tmp;
+		free(tmp);
+	}
+	va_end(args);
+	return output;
+}
+
+static inline struct bitfield *__bfxor(const struct bitfield *input1,
 		       const struct bitfield *input2)
 {
 	/* If the inputs are different size, take the shorter, and ignore the difference.
@@ -739,6 +777,25 @@ struct bitfield *bfxor(const struct bitfield *input1,
 		output->field[i] = input1->field[i] ^ input2->field[i];
 	/* make sure to clear the trailing bits, if there are any */
 	bfcleartail(output);
+	return output;
+}
+
+struct bitfield *_bfxor(int count, ...)
+{
+	int i;
+	va_list args;
+	va_start(args, count);
+	struct bitfield *output = bfclone(va_arg(args, struct bitfield *));
+	for (i = 1; i < count; i++) {
+
+		struct bitfield *tmp =
+		    __bfxor(output, va_arg(args, struct bitfield *));
+		/* reassign *output to point to new struct without leaking memory */
+		free(output->field);
+		*output = *tmp;
+		free(tmp);
+	}
+	va_end(args);
 	return output;
 }
 

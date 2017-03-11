@@ -1,4 +1,4 @@
-.TH bitfield_converters 3 "SEPTEMBER 10, 2016" "bitfield 0.6.0" "Bitfield manipulation library"
+.TH bitfield_converters 3 "MARCH 11, 2017" "bitfield 0.6.3" "Bitfield manipulation library"
 .SH NAME
 bf2str, bf2char, bf2short, bf2int, bf2long, bf2ll, bftouint8, bftouint16, bftouint32, bftouint64 \- convert bitfields to arrays of standard data types
 .sp
@@ -34,15 +34,15 @@ str2bf_ip, char2bf_ip, short2bf_ip, int2bf_ip, long2bf_ip, ll2bf_ip, uint8tobf_i
 .BI "void bftouint64_ip(const struct bitfield *"input ", uint64_t *"output ");
 .sp
 .BI "struct bitfield *str2bf(const char *"input ");
-.BI "struct bitfield *char2bf(const char *"input ");
-.BI "struct bitfield *short2bf(const unsigned short *"input ");
-.BI "struct bitfield *int2bf(const unsigned int *"input ");
-.BI "struct bitfield *long2bf(const unsigned long *"input ");
-.BI "struct bitfield *ll2bf(const unsigned long long *"input ");
-.BI "struct bitfield *uint8tobf(const uint8_t *"input ");
-.BI "struct bitfield *uint16tobf(const uint16_t *"input ");
-.BI "struct bitfield *uint32tobf(const uint32_t *"input ");
-.BI "struct bitfield *uint64tobf(const uint64_t *"input ");
+.BI "struct bitfield *char2bf(const char *"input ", int size);
+.BI "struct bitfield *short2bf(const unsigned short *"input ", int size);
+.BI "struct bitfield *int2bf(const unsigned int *"input ", int size);
+.BI "struct bitfield *long2bf(const unsigned long *"input ", int size);
+.BI "struct bitfield *ll2bf(const unsigned long long *"input ", int size);
+.BI "struct bitfield *uint8tobf(const uint8_t *"input ", int size);
+.BI "struct bitfield *uint16tobf(const uint16_t *"input ", int size);
+.BI "struct bitfield *uint32tobf(const uint32_t *"input ", int size);
+.BI "struct bitfield *uint64tobf(const uint64_t *"input ", int size);
 .sp
 .BI "void str2bf_ip(const char *"input ", struct bitfield *"output ");
 .BI "void char2bf_ip(const char *"input ", struct bitfield *"output ");
