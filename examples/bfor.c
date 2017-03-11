@@ -8,19 +8,19 @@
 
 int main()
 {
-	printf("Joining three bit arrays into one...\n");
+	printf("Running logical OR over three bit arrays...\n");
 	printf("Inputs:\n");
-	struct bitfield *input1 = str2bf("1010101");
+	struct bitfield *input1 = str2bf("1111011");
 	bfprint_lsb(input1);
 	printf("\n");
-	struct bitfield *input2 = str2bf("101010100");
+	struct bitfield *input2 = str2bf("101000100");
 	bfprint_lsb(input2);
 	printf("\n");
-	struct bitfield *input3 = str2bf("1010101111111");
+	struct bitfield *input3 = str2bf("1010100111");
 	bfprint_lsb(input3);
 	printf("\n");
 	struct bitfield *output =
-	    bfcat(input1, input2, input3, input1, input2, input3);
+	    bfor(input1, input2, input3);
 	printf("Output:\n");
 	bfprint_lsb(output);
 	printf("\n");
