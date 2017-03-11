@@ -23,7 +23,7 @@ struct bitfield;
  * long
  */
 
-struct bitfield *str2bf(const char *input);	/* converts a character string of ones and zeroes into a bitfield and returns the result in a new bitfield */
+struct bitfield *str2bf(const char *input);	/* converts a null-terminated character string of ones and zeroes into a bitfield and returns the result in a new bitfield */
 
 #define char2bf(X, Y) (struct bitfield *) uint8tobf((const uint8_t *) X, Y)	/* write the contents of an array of chars into a bitfield structure */
 
