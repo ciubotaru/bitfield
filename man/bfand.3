@@ -1,20 +1,20 @@
-.TH bfand 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.TH bfand 3 "MARCH 11, 2017" "bitfield 0.6.3" "Bitfield manipulation library"
 .SH NAME
 bfand, bfnot, bfnot_ip, bfor, bfxor \- perform logical operations over bitmaps.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
 .sp
-.BI "struct bitfield *bfand(const struct bitfield *"input1 ", const struct bitfield *"input2 ");
-.BI "struct bitfield *bfor(const struct bitfield *"input1 ", const struct bitfield *"input2 ");
+.BI "struct bitfield *bfand(const struct bitfield *"input1 ", const struct bitfield *"input2 ", ...);
+.BI "struct bitfield *bfor(const struct bitfield *"input1 ", const struct bitfield *"input2 ", ...);
 .BI "struct bitfield *bfnot(const struct bitfield *"input ");
 .BI "void bfnot_ip(const struct bitfield *"instance ");
-.BI "struct bitfield *bfxor(const struct bitfield *"input1 ", const struct bitfield *"input2 ");
+.BI "struct bitfield *bfxor(const struct bitfield *"input1 ", const struct bitfield *"input2 ", ...);
 .fi
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
 .sp
-The \fBbfand()\fR function takes pointers to two bitfields, \fIinput1\fR and \fIinput2\fR, performs logical AND over each pairs of bits from \fIinput1\fR and \fIinput2\fR and stores the result in a new bitfiel. The function returns a pointer to the new bitfield.
+The \fBbfand()\fR function takes pointers to two or more arguments, all of them pointers to bitfields, performs logical AND over each pairs of bits from the first two (and iteratively with each additional argument, if any) and stores the result in a new bitfiel. The function returns a pointer to the new bitfield.
 .sp
 The following table illustrates inputs and results of logical AND:
 .sp
@@ -38,7 +38,7 @@ input output
 .sp
 The \fBbfnot_ip()\fR function is an "in-place" version of the \fBbnot()\fR.
 .sp
-The \fBbfor()\fR function takes pointers to two bitfields, \fIinput1\fR and \fIinput2\fR, and performs bitwise inclusive OR over pairs of bits from \fIinput1\fR and \fIinput2\fR and stores the result in a new bitfield. The function returns a pointer to the new bitfield.
+The \fBbfor()\fR function takes pointers to two or more arguments, all pointers to bitfields, and performs bitwise inclusive OR over pairs of bits from the first two arguments (then iteratively with every additional argument, if any) and stores the result in a new bitfield. The function returns a pointer to the new bitfield.
 .sp
 The following table illustrates inputs and results of logical inclusive OR:
 .sp
@@ -51,7 +51,7 @@ input1 input2 output
   1      1      1
 .fi
 .sp
-The \fBbfxor()\fR function takes pointers to two bitfields, \fIinput1\fR and \fIinput2\fR, and performs bitwise eXclusive OR (XOR) over pairs of bits from \fIinput1\fR and \fIinput2\fR and stores the result in a new bitfield. The function returns a pointer to the new bitfield.
+The \fBbfxor()\fR function takes pointers to two arguments, all pointers to bitfields, and performs bitwise eXclusive OR (XOR) over pairs of bits from the first two arguments (then iteratively with every additional argument, if any) and stores the result in a new bitfield. The function returns a pointer to the new bitfield.
 .sp
 The following table illustrates inputs and results of logical eXclusive OR (XOR):
 .sp
