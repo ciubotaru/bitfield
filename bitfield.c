@@ -1004,7 +1004,6 @@ int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
 	int needle_size = bfsize(needle);
 	int i;
 	int diff = heystack_size - needle_size;
-	int result;
 
 	/* needle longer than haystack; return error code -2 */
 	if (diff < 0) {
@@ -1013,6 +1012,7 @@ int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
 	for (i = 0; i <= diff; i++) {
 		struct bitfield *needle_candidate =
 		    bfsub(haystack, i, needle_size + i);
+		int result;
 		result = bfcmp(needle_candidate, needle, NULL);
 		bfdel(needle_candidate);
 		/* needle matches a sub-array of haystack; return starting position of the sub-array */
@@ -1191,10 +1191,10 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 	int output_slots = BITNSLOTS(end - start);
 //    unsigned_long mask_1 = (start_offset = 0) ? -1UL : (1UL << (LONG_BIT - offset)) - 1UL;
 
-	int i;
     /** filling output slots except the last one, because it may be underfull **/
 	if (output_slots > 1) {
 		if (start_offset != 0) {	// need to move them one by one
+			int i;
 			for (i = 0; i < output_slots - 1; i++) {
 				output->field[i] =
 				    input->field[start_slot +
