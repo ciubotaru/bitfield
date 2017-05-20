@@ -19,8 +19,7 @@ int main()
 	struct bitfield *input3 = str2bf("1010100111");
 	bfprint_lsb(input3);
 	printf("\n");
-	struct bitfield *output =
-	    bfor(input1, input2, input3);
+	struct bitfield *output = bfor(input1, input2, input3);
 	printf("Output:\n");
 	bfprint_lsb(output);
 	printf("\n");
