@@ -442,7 +442,7 @@ inline uint8_t *bftouint8(const struct bitfield * input)
 	#if __BYTE_ORDER == __BIG_ENDIAN
 	struct bitfield *tmp = bf_htole(input);
 	if (!tmp) {
-		bfdel(output);
+		free(output);
 		return NULL;
 	}
 	memcpy(output, tmp->field, nr_bytes);
@@ -462,7 +462,7 @@ inline uint16_t *bftouint16(const struct bitfield * input)
 	#if __BYTE_ORDER == __BIG_ENDIAN
 	struct bitfield *tmp = bf_htole(input);
 	if (!tmp) {
-		bfdel(output);
+		free(output);
 		return NULL;
 	}
 	memcpy(output, tmp->field, nr_bytes);
@@ -491,7 +491,7 @@ inline uint32_t *bftouint32(const struct bitfield * input)
 		#if __BYTE_ORDER == __BIG_ENDIAN
 		struct bitfield *tmp = bf_htole(input);
 		if (!tmp) {
-			bfdel(output);
+			free(output);
 			return NULL;
 		}
 		memcpy(output, tmp->field, nr_bytes);
@@ -519,7 +519,7 @@ inline uint64_t *bftouint64(const struct bitfield * input)
 		#if __BYTE_ORDER == __BIG_ENDIAN
 		struct bitfield *tmp = bf_htole(input);
 		if (!tmp) {
-			bfdel(output);
+			free(output);
 			return NULL;
 		}
 		memcpy(output, tmp->field, nr_bytes);
