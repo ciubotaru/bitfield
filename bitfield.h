@@ -116,11 +116,11 @@ void bftouint64_ip(const struct bitfield *input, uint64_t *output);
  * Create and delete bitfields
  */
 
-struct bitfield *bfnew_ones(const int size);	/* creates a bitfield structure, sets all its bits to true with and returns a pointer to it */
+struct bitfield *bfnew_ones(const unsigned int size);	/* creates a bitfield structure, sets all its bits to true with and returns a pointer to it */
 
-struct bitfield *bfnew_quick(const int size);	/* creates a bitfield structure and returns a pointer to it */
+struct bitfield *bfnew_quick(const unsigned int size);	/* creates a bitfield structure and returns a pointer to it */
 
-struct bitfield *bfnew(const int size);	/* creates a bitfield structure, sets all its bits to false and returns a pointer to it */
+struct bitfield *bfnew(const unsigned int size);	/* creates a bitfield structure, sets all its bits to false and returns a pointer to it */
 
 void bfdel(struct bitfield *instance);	/* destroys a bitfield structure and frees memory */
 

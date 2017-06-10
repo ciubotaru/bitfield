@@ -638,7 +638,7 @@ inline void bftouint64_ip(const struct bitfield *input, uint64_t * output)
  * Create and delete bitfields
  */
 
-struct bitfield *bfnew(const int size)
+struct bitfield *bfnew(const unsigned int size)
 {
 	struct bitfield *instance = malloc(sizeof(struct bitfield));
 	if (!instance) return NULL;
@@ -647,7 +647,7 @@ struct bitfield *bfnew(const int size)
 	return instance;
 }
 
-struct bitfield *bfnew_ones(const int size)
+struct bitfield *bfnew_ones(const unsigned int size)
 {
 	struct bitfield *instance = malloc(sizeof(struct bitfield));
 	if (!instance) return NULL;
@@ -657,7 +657,7 @@ struct bitfield *bfnew_ones(const int size)
 	return instance;
 }
 
-struct bitfield *bfnew_quick(const int size)
+struct bitfield *bfnew_quick(const unsigned int size)
 {
 	struct bitfield *instance = malloc(sizeof(struct bitfield));
 	if (!instance) return NULL;
