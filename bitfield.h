@@ -128,7 +128,7 @@ void bfdel(struct bitfield *instance);	/* destroys a bitfield structure and free
  * Operations with single bits
  */
 
-int bfgetbit(const struct bitfield *instance, const unsigned int bit);	/* checks whether a bit in a bitfield is set */
+unsigned int bfgetbit(const struct bitfield *instance, const unsigned int bit);	/* checks whether a bit in a bitfield is set */
 
 void bfsetbit(struct bitfield *instance, const unsigned int bit);	/* sets one bit in a bitfield */
 
@@ -169,17 +169,17 @@ void bfclearall(struct bitfield *instance);	/* fills a bitfield with zeroes */
 
 struct bitfield *bfclone(const struct bitfield *input);	/* creates a copy of an existing bitfield */
 
-int bfcmp(const struct bitfield *input1, const struct bitfield *input2, char **errmsg);	/* compares two bitfields and returns 0 if same or non-zero and error message if different */
+unsigned int bfcmp(const struct bitfield *input1, const struct bitfield *input2, char **errmsg);	/* compares two bitfields and returns 0 if same or non-zero and error message if different */
 
-int bfcpy(const struct bitfield *src, struct bitfield *dest);	/* copies the contents of a bitfield into another pre-existing bitfield */
+unsigned int bfcpy(const struct bitfield *src, struct bitfield *dest);	/* copies the contents of a bitfield into another pre-existing bitfield */
 
-int bfhamming(const struct bitfield *input1, const struct bitfield *input2);	/* counts the Hamming distance between two bitfields */
+unsigned int bfhamming(const struct bitfield *input1, const struct bitfield *input2);	/* counts the Hamming distance between two bitfields */
 
-int bfisempty(const struct bitfield *instance);	/* checks whether all bits of an array are unset */
+unsigned int bfisempty(const struct bitfield *instance);	/* checks whether all bits of an array are unset */
 
 struct bitfield *bfnormalize(const struct bitfield *input);	/* treats the bitfield as a closed ring and represents it as a smallest value */
 
-int bfpopcount(const struct bitfield *instance);	/* counts the set bits in a bitfield */
+unsigned int bfpopcount(const struct bitfield *instance);	/* counts the set bits in a bitfield */
 
 int bfpos(const struct bitfield *haystack, const struct bitfield *needle);	/* check whether an array of bits contains a sub-array */
 
@@ -199,7 +199,7 @@ void bfshift_ip(struct bitfield *input, const int offset);	/* circular-shifts th
 
 struct bitfield *bfshift(const struct bitfield *input, const int offset);	/* circular-shifts the contents of a bitfield and return the result in new bitfield */
 
-int bfsize(const struct bitfield *instance);	/* obtains the number of bits of a bitfield */
+unsigned int bfsize(const struct bitfield *instance);	/* obtains the number of bits of a bitfield */
 
 struct bitfield *bfsub(const struct bitfield *input, const unsigned int start, const unsigned int end);	/* extracts a sub-bitfield from a bitfield */
 

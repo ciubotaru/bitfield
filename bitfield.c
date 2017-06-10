@@ -681,7 +681,7 @@ void bfdel(struct bitfield *instance)
  * Operations with single bits
  */
 
-int bfgetbit(const struct bitfield *instance, const unsigned int bit)
+unsigned int bfgetbit(const struct bitfield *instance, const unsigned int bit)
 {
 	/* might be good to check whether bit is within range */
 
@@ -960,10 +960,10 @@ struct bitfield *bfclone(const struct bitfield *input)
 	return output;
 }
 
-int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
+unsigned int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
 	  char **errmsg)
 {
-	int retcode = 0;
+	unsigned int retcode = 0;
 	char *msg;
 	if (input1->size != input2->size) {
 		msg = "Can not compare bitfields of different length";
@@ -999,7 +999,7 @@ int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
 	return retcode;
 }
 
-int bfcpy(const struct bitfield *src, struct bitfield *dest)
+unsigned int bfcpy(const struct bitfield *src, struct bitfield *dest)
 {
 	if (src->size > dest->size)
 		return 1;
@@ -1009,18 +1009,18 @@ int bfcpy(const struct bitfield *src, struct bitfield *dest)
 	return 0;
 }
 
-int bfhamming(const struct bitfield *input1, const struct bitfield *input2)
+unsigned int bfhamming(const struct bitfield *input1, const struct bitfield *input2)
 {
 	struct bitfield *input_xored = bfxor(input1, input2);
-	int hamming = bfpopcount(input_xored);
+	unsigned int hamming = bfpopcount(input_xored);
 	bfdel(input_xored);
 	return hamming;
 }
 
-int bfisempty(const struct bitfield *instance)
+unsigned int bfisempty(const struct bitfield *instance)
 {
-	int i;
-	int bitnslots = BITNSLOTS(instance->size);
+	unsigned int i;
+	unsigned int bitnslots = BITNSLOTS(instance->size);
 	for (i = 0; i < bitnslots; i++) {
 		if (instance->field[i] != 0UL)
 			return 1;
@@ -1028,7 +1028,7 @@ int bfisempty(const struct bitfield *instance)
 	return 0;
 }
 
-int bfpopcount(const struct bitfield *instance)
+unsigned int bfpopcount(const struct bitfield *instance)
 {
 	unsigned int bits = 0;
 	unsigned int i;
@@ -1040,8 +1040,8 @@ int bfpopcount(const struct bitfield *instance)
 
 int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
 {
-	int heystack_size = bfsize(haystack);
-	int needle_size = bfsize(needle);
+	unsigned int heystack_size = bfsize(haystack);
+	unsigned int needle_size = bfsize(needle);
 	int i;
 	int diff = heystack_size - needle_size;
 
@@ -1052,7 +1052,7 @@ int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
 	for (i = 0; i <= diff; i++) {
 		struct bitfield *needle_candidate =
 		    bfsub(haystack, i, needle_size + i);
-		int result;
+		unsigned int result;
 		result = bfcmp(needle_candidate, needle, NULL);
 		bfdel(needle_candidate);
 		/* needle matches a sub-array of haystack; return starting position of the sub-array */
@@ -1207,7 +1207,7 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset)
 	return output;
 }
 
-int bfsize(const struct bitfield *instance)
+unsigned int bfsize(const struct bitfield *instance)
 {
 	return instance->size;
 }
