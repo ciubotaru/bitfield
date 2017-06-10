@@ -215,7 +215,7 @@ struct bitfield *str2bf(const char *input)
 	return output;
 }
 
-struct bitfield *short2bf(const unsigned short *input, int size)
+struct bitfield *short2bf(const unsigned short *input, unsigned int size)
 {
 	struct bitfield *output;
 	if (sizeof(unsigned short) == 2)
@@ -225,7 +225,7 @@ struct bitfield *short2bf(const unsigned short *input, int size)
 	return output;
 }
 
-struct bitfield *long2bf(const unsigned long *input, int size)
+struct bitfield *long2bf(const unsigned long *input, unsigned int size)
 {
 	struct bitfield *output = bfnew_quick(size);
 	if (!output) return NULL;
@@ -233,7 +233,7 @@ struct bitfield *long2bf(const unsigned long *input, int size)
 	return output;
 }
 
-struct bitfield *uint8tobf(const uint8_t * input, int size)
+struct bitfield *uint8tobf(const uint8_t * input, unsigned int size)
 {
 	struct bitfield *output = bfnew(size);
 	if (!output) return NULL;
@@ -244,7 +244,7 @@ struct bitfield *uint8tobf(const uint8_t * input, int size)
 	return output;
 }
 
-struct bitfield *uint16tobf(const uint16_t * input, int size)
+struct bitfield *uint16tobf(const uint16_t * input, unsigned int size)
 {
 	struct bitfield *output = bfnew(size);
 	if (!output) return NULL;
@@ -259,7 +259,7 @@ struct bitfield *uint16tobf(const uint16_t * input, int size)
 	return output;
 }
 
-struct bitfield *uint32tobf(const uint32_t * input, int size)
+struct bitfield *uint32tobf(const uint32_t * input, unsigned int size)
 {
 	struct bitfield *output = bfnew(size);
 	if (!output) return NULL;
@@ -276,7 +276,7 @@ struct bitfield *uint32tobf(const uint32_t * input, int size)
 	return output;
 }
 
-struct bitfield *uint64tobf(const uint64_t * input, int size)
+struct bitfield *uint64tobf(const uint64_t * input, unsigned int size)
 {
 	/**
 	 * if sizeof long equals 64 bits, copy as is on any architecture
