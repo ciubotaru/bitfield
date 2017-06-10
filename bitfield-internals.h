@@ -24,6 +24,6 @@
 
 struct bitfield {		/* defines a bitfield */
 	unsigned long *field;
-	int size;
+	unsigned int size;
 };
 

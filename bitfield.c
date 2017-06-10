@@ -1122,9 +1122,9 @@ void bfrev_ip(struct bitfield *instance)
 
 struct bitfield *bfrev(const struct bitfield *input)
 {
-	int size = input->size;
-	int bitnslots = BITNSLOTS(size);
-	int i;
+	unsigned int size = input->size;
+	unsigned int bitnslots = BITNSLOTS(size);
+	unsigned int i;
 	struct bitfield *output = bfnew_quick(size);
 	if (!output) return NULL;
 	for (i = 0; i < bitnslots; i++) {
@@ -1161,17 +1161,15 @@ void bfshift_ip(struct bitfield *input, const int offset)
 	}
 	/* positive offset moves the last offset characters to the beginning */
 	/* removing extra rotations */
-	int offset_internal = offset % input->size;
+	int offset_internal = (offset > 0) ? offset % input->size : input->size - (offset % input->size);
 	if (offset_internal == 0) {
 		return;		/* no need to shift */
 	}
 	/* changing a negative offset to a positive equivalent */
-	if (offset < 0)
-		offset_internal += input->size;
 	struct bitfield *first_chunk =
-	    bfsub(input, 0, input->size - offset_internal);
+	    bfsub(input, 0, offset_internal);
 	struct bitfield *second_chunk =
-	    bfsub(input, input->size - offset_internal, input->size);
+	    bfsub(input, offset_internal, input->size);
 
 	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
 	free(input->field);
@@ -1183,24 +1181,28 @@ void bfshift_ip(struct bitfield *input, const int offset)
 
 struct bitfield *bfshift(const struct bitfield *input, const int offset)
 {
-	/* positive offset moves the last offset characters to the beginning */
-	int bitnslots = BITNSLOTS(input->size);
+	/**
+	 * This function "cuts" the bitfield into two and swaps them.
+	 * If the offset is positive, the cutting point is counted from the
+	 * beginning of the bit array, otherwise from the end.
+	**/
+	unsigned int bitnslots = BITNSLOTS(input->size);
 	/* removing extra rotations */
-	int offset_internal = offset % input->size;
+	int offset_internal = (offset > 0) ? offset % input->size : input->size - (offset % input->size);
+
 	if (offset_internal == 0) {
+		/* nothing to shift */
 		struct bitfield *output = bfnew(input->size);
 		if (!output) return NULL;
 		memcpy(output->field, input->field,
 		       bitnslots * sizeof(unsigned long));
-		return output;	/* nothing to shift */
+		return output;
 	}
-	/* changing a negative offset to a positive equivalent */
-	if (offset < 0)
-		offset_internal += input->size;
+
 	struct bitfield *first_chunk =
-	    bfsub(input, 0, input->size - offset_internal);
+	    bfsub(input, 0, offset_internal);
 	struct bitfield *second_chunk =
-	    bfsub(input, input->size - offset_internal, input->size);
+	    bfsub(input, offset_internal, input->size);
 	struct bitfield *output = bfcat(second_chunk, first_chunk);
 	bfdel(first_chunk);
 	bfdel(second_chunk);
