@@ -1141,7 +1141,7 @@ struct bitfield *bfrev(const struct bitfield *input)
 	}
 	int tail = bitnslots * LONG_BIT - size;
 	output->size = bitnslots * LONG_BIT;
-	bfshift_ip(output, -tail);
+	bfshift_ip(output, tail);
 	output->size = size;
 	return output;
 }
@@ -1156,20 +1156,25 @@ void bfsetall(struct bitfield *instance)
 
 void bfshift_ip(struct bitfield *input, const int offset)
 {
-	if (input->size <= 1) {
+	int size = bfsize(input);
+	if (size <= 1) {
 		return;		/* input too short to shift */
 	}
-	/* positive offset moves the last offset characters to the beginning */
-	/* removing extra rotations */
-	int offset_internal = (offset > 0) ? offset % input->size : input->size - (offset % input->size);
+	/**
+	 * This function "cuts" the bitfield into two and swaps them.
+	 * If the offset is positive, the cutting point is counted from the
+	 * beginning of the bit array, otherwise from the end.
+	**/
+	int offset_internal = offset % size;
 	if (offset_internal == 0) {
 		return;		/* no need to shift */
 	}
 	/* changing a negative offset to a positive equivalent */
+	if (offset_internal < 0) offset_internal += size;
 	struct bitfield *first_chunk =
 	    bfsub(input, 0, offset_internal);
 	struct bitfield *second_chunk =
-	    bfsub(input, offset_internal, input->size);
+	    bfsub(input, offset_internal, size);
 
 	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
 	free(input->field);
@@ -1188,21 +1193,22 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset)
 	**/
 	unsigned int bitnslots = BITNSLOTS(input->size);
 	/* removing extra rotations */
-	int offset_internal = (offset > 0) ? offset % input->size : input->size - (offset % input->size);
-
+	int size = bfsize(input);
+	int offset_internal = offset % size;
 	if (offset_internal == 0) {
 		/* nothing to shift */
-		struct bitfield *output = bfnew(input->size);
+		struct bitfield *output = bfnew(size);
 		if (!output) return NULL;
 		memcpy(output->field, input->field,
 		       bitnslots * sizeof(unsigned long));
 		return output;
 	}
+	if (offset_internal < 0) offset_internal += size;
 
 	struct bitfield *first_chunk =
 	    bfsub(input, 0, offset_internal);
 	struct bitfield *second_chunk =
-	    bfsub(input, offset_internal, input->size);
+	    bfsub(input, offset_internal, size);
 	struct bitfield *output = bfcat(second_chunk, first_chunk);
 	bfdel(first_chunk);
 	bfdel(second_chunk);
@@ -1289,9 +1295,9 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 
 struct bitfield *bfnormalize(const struct bitfield *input)
 {
-	int size = input->size;
-	int bitnslots = BITNSLOTS(size);
-	int length_last_chunk = size % LONG_BIT;
+	unsigned int size = input->size;
+	unsigned int bitnslots = BITNSLOTS(size);
+	unsigned int length_last_chunk = size % LONG_BIT;
 	/* pick first potential candidate for output */
 	struct bitfield *output = bfclone(input);
 	if (!output) return NULL;
@@ -1299,16 +1305,16 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 	unsigned long chunk_a, chunk_b;
 	struct bitfield *tmp1, *tmp2;
 	/* counters for bit offsets and slots/chunks/longs */
-	int i, j;
+	unsigned int i, j;
 	/* shift input string 1 position at a time and compare with best candidate (size - 1 comparisons) */
 	for (i = 1; i <= size - 1; i++) {
 		/* compare 1 slot/long at a time */
-		for (j = bitnslots - 1; j >= 0; j--) {
+		for (j = bitnslots - 1; ; j--) {
 			/* special check for tail chunks (may be underfull) */
 			if (j == bitnslots - 1 && length_last_chunk != 0) {
 				/* this can probably be optimized */
 				chunk_a = output->field[j];
-				tmp1 = bfshift(input, length_last_chunk + i);
+				tmp1 = bfshift(input, size - length_last_chunk - i);
 				if (!tmp1) goto error;
 				tmp2 = bfsub(tmp1, 0, length_last_chunk);
 				if (!tmp2) {
@@ -1321,13 +1327,13 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 			} else {
 				/* this can probably be optimized */
 				chunk_a = output->field[j];
-				tmp1 = bfshift(input, i);
+				tmp1 = bfshift(input, -i);
 				chunk_b = tmp1->field[j];
 				bfdel(tmp1);
 			}
 			/* compare. if a is greater, offset i becomes new best candidate. move to next i */
 			if (chunk_a > chunk_b) {
-				tmp1 = bfshift(input, i);
+				tmp1 = bfshift(input, -i);
 				free(output->field);
 				*output = *tmp1;
 				free(tmp1);

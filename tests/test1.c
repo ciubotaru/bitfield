@@ -59,7 +59,7 @@ int main()
 			return 1;
 		}
 		/* shift it back and compare to the original bitfield */
-		bfshift_ip(shifted, point);
+		bfshift_ip(shifted, -point);
 		cmp = bfcmp(input, shifted, NULL);
 		bfdel(shifted);
 		if (cmp != 0) {
