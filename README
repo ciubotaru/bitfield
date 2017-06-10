@@ -258,6 +258,14 @@ bfsize() obtains the number of bits of a bitfield
 
 Please, see "examples" directory for working examples.
 
+Versioning
+----------
+
+The versioning scheme is MAJOR.MINOR.PATCH, where
+* MAJOR version changes with incompatible API/ABI changes,
+* MINOR version changes with backwards-compatible changes (like adding new functionality),
+* PATCH version changes with backwards-compatible bug fixes.
+
 Licensing
 ---------
 
