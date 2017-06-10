@@ -19,12 +19,12 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
-	int len = 80;
+	unsigned int i;			//counter
+	unsigned int len = 80;
 	char *msg = "Testing bfgetbit()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
@@ -40,7 +40,7 @@ int main()
 	struct bitfield *input = str2bf(input_char);
 
 	for (i = 0; i < len; i++) {
-		if (bfgetbit(input, i) != input_char[i] - '0') {
+		if (bfgetbit(input, i) != (unsigned int) input_char[i] - '0') {
 			printf("%s\n", failed);
 			free(input_char);
 			bfdel(input);

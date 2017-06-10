@@ -20,16 +20,16 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j, cmp;		//counters
-	int len = 80;
+	unsigned int i, j, cmp;		//counters
+	unsigned int len = 80;
 	char *msg = "Testing uint8tobf()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int chars = (len - 1) / 8 + 1;
+	unsigned int chars = (len - 1) / 8 + 1;
 	uint8_t *input = calloc(1, chars);
 	for (i = 0; i < chars - 1; i++) {
 		for (j = 0; j < 8; j++) {

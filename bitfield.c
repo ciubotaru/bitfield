@@ -1066,7 +1066,7 @@ int bfpos(const struct bitfield *haystack, const struct bitfield *needle)
 
 void bfprint_lsb(const struct bitfield *instance)
 {
-	int i;
+	unsigned int i;
 	for (i = 0; i < instance->size; i++)
 		printf("%lu",
 		       (instance->field[i / LONG_BIT] >> (i % LONG_BIT)) & 1UL);

@@ -32,7 +32,7 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int point, cmp;
+	unsigned int point, cmp;
 	/* try all possible points of division */
 	for (point = 1; point < (len - 1); point++) {
 		/* divide a bitfield into two subfields */

@@ -19,16 +19,16 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j;		//counters
-	int len = 80;
+	unsigned int i, j;		//counters
+	unsigned int len = 80;
 	char *msg = "Testing long2bf()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int bitnslots = BITNSLOTS(len);
+	unsigned int bitnslots = BITNSLOTS(len);
 	unsigned long *input = calloc(1, bitnslots * sizeof(unsigned long));
 	for (i = 0; i < bitnslots - 1; i++) {
 		for (j = 0; j < LONG_BIT; j++) {

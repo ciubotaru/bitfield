@@ -21,16 +21,16 @@ int main()
 {
 	uint64_t unit = 1;
 	srand((unsigned)time(NULL));
-	int i, j, cmp;		//counters
-	int len = 80;
+	unsigned int i, j, cmp;		//counters
+	unsigned int len = 80;
 	char *msg = "Testing uint64tobf()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int int64s = (len - 1) / 64 + 1;
+	unsigned int int64s = (len - 1) / 64 + 1;
 	uint64_t *input = calloc(1, int64s * sizeof(uint64_t));
 	for (i = 0; i < int64s - 1; i++) {
 		for (j = 0; j < 64; j++) {

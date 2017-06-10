@@ -20,16 +20,16 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, j, cmp;		//counters
-	int len = 80;
+	unsigned int i, j, cmp;		//counters
+	unsigned int len = 80;
 	char *msg = "Testing short2bf()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int shorts = (len - 1) / SHORT_BIT + 1;
+	unsigned int shorts = (len - 1) / SHORT_BIT + 1;
 	unsigned short *input = calloc(1, shorts * sizeof(unsigned short));
 	for (i = 0; i < shorts - 1; i++) {
 		for (j = 0; j < SHORT_BIT; j++) {
