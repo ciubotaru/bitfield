@@ -34,14 +34,14 @@
 /* big-endian-specific function declarations */
 
 static inline void _bf_letoh_ip(struct bitfield *instance);
-static inline void _uint16_letoh_ip(uint16_t * input, const int size);
-static inline void _uint32_letoh_ip(uint32_t * input, const int size);
-static inline void _uint64_letoh_ip(uint64_t * input, const int size);
+static inline void _uint16_letoh_ip(uint16_t * input, const unsigned int size);
+static inline void _uint32_letoh_ip(uint32_t * input, const unsigned int size);
+static inline void _uint64_letoh_ip(uint64_t * input, const unsigned int size);
 static inline struct bitfield *_bf_htole(const struct bitfield *input);
-static inline void _uint16_htole_ip(uint16_t *input, const int size);
-static inline void _uint32_htole_ip(uint32_t *input, const int size);
-static inline void _uint64_htole_ip(uint64_t *input, const int size);
-static inline void uint64tobf_be(const uint64_t * input, struct bitfield *output, int size);
+static inline void _uint16_htole_ip(uint16_t *input, const unsigned int size);
+static inline void _uint32_htole_ip(uint32_t *input, const unsigned int size);
+static inline void _uint64_htole_ip(uint64_t *input, const unsigned int size);
+static inline void uint64tobf_be(const uint64_t * input, struct bitfield *output, unsigned int size);
 
 /* big-endian-specific function definitions */
 
@@ -59,7 +59,7 @@ static inline void _bf_letoh_ip(struct bitfield *instance)
 		uint64_letoh_ip((uint64_t *) instance->field, BITNSLOTS(bfsize(instance)));
 }
 
-static inline void _uint16_letoh_ip(uint16_t * input, const int size)
+static inline void _uint16_letoh_ip(uint16_t * input, const unsigned int size)
 /**
  * convert short integers from little endian to host.
  * needed when memcpy from bitfield to short on big endian machines
@@ -71,7 +71,7 @@ static inline void _uint16_letoh_ip(uint16_t * input, const int size)
 		input[i] = le16toh(input[i]);
 }
 
-static inline void _uint32_letoh_ip(uint32_t * input, const int size)
+static inline void _uint32_letoh_ip(uint32_t * input, const unsigned int size)
 /**
  * convert integers from little endian to host.
  * needed when memcpy from bitfield to int/long on big endian machines
@@ -84,7 +84,7 @@ static inline void _uint32_letoh_ip(uint32_t * input, const int size)
 	}
 }
 
-static inline void _uint64_letoh_ip(uint64_t * input, const int size)
+static inline void _uint64_letoh_ip(uint64_t * input, const unsigned int size)
 /**
  * convert integers from little endian to host.
  * needed when memcpy from bitfield to long on big endian machines
@@ -118,7 +118,7 @@ static inline struct bitfield *_bf_htole(const struct bitfield *input)
 	return output;
 }
 
-static inline void _uint16_htole_ip(uint16_t *input, const int size)
+static inline void _uint16_htole_ip(uint16_t *input, const unsigned int size)
 /**
  * write something here!!!
  **/
@@ -127,7 +127,7 @@ static inline void _uint16_htole_ip(uint16_t *input, const int size)
 	for (i = 0; i < size; i++) input[i] = htole16(input[i]);
 }
 
-static inline void _uint32_htole_ip(uint32_t *input, const int size)
+static inline void _uint32_htole_ip(uint32_t *input, const unsigned int size)
 /**
  * write something here!!!
  **/
@@ -136,7 +136,7 @@ static inline void _uint32_htole_ip(uint32_t *input, const int size)
 	for (i = 0; i < size; i++) input[i] = htole32(input[i]);
 }
 
-static inline void _uint64_htole_ip(uint64_t *input, const int size)
+static inline void _uint64_htole_ip(uint64_t *input, const unsigned int size)
 /**
  * write something here!!!
  **/
@@ -145,7 +145,7 @@ static inline void _uint64_htole_ip(uint64_t *input, const int size)
 	for (i = 0; i < size; i++) input[i] = htole64(input[i]);
 }
 
-static inline void uint64tobf_be(const uint64_t * input, struct bitfield *output, int size) {
+static inline void uint64tobf_be(const uint64_t * input, struct bitfield *output, unsigned int size) {
 	memcpy(output->field, input, ((size - 1) / 64 + 1) * sizeof(uint64_t));
 	uint64_htole_ip((uint64_t *) output->field, (size - 1) / 64 + 1);
 	bf_letoh_ip(output);
@@ -164,7 +164,7 @@ static inline void uint64tobf_be(const uint64_t * input, struct bitfield *output
 #define uint64_htole_ip(x, y)
 #define _uint64tobf(x, y, z) uint64tobf_le(x, y, z)
 
-static inline void uint64tobf_le(const uint64_t * input, struct bitfield *output, int size) {
+static inline void uint64tobf_le(const uint64_t * input, struct bitfield *output, unsigned int size) {
 	memcpy(output->field, input, (size - 1) / CHAR_BIT + 1);
 }
 
