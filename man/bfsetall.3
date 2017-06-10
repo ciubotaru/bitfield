@@ -1,4 +1,4 @@
-.TH bfsetall 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.TH bfsetall 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
 .SH NAME
 bfsetall, bfclearall \- fills a bitfield with values.
 .SH SYNOPSIS
@@ -9,7 +9,7 @@ bfsetall, bfclearall \- fills a bitfield with values.
 .BI "void bfclearall(struct bitfield *"instance ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
 The \fBbfsetall()\fR function takes a pointer to bitfield \fIinstance\fR, and sets all its bits (i.e. fills the bitfield with units).
 .sp

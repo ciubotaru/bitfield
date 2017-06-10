@@ -1,14 +1,14 @@
-.TH bfsize 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.TH bfsize 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
 .SH NAME
 bfsize \- obtain the number of bits of a bitfield.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
 .sp
-.BI "int bfsize(const struct bitfield *"instance ");
+.BI "unsigned int bfsize(const struct bitfield *"instance ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
 The \fBbfsize()\fR function takes pointers to a bitfield \fIinstance\fR and returns its \fIsize\fR (the number of bits).
 .sp

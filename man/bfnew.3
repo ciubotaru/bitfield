@@ -1,17 +1,17 @@
-.TH bfnew 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.TH bfnew 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
 .SH NAME
 bfnew, bfnew_quick, bfnew_ones, bfdel \- create and delete bitfields.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
 .sp
-.BI "struct bitfield *bfnew(const int "size ");
-.BI "struct bitfield *bfnew_quick(const int "size ");
-.BI "struct bitfield *bfnew_ones(const int "size ");
+.BI "struct bitfield *bfnew(const unsigned int "size ");
+.BI "struct bitfield *bfnew_quick(const unsigned int "size ");
+.BI "struct bitfield *bfnew_ones(const unsigned int "size ");
 .BI "void bfdel(struct bitfield *"instance ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
 The \fBbfnew()\fR function initializes a bitfield of specified \fIsize\fR (i.e. long enough to host a series of bits of length equal to \fIsize\fR) and returns a pointer to it. This pointer can later be successfully passed to \fBbfdel()\fR. The bitfield is guaranteed to be empty (i.e. contain only zeroes).
 .sp
