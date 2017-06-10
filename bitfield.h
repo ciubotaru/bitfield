@@ -140,7 +140,7 @@ void bftogglebit(struct bitfield *instance, const int bit);	/* toggles a bit in 
  * Logical operations with bitfields
  */
 
-struct bitfield * _bfand(int count, ...);
+struct bitfield * _bfand(unsigned int count, ...);
 
 #define bfand(...) (struct bitfield *) _bfand( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise AND over a pair of bitfields */
 
@@ -148,20 +148,20 @@ struct bitfield *bfnot(const struct bitfield *input);	/* reverses all bits in a 
 
 void bfnot_ip(struct bitfield *instance);	/* reverses all bits in a bitfield */
 
-struct bitfield * _bfor(int count, ...);
+struct bitfield * _bfor(unsigned int count, ...);
 
 #define bfor(...) (struct bitfield *) _bfor( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise inclusive OR over a pair of bitfields */
 
-struct bitfield * _bfxor(int count, ...);
+struct bitfield * _bfxor(unsigned int count, ...);
 
 #define bfxor(...) (struct bitfield *) _bfxor( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise exclusive OR over a pair of bitfields */
 
 /*
  * Manipulate bitfields
  */
-struct bitfield * _bfcat(int count, ...);
+struct bitfield * _bfcat(unsigned int count, ...);
 
-int count_arguments(char *s);
+unsigned int count_arguments(char *s);
 
 #define bfcat(...) (struct bitfield *) _bfcat( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* concatenates two bitfields into one */
 

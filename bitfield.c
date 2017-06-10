@@ -725,7 +725,7 @@ static inline struct bitfield *__bfand(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *_bfand(int count, ...)
+struct bitfield *_bfand(unsigned int count, ...)
 {
 	int i;
 	va_list args;
@@ -789,7 +789,7 @@ static inline struct bitfield *__bfor(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *_bfor(int count, ...)
+struct bitfield *_bfor(unsigned int count, ...)
 {
 	int i;
 	va_list args;
@@ -831,7 +831,7 @@ static inline struct bitfield *__bfxor(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *_bfxor(int count, ...)
+struct bitfield *_bfxor(unsigned int count, ...)
 {
 	int i;
 	va_list args;
@@ -905,7 +905,7 @@ static inline struct bitfield *__bfcat(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *_bfcat(int count, ...)
+struct bitfield *_bfcat(unsigned int count, ...)
 {
 	int i;
 	va_list args;
@@ -928,7 +928,7 @@ struct bitfield *_bfcat(int count, ...)
 	return output;
 }
 
-inline int count_arguments(char *s)
+inline unsigned int count_arguments(char *s)
 {
 	unsigned i, argc = 1;
 	for (i = 0; s[i]; i++)
