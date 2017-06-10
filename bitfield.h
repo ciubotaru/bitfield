@@ -128,13 +128,13 @@ void bfdel(struct bitfield *instance);	/* destroys a bitfield structure and free
  * Operations with single bits
  */
 
-int bfgetbit(const struct bitfield *instance, const int bit);	/* checks whether a bit in a bitfield is set */
+int bfgetbit(const struct bitfield *instance, const unsigned int bit);	/* checks whether a bit in a bitfield is set */
 
-void bfsetbit(struct bitfield *instance, int bit);	/* sets one bit in a bitfield */
+void bfsetbit(struct bitfield *instance, const unsigned int bit);	/* sets one bit in a bitfield */
 
-void bfclearbit(struct bitfield *instance, int bit);	/* clears one bit in a bitfield */
+void bfclearbit(struct bitfield *instance, const unsigned int bit);	/* clears one bit in a bitfield */
 
-void bftogglebit(struct bitfield *instance, const int bit);	/* toggles a bit in a bitfield */
+void bftogglebit(struct bitfield *instance, const unsigned int bit);	/* toggles a bit in a bitfield */
 
 /*
  * Logical operations with bitfields
@@ -187,7 +187,7 @@ void bfprint_lsb(const struct bitfield *instance);	/* prints a bitfield as a ser
 
 void bfprint_msb(const struct bitfield *instance);	/* prints a bitfield as a series of ones and zeroes, most significant bit first */
 
-void bfresize(struct bitfield *instance, int new_size);	/* resizes an existing bitfield */
+void bfresize(struct bitfield *instance, const unsigned int new_size);	/* resizes an existing bitfield */
 
 void bfrev_ip(struct bitfield *instance);	/* reverses the order of bits in a bitfield */
 

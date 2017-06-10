@@ -5,10 +5,10 @@ bfsetbit, bfclearbit, bfgetbit, bftogglebit \- manipulate one bit in  a bitfield
 .nf
 .B "#include <bitfield.h>
 .sp
-.BI "void bfsetbit(struct bitfield *"instance ", int "bit ");
-.BI "void bfclearbit(struct bitfield *"instance ", int "bit ");
-.BI "int bfgetbit(const struct bitfield *"instance ", const int "bit ");
-.BI "void bftogglebit(struct bitfield *"instance ", const int "bit ");
+.BI "void bfsetbit(struct bitfield *"instance ", const unsigned int "bit ");
+.BI "void bfclearbit(struct bitfield *"instance ", const unsigned int "bit ");
+.BI "int bfgetbit(const struct bitfield *"instance ", const unsigned int "bit ");
+.BI "void bftogglebit(struct bitfield *"instance ", const unsigned int "bit ");
 .fi
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.

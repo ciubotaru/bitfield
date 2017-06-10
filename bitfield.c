@@ -681,24 +681,24 @@ void bfdel(struct bitfield *instance)
  * Operations with single bits
  */
 
-int bfgetbit(const struct bitfield *instance, const int bit)
+int bfgetbit(const struct bitfield *instance, const unsigned int bit)
 {
 	/* might be good to check whether bit is within range */
 
 	return BITGET(instance, bit);
 }
 
-void bfsetbit(struct bitfield *instance, int bit)
+void bfsetbit(struct bitfield *instance, const unsigned int bit)
 {
 	BITSET(instance, bit);
 }
 
-void bfclearbit(struct bitfield *instance, int bit)
+void bfclearbit(struct bitfield *instance, const unsigned int bit)
 {
 	BITCLEAR(instance, bit);
 }
 
-void bftogglebit(struct bitfield *instance, const int bit)
+void bftogglebit(struct bitfield *instance, const unsigned int bit)
 {
 	BITTOGGLE(instance, bit);
 }
@@ -1081,7 +1081,7 @@ void bfprint_msb(const struct bitfield *instance)
 		       (instance->field[i / LONG_BIT] >> (i % LONG_BIT)) & 1UL);
 }
 
-void bfresize(struct bitfield *instance, int new_size)
+void bfresize(struct bitfield *instance, const unsigned int new_size)
 {
 	int old_bitnslots = BITNSLOTS(instance->size);
 	int new_bitnslots = BITNSLOTS(new_size);

@@ -5,7 +5,7 @@ bfresize \- resize an existing bitfield.
 .nf
 .B "#include <bitfield.h>
 .sp
-.BI "void bfresize(struct bitfield *"instance ", int "new_size ");
+.BI "void bfresize(struct bitfield *"instance ", const unsigned int "new_size ");
 .fi
 .SH DESCRIPTION
 A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
