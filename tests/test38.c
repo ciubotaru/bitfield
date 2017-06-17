@@ -20,12 +20,12 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, cmp;			//counter
-	int len = 80;
+	unsigned int i, cmp;			//counter
+	unsigned int len = 80;
 	char *msg = "Testing bftouint8_ip() and uint8tobf_ip()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
@@ -33,7 +33,7 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int int8s = (len - 1) / 8 + 1;
+	unsigned int int8s = (len - 1) / 8 + 1;
 	uint8_t *input_uint8 = malloc(int8s);
 	bftouint8_ip(input, input_uint8);
 	/* check first function */

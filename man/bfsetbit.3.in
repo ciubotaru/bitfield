@@ -1,17 +1,17 @@
-.TH bfsetbit 3 "NOVEMBER 1, 2015" "bitfield 0.2.0" "Bitfield manipulation library"
+.TH bfsetbit 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
-bfsetbit, bfclearbit, bfgetbit, bftogglebit \- manipulate one bit in  a bitfield.
+bfsetbit, bfclearbit, bfgetbit, bftogglebit \- manipulate one bit in a bit array.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
 .sp
-.BI "void bfsetbit(struct bitfield *"instance ", int "bit ");
-.BI "void bfclearbit(struct bitfield *"instance ", int "bit ");
-.BI "int bfgetbit(const struct bitfield *"instance ", const int "bit ");
-.BI "void bftogglebit(struct bitfield *"instance ", const int "bit ");
+.BI "void bfsetbit(struct bitfield *"instance ", const unsigned int "bit ");
+.BI "void bfclearbit(struct bitfield *"instance ", const unsigned int "bit ");
+.BI "int bfgetbit(const struct bitfield *"instance ", const unsigned int "bit ");
+.BI "void bftogglebit(struct bitfield *"instance ", const unsigned int "bit ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
 The \fBbfsetbit()\fR function takes a pointer to bitfield \fIinstance\fR and an integer \fIbit\fR, and sets bit number \fIbit\fR (i.e. fills it with a unit).
 .sp

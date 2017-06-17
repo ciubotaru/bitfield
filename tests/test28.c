@@ -20,16 +20,16 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, cmp;			//counter
-	int len = 80;
+	unsigned int i, cmp;			//counter
+	unsigned int len = 80;
 	char *msg = "Testing bf2short()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	int shorts = (len - 1) / SHORT_BIT + 1;
+	unsigned int shorts = (len - 1) / SHORT_BIT + 1;
 	struct bitfield *input = bfnew(len);
 	for (i = 0; i < len; i++)
 		if (rand() % 2)

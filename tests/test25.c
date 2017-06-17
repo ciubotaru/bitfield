@@ -20,12 +20,12 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, cmp;			//counter
-	int len = 80;
+	unsigned int i, cmp;			//counter
+	unsigned int len = 80;
 	char *msg = "Testing bf2char()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
@@ -33,9 +33,9 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int bitnslots = (len - 1) / CHAR_BIT + 1;
+	unsigned int bitnslots = (len - 1) / CHAR_BIT + 1;
 	unsigned char *input_char = bf2char(input);
-	int min_memory_length =
+	unsigned int min_memory_length =
 	    (bitnslots * sizeof(unsigned char) <
 	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
 							sizeof(unsigned char)) :

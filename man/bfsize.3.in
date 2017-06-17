@@ -1,0 +1,20 @@
+.TH bfsize 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
+.SH NAME
+bfsize \- obtain the number of bits of a bit array.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "unsigned int bfsize(const struct bitfield *"instance ");
+.fi
+.SH DESCRIPTION
+A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
+.sp
+The \fBbfsize()\fR function takes pointers to a bitfield \fIinstance\fR and returns its \fIsize\fR (the number of bits).
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+

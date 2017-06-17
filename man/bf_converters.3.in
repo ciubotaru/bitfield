@@ -1,12 +1,12 @@
-.TH bitfield_converters 3 "MARCH 11, 2017" "bitfield 0.6.3" "Bitfield manipulation library"
+.TH bitfield_converters 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
-bf2str, bf2char, bf2short, bf2int, bf2long, bf2ll, bftouint8, bftouint16, bftouint32, bftouint64 \- convert bitfields to arrays of standard data types
+bf2str, bf2char, bf2short, bf2int, bf2long, bf2ll, bftouint8, bftouint16, bftouint32, bftouint64 \- convert bit arrays to arrays of standard data types
 .sp
-bf2str_ip, bf2char_ip, bf2short_ip, bf2int_ip, bf2long_ip, bf2ll_ip, bftouint8_ip, bftouint16_ip, bftouint32_ip, bftouint64_ip \- convert bitfields to arrays of standard data types "in place"
+bf2str_ip, bf2char_ip, bf2short_ip, bf2int_ip, bf2long_ip, bf2ll_ip, bftouint8_ip, bftouint16_ip, bftouint32_ip, bftouint64_ip \- convert bit arrays to arrays of standard data types "in place"
 .sp
-str2bf, char2bf, short2bf, int2bf, long2bf, ll2bf, uint8tobf, uint16tobf, uint32tobf, uint64tobf \- convert arrays of standard data types to bitfields
+str2bf, char2bf, short2bf, int2bf, long2bf, ll2bf, uint8tobf, uint16tobf, uint32tobf, uint64tobf \- convert arrays of standard data types to bit arrays
 .sp
-str2bf_ip, char2bf_ip, short2bf_ip, int2bf_ip, long2bf_ip, ll2bf_ip, uint8tobf_ip, uint16tobf_ip, uint32tobf_ip, uint64tobf_ip \- convert arrays of standard data types to bitfields "in place"
+str2bf_ip, char2bf_ip, short2bf_ip, int2bf_ip, long2bf_ip, ll2bf_ip, uint8tobf_ip, uint16tobf_ip, uint32tobf_ip, uint64tobf_ip \- convert arrays of standard data types to bit arrays "in place"
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
@@ -34,15 +34,15 @@ str2bf_ip, char2bf_ip, short2bf_ip, int2bf_ip, long2bf_ip, ll2bf_ip, uint8tobf_i
 .BI "void bftouint64_ip(const struct bitfield *"input ", uint64_t *"output ");
 .sp
 .BI "struct bitfield *str2bf(const char *"input ");
-.BI "struct bitfield *char2bf(const char *"input ", int size);
-.BI "struct bitfield *short2bf(const unsigned short *"input ", int size);
-.BI "struct bitfield *int2bf(const unsigned int *"input ", int size);
-.BI "struct bitfield *long2bf(const unsigned long *"input ", int size);
-.BI "struct bitfield *ll2bf(const unsigned long long *"input ", int size);
-.BI "struct bitfield *uint8tobf(const uint8_t *"input ", int size);
-.BI "struct bitfield *uint16tobf(const uint16_t *"input ", int size);
-.BI "struct bitfield *uint32tobf(const uint32_t *"input ", int size);
-.BI "struct bitfield *uint64tobf(const uint64_t *"input ", int size);
+.BI "struct bitfield *char2bf(const char *"input ", unsigned int size);
+.BI "struct bitfield *short2bf(const unsigned short *"input ", unsigned int size);
+.BI "struct bitfield *int2bf(const unsigned int *"input ", unsigned int size);
+.BI "struct bitfield *long2bf(const unsigned long *"input ", unsigned int size);
+.BI "struct bitfield *ll2bf(const unsigned long long *"input ", unsigned int size);
+.BI "struct bitfield *uint8tobf(const uint8_t *"input ", unsigned int size);
+.BI "struct bitfield *uint16tobf(const uint16_t *"input ", unsigned int size);
+.BI "struct bitfield *uint32tobf(const uint32_t *"input ", unsigned int size);
+.BI "struct bitfield *uint64tobf(const uint64_t *"input ", unsigned int size);
 .sp
 .BI "void str2bf_ip(const char *"input ", struct bitfield *"output ");
 .BI "void char2bf_ip(const char *"input ", struct bitfield *"output ");
@@ -56,11 +56,11 @@ str2bf_ip, char2bf_ip, short2bf_ip, int2bf_ip, long2bf_ip, ll2bf_ip, uint8tobf_i
 .BI "void uint64tobf_ip(const uint64_t *"input ", struct bitfield *"output ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
 This family of functions convert between bitfield structure and standard data types. Supported data types are: unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long, uint8_t, uint16_t, uint32_t and uint64_t.
 .sp
-The "_ip" suffix stands for "in-place" conversion, i.e. instead of creating a new array, the function fills an existing one.
+The "_ip" suffix stands for "in-place" conversion, i.e. instead of creating a new array, the function fills an existing, properly initialized one. The no-prefix functions return the result of converion on success or NULL on failure.
 .sp
 Unsigned chars can be treated in two ways. Functions with "str" in their name treat each char as a storage of one character, '0' or '1'. Functions with "char" in their name treat each char as a storage of several (usually 8) bits.
 .sp

@@ -1,4 +1,4 @@
-.TH bfprint 3 "JULY 10, 2016" "bitfield 0.6.0" "Bitfield manipulation library"
+.TH bfprint 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
 bfprint_lsb, bfprint_msb \- write the contents of a bitfield to stdout as zeroes and ones.
 .SH SYNOPSIS
@@ -9,7 +9,7 @@ bfprint_lsb, bfprint_msb \- write the contents of a bitfield to stdout as zeroes
 .BI "void bfprint_msb(const struct bitfield *"instance ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an integer \fIsize\fR.
+A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
 The \fBbfprint_lsb()\fR function takes a poiinter to bitfield \fIinstance\fR, and writes its bits to \fIstdout\fR as zeroes and ones, from left to right, least significant bit first.
 .sp

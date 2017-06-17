@@ -19,12 +19,12 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
-	int len = 80;
+	unsigned int i;			//counter
+	unsigned int len = 80;
 	char *msg = "Testing bfsub(), bfcat(), bfshift() and bfshift_ip()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
@@ -32,7 +32,7 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int point, cmp;
+	unsigned int point, cmp;
 	/* try all possible points of division */
 	for (point = 1; point < (len - 1); point++) {
 		/* divide a bitfield into two subfields */
@@ -47,7 +47,7 @@ int main()
 			return 1;
 		}
 		/* shift a bitfield using bfshift() */
-		struct bitfield *shifted = bfshift(input, -point);
+		struct bitfield *shifted = bfshift(input, point);
 		/* shift a bitfield by swapping chunks */
 		struct bitfield *swapped = bfcat(chunk2, chunk1);
 		bfdel(chunk1);
@@ -59,7 +59,7 @@ int main()
 			return 1;
 		}
 		/* shift it back and compare to the original bitfield */
-		bfshift_ip(shifted, point);
+		bfshift_ip(shifted, -point);
 		cmp = bfcmp(input, shifted, NULL);
 		bfdel(shifted);
 		if (cmp != 0) {

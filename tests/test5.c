@@ -19,12 +19,12 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i;			//counter
-	int len = 80;
+	unsigned int i;			//counter
+	unsigned int len = 80;
 	char *msg = "Testing bfresize()";
 	char *failed = "[FAIL]";
 	char *passed = "[PASS]";
-	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
+	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");

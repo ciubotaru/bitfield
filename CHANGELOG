@@ -1,5 +1,9 @@
 Changelog
 
+1.0.0
+* Stabilized API.
+* Minor bugfixes.
+
 0.6.3
 * Rewrote bfand(), bfor() and bfxor() to accept variable number of arguments.
 

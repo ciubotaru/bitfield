@@ -1,4 +1,4 @@
-.TH bitfield 3 "SEPTEMBER 10, 2016" "bitfield 0.6.0" "Bitfield manipulation library"
+.TH bitfield 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
 bitfield \- API for manipulating bit arrays.
 .SH DESCRIPTION
@@ -8,7 +8,7 @@ series of zeroes and ones spread across an array of storage units.
 .B struct bitfield
 is a data structure for storing bit arrays. It has two elements: an array of 
 unsigned long integers \fIfield\fR for storing the values of bits and an 
-integer \fIsize\fR for storing the number of bits in the array.
+unsigned integer \fIsize\fR for storing the number of bits in the array.
 .SH EXPORTS
 For details of each function, refer to its manual page.
 .LP

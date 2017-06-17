@@ -1,0 +1,20 @@
+.TH bfsub 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
+.SH NAME
+bfsub \- extract a slice of a bit array.
+.SH SYNOPSIS
+.nf
+.B "#include <bitfield.h>
+.sp
+.BI "struct bitfield *bfsub(const struct bitfield *"input ", const unsigned int "start ", const unsigned int "end ");
+.fi
+.SH DESCRIPTION
+A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
+.sp
+The \fBbfsub()\fR function takes a pointer to bitfield \fIinput\fR, the number of the \fIstart\fR bit and \fIend\fR bit, and creates a new bitfield that contains bits between \fIstart\fR (included) bit and \fIend\fR(not included) bit from the \fIinput\fR bitfield. The function returns a pointer to the new bitfield or NULL on failure.
+.sp
+.SH "SEE ALSO"
+For the full list of bitfield functions and their descriptions, see manual page for
+.BR bitfield (3).
+.SH AUTHOR
+Vitalie CIUBOTARU
+
