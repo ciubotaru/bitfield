@@ -47,7 +47,7 @@ examples: example
 example:
 	$(MAKE) -C $(EXAMPLEDIR)
 
-install: install-lib install-man install-header
+install: install-lib install-man install-header install-pc
 
 install-lib:
 	mkdir -p $(DESTDIR)$(libdir)
@@ -64,6 +64,10 @@ install-header:
 	mkdir -p $(DESTDIR)$(includedir)
 	install -m 644 bitfield.h $(DESTDIR)$(includedir)/bitfield.h
 
+install-pc: libbitfield.pc
+	install -d $(DESTDIR)$(libdir)/pkgconfig
+	install -m 0644 $< $(DESTDIR)$(libdir)/pkgconfig
+
 clean:
 	rm -rvf *.a *.o *.so*
 	$(MAKE) -C examples clean
@@ -71,12 +75,12 @@ clean:
 	$(MAKE) -C man clean
 
 distclean: clean
-	rm config.log config.status config.h Makefile
+	rm config.log config.status config.h Makefile libbitfield.pc
 	$(MAKE) -C man distclean
 	$(MAKE) -C examples distclean
 	$(MAKE) -C $(TESTDIR) distclean
 
-uninstall: uninstall-lib uninstall-man uninstall-header
+uninstall: uninstall-lib uninstall-man uninstall-header uninstall-pc
 
 uninstall-lib:
 	for i in libbitfield.so.1 libbitfield.so libbitfield.so.$(VERSION) libbitfield.a; do if [ -e $(DESTDIR)$(libdir)/$$i ]; then rm -v $(DESTDIR)$(libdir)/$$i; fi; done
@@ -86,3 +90,6 @@ uninstall-man:
 
 uninstall-header:
 	if [ -e $(DESTDIR)$(includedir)/bitfield.h ]; then rm -v $(DESTDIR)$(includedir)/bitfield.h; fi
+
+uninstall-pc:
+	if [ -e $(DESTDIR)$(libdir)/pkgconfig/libbitfield.pc ]; then rm -v $(DESTDIR)$(libdir)/pkgconfig/libbitfield.pc; fi

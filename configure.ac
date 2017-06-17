@@ -5,6 +5,7 @@ AC_PREREQ([2.68])
 AC_INIT([bitfield], [1.0.0], [vitalie@ciubotaru.tk])
 AC_CONFIG_SRCDIR([bitfield.c])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_FILES([libbitfield.pc])
 
 # Checks for programs.
 AC_PROG_CC
