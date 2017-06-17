@@ -1,4 +1,4 @@
-.TH bfpopcount 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
+.TH bfpopcount 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
 bfpopcount \- counts the set bits in a bit array.
 .SH SYNOPSIS
@@ -8,7 +8,7 @@ bfpopcount \- counts the set bits in a bit array.
 .BI "unsigned int bfpopcount(const struct bitfield *"instance ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
+A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
 The \fBbfpopcount()\fR function is an implementation of population count (known as the Hamming weight) of a bitfield. It takes pointers to bitfield \fIinstance\fR and returns the number of set bits in it.
 .sp

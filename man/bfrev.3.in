@@ -1,6 +1,6 @@
-.TH bfrev 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
+.TH bfrev 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
-bfrev, bifrev_ip \- reverse the order of bits in a bitfield.
+bfrev, bifrev_ip \- reverse the order of bits in a bit array.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
@@ -9,7 +9,7 @@ bfrev, bifrev_ip \- reverse the order of bits in a bitfield.
 .BI "void *bfrev_ip(struct bitfield *"input ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
+A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
 The \fBbfrev()\fR function takes a pointer to bitfield \fIinput\fR and reverses the order of bits in it. The function returns a pointer to the new, reversed bitfield.
 .sp

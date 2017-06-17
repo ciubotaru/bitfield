@@ -1,4 +1,4 @@
-.TH bfhamming 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
+.TH bfhamming 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
 bfhamming \- counts the Humming distance between two bitfields.
 .SH SYNOPSIS

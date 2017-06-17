@@ -1,6 +1,6 @@
-.TH bfnormalize 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
+.TH bfnormalize 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
-bfcat \- find the smallest value of a bitfield ring.
+bfnormalize \- find the smallest value of a bit array as a ring.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
@@ -8,9 +8,18 @@ bfcat \- find the smallest value of a bitfield ring.
 .BI "struct bitfield *bfnormalize(const struct bitfield *"input ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
+A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
 The \fBbfnormalize()\fR function takes a pointer to a bitfield, \fIinput\fR, and creates a new bitfield, which represents the original array of bits loop-shifted in such a way as to produce the smallest binary number. The function returns a pointer to the new bitfield.
+.sp
+.SH EXAMPLE
+Suppose we have a bit array with the following content:
+.sp
+	1001010110001101
+.sp
+The bfnormalize() function treats it as a loop and shifts it until it represents the smallest possible binary number. In this case, the normalized version will be:
+.sp
+	0001101100101011
 .sp
 .SH "SEE ALSO"
 For the full list of bitfield functions and their descriptions, see manual page for

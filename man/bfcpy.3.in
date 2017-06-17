@@ -1,6 +1,6 @@
-.TH bfcpy 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
+.TH bfcpy 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
-bfcpy \- copies the contents of a bitfield into another pre-existing bitfield.
+bfcpy \- copies the contents of a bit array into another bit array.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
@@ -8,9 +8,9 @@ bfcpy \- copies the contents of a bitfield into another pre-existing bitfield.
 .BI "unsigned int bfcpy(const struct bitfield *"src ", struct bitfield *"dest ");
 .fi
 .SH DESCRIPTION
-A bitfield is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
+A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
-The \fBbfcpy()\fR function takes pointers to bitfields \fIsrc\fR and \fIdest\fR, and copies the bits from \fIsrc\fR to \fIdest\fR bit. The function returns 0 on success and 1 otherwise.
+The \fBbfcpy()\fR function takes pointers to bitfields \fIsrc\fR and \fIdest\fR, and copies the bits from \fIsrc\fR to a properly initialized \fIdest\fR bit. The function returns 0 on success and 1 otherwise.
 .sp
 .SH "SEE ALSO"
 For the full list of bitfield functions and their descriptions, see manual page for

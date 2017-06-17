@@ -201,6 +201,6 @@ struct bitfield *bfshift(const struct bitfield *input, const int offset);	/* cir
 
 unsigned int bfsize(const struct bitfield *instance);	/* obtains the number of bits of a bitfield */
 
-struct bitfield *bfsub(const struct bitfield *input, const unsigned int start, const unsigned int end);	/* extracts a sub-bitfield from a bitfield */
+struct bitfield *bfsub(const struct bitfield *input, const unsigned int start, const unsigned int end);	/* extracts a slice of a bitfield */
 
 #endif
