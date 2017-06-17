@@ -8,9 +8,9 @@ mandir=@mandir@
 includedir=@includedir@
 AR=ar
 LIBS=-I.
-CFLAGS= -Wall -O3
+CFLAGS=@CFLAGS@
 export CFLAGS
-VERSION=1.0.0
+VERSION=@PACKAGE_VERSION@
 export VERSION
 RELEASE_DATE=June 17, 2017
 export RELEASE_DATE
