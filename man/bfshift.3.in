@@ -1,4 +1,4 @@
-.TH bfshift 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
+.TH bfshift 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
 .SH NAME
 bfshift, bifshift_ip \- circular-shift the contents of a bitfield.
 .SH SYNOPSIS

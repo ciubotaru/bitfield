@@ -1,4 +1,4 @@
-.TH bfnew 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
+.TH bfnew 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
 .SH NAME
 bfnew, bfnew_quick, bfnew_ones, bfdel \- create and delete bitfields.
 .SH SYNOPSIS

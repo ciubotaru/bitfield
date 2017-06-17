@@ -1,4 +1,4 @@
-.TH bfand 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
+.TH bfand 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
 .SH NAME
 bfand, bfnot, bfnot_ip, bfor, bfxor \- perform logical operations over bitmaps.
 .SH SYNOPSIS

@@ -1,4 +1,4 @@
-.TH bfsetall 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
+.TH bfsetall 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
 .SH NAME
 bfsetall, bfclearall \- fills a bitfield with values.
 .SH SYNOPSIS

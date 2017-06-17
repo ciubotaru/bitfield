@@ -1,4 +1,4 @@
-.TH bitfield_converters 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
+.TH bitfield_converters 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
 .SH NAME
 bf2str, bf2char, bf2short, bf2int, bf2long, bf2ll, bftouint8, bftouint16, bftouint32, bftouint64 \- convert bitfields to arrays of standard data types
 .sp

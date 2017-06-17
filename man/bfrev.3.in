@@ -1,4 +1,4 @@
-.TH bfrev 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
+.TH bfrev 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
 .SH NAME
 bfrev, bifrev_ip \- reverse the order of bits in a bitfield.
 .SH SYNOPSIS

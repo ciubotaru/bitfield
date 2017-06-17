@@ -1,4 +1,4 @@
-.TH bfpos 3 "MARCH 20, 2016" "bitfield 0.6.4" "Bitfield manipulation library"
+.TH bfpos 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
 .SH NAME
 bfpos \- check whether an array of bits contains a sub-array.
 .SH SYNOPSIS

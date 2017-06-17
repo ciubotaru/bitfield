@@ -1,4 +1,4 @@
-.TH bfsub 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
+.TH bfsub 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
 .SH NAME
 bfsub \- extract a sub-bitfield from a bitfield.
 .SH SYNOPSIS

@@ -1,4 +1,4 @@
-.TH bfnormalize 3 "JUNE 10, 2017" "bitfield 0.6.4" "Bitfield manipulation library"
+.TH bfnormalize 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bitfield manipulation library"
 .SH NAME
 bfcat \- find the smallest value of a bitfield ring.
 .SH SYNOPSIS

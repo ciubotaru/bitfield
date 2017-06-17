@@ -11,6 +11,9 @@ LIBS=-I.
 CFLAGS= -Wall -O3
 export CFLAGS
 VERSION=0.6.3
+export VERSION
+RELEASE_DATE=June 17, 2017
+export RELEASE_DATE
 TESTDIR=tests
 EXAMPLEDIR=examples
 LD_LIBRARY_PATH := $(shell pwd):$(LD_LIBRARY_PATH)
@@ -18,7 +21,7 @@ export LD_LIBRARY_PATH
 
 .PHONY: test check man shared static install install-lib install-man install-header clean distclean uninstall uninstall-lib uninstall-man uninstall-header example examples
 
-all: shared static
+all: shared static man
 
 shared: libbitfield.so.$(VERSION)
 libbitfield.so.$(VERSION): bitfield.c
@@ -30,6 +33,9 @@ static: libbitfield.a
 libbitfield.a: bitfield.c
 	$(CC) $(CFLAGS) -c bitfield.c -o bf-static.o $(LIBS)
 	$(AR) rcs libbitfield.a bf-static.o
+
+man:
+	$(MAKE) -C man
 
 test: check
 
@@ -62,6 +68,7 @@ clean:
 	rm -rvf *.a *.o *.so*
 	$(MAKE) -C examples clean
 	$(MAKE) -C $(TESTDIR) clean
+	$(MAKE) -C man clean
 
 distclean: clean
 	rm config.log config.status config.h Makefile
