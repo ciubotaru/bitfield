@@ -10,7 +10,7 @@ AR=ar
 LIBS=-I.
 CFLAGS= -Wall -O3
 export CFLAGS
-VERSION=0.6.3
+VERSION=1.0.0
 export VERSION
 RELEASE_DATE=June 17, 2017
 export RELEASE_DATE
@@ -26,8 +26,8 @@ all: shared static man
 shared: libbitfield.so.$(VERSION)
 libbitfield.so.$(VERSION): bitfield.c
 	$(CC) $(CFLAGS) -c -fpic bitfield.c -o bf-shared.o -I. $(LIBS)
-	$(CC) $(CFLAGS) -shared -Wl,-soname,libbitfield.so.0 -o libbitfield.so.$(VERSION) bf-shared.o $(LIBS)
-	for i in libbitfield.so.0 libbitfield.so; do ln -svf libbitfield.so.$(VERSION) $$i; done
+	$(CC) $(CFLAGS) -shared -Wl,-soname,libbitfield.so.1 -o libbitfield.so.$(VERSION) bf-shared.o $(LIBS)
+	for i in libbitfield.so.1 libbitfield.so; do ln -svf libbitfield.so.$(VERSION) $$i; done
 
 static: libbitfield.a
 libbitfield.a: bitfield.c
@@ -51,9 +51,9 @@ install: install-lib install-man install-header
 
 install-lib:
 	mkdir -p $(DESTDIR)$(libdir)
-	for i in libbitfield.so.0 libbitfield.so libbitfield.so.$(VERSION) libbitfield.a; do if [ -e $(DESTDIR)$(libdir)/$$i ]; then rm -v $(DESTDIR)$(libdir)/$$i; fi; done
+	for i in libbitfield.so.1 libbitfield.so libbitfield.so.$(VERSION) libbitfield.a; do if [ -e $(DESTDIR)$(libdir)/$$i ]; then rm -v $(DESTDIR)$(libdir)/$$i; fi; done
 	install -m 0644 libbitfield.so.$(VERSION) $(DESTDIR)$(libdir)
-	ln -sv libbitfield.so.$(VERSION) $(DESTDIR)$(libdir)/libbitfield.so.0
+	ln -sv libbitfield.so.$(VERSION) $(DESTDIR)$(libdir)/libbitfield.so.1
 	ln -sv libbitfield.so.$(VERSION) $(DESTDIR)$(libdir)/libbitfield.so
 	install -m 0644 libbitfield.a $(DESTDIR)$(libdir)
 
@@ -79,7 +79,7 @@ distclean: clean
 uninstall: uninstall-lib uninstall-man uninstall-header
 
 uninstall-lib:
-	for i in libbitfield.so.0 libbitfield.so libbitfield.so.$(VERSION) libbitfield.a; do if [ -e $(DESTDIR)$(libdir)/$$i ]; then rm -v $(DESTDIR)$(libdir)/$$i; fi; done
+	for i in libbitfield.so.1 libbitfield.so libbitfield.so.$(VERSION) libbitfield.a; do if [ -e $(DESTDIR)$(libdir)/$$i ]; then rm -v $(DESTDIR)$(libdir)/$$i; fi; done
 
 uninstall-man:
 	$(MAKE) -C man uninstall
