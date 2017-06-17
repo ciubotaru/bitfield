@@ -13,7 +13,7 @@ bfnew, bfnew_quick, bfnew_ones, bfdel \- create and delete bit arrays.
 .SH DESCRIPTION
 A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
-The \fBbfnew()\fR function initializes a bitfield of specified \fIsize\fR (i.e. long enough to host a series of bits of length equal to \fIsize\fR) and returns a pointer to it. This pointer can later be successfully passed to \fBbfdel()\fR. The bitfield is guaranteed to be empty (i.e. contain only zeroes).
+The \fBbfnew()\fR function initializes a bitfield of specified \fIsize\fR (i.e. long enough to host a series of bits of length equal to \fIsize\fR) and returns a pointer to it or NULL on failure. This pointer can later be successfully passed to \fBbfdel()\fR. The bitfield is guaranteed to be empty (i.e. contain only zeroes).
 .sp
 The \fBbfnew_quick()\fR function does the same thing as \fBbfnew()\fR, except that it does not clear the bits.
 .sp

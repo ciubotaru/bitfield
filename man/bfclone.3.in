@@ -10,7 +10,7 @@ bfclone \- create a copy of an existing bit array.
 .SH DESCRIPTION
 A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
-The \fBbfclone()\fR function initializes a bitfield of the same \fIsize\fR as \fIinput\fR, copies the content of \fIinput\fR into the new bitfield and returns a pointer to it.
+The \fBbfclone()\fR function initializes a bitfield of the same \fIsize\fR as \fIinput\fR, copies the content of \fIinput\fR into the new bitfield and returns a pointer to it or NULL on failure.
 .SH EXAMPLES
 The following code
 .sp

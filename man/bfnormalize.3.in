@@ -10,7 +10,7 @@ bfnormalize \- find the smallest value of a bit array as a ring.
 .SH DESCRIPTION
 A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
-The \fBbfnormalize()\fR function takes a pointer to a bitfield, \fIinput\fR, and creates a new bitfield, which represents the original array of bits loop-shifted in such a way as to produce the smallest binary number. The function returns a pointer to the new bitfield.
+The \fBbfnormalize()\fR function takes a pointer to a bitfield, \fIinput\fR, and creates a new bitfield, which represents the original array of bits loop-shifted in such a way as to produce the smallest binary number. The function returns a pointer to the new bitfield or NULL on failure.
 .sp
 .SH EXAMPLE
 Suppose we have a bit array with the following content:

@@ -11,7 +11,7 @@ bfshift, bifshift_ip \- circular-shift the contents of a bit array.
 .SH DESCRIPTION
 A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
-The \fBbfshift()\fR function takes a pointer to bitfield \fIinput\fR and an integer \fIoffset\fR, and circular-shifts the bits by \fIoffset\fR positions from the origin. In other words, it "cuts" the array after \fIoffset\fR bits and swaps the parts. It \fIoffset\fR is negative, it is counted from the end. The function returns a pointer to the new bitfield.
+The \fBbfshift()\fR function takes a pointer to bitfield \fIinput\fR and an integer \fIoffset\fR, and circular-shifts the bits by \fIoffset\fR positions from the origin. In other words, it "cuts" the array after \fIoffset\fR bits and swaps the parts. It \fIoffset\fR is negative, it is counted from the end. The function returns a pointer to the new bitfield or NULL on failure.
 .sp
 The \fBbfshift_ip()\fR function does the same thing, but changes are made "in place", in the original bitfield.
 .sp

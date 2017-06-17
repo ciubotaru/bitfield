@@ -60,7 +60,7 @@ A bit array is represented by a "struct bitfield". It has two elements: an array
 .sp
 This family of functions convert between bitfield structure and standard data types. Supported data types are: unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long, uint8_t, uint16_t, uint32_t and uint64_t.
 .sp
-The "_ip" suffix stands for "in-place" conversion, i.e. instead of creating a new array, the function fills an existing, properly initialized one.
+The "_ip" suffix stands for "in-place" conversion, i.e. instead of creating a new array, the function fills an existing, properly initialized one. The no-prefix functions return the result of converion on success or NULL on failure.
 .sp
 Unsigned chars can be treated in two ways. Functions with "str" in their name treat each char as a storage of one character, '0' or '1'. Functions with "char" in their name treat each char as a storage of several (usually 8) bits.
 .sp

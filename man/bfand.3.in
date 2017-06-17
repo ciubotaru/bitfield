@@ -14,7 +14,7 @@ bfand, bfnot, bfnot_ip, bfor, bfxor \- perform logical operations over bit array
 .SH DESCRIPTION
 A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
 .sp
-The \fBbfand()\fR function takes pointers to two or more arguments, all of them pointers to bitfields, performs logical AND over each pairs of bits from the first two (and iteratively with each additional argument, if any) and stores the result in a new bitfield. The function returns a pointer to the new bitfield.
+The \fBbfand()\fR function takes pointers to two or more arguments, all of them pointers to bitfields, performs logical AND over each pairs of bits from the first two (and iteratively with each additional argument, if any) and stores the result in a new bitfield. The function returns a pointer to the new bitfield or NULL on failure.
 .sp
 The following table illustrates inputs and results of logical AND:
 .sp
@@ -27,7 +27,7 @@ input1 input2 output
   1      1      1
 .fi
 .sp
-The \fBbfnot()\fR function takes pointer to a bitfield, \fIinput\fR, reverses all its bits and stores the result in a new bitfield, \fIoutput\fR. The function returns a pointer to the new bitfield. The following table illustrates input and result of logical NOT:
+The \fBbfnot()\fR function takes pointer to a bitfield, \fIinput\fR, reverses all its bits and stores the result in a new bitfield, \fIoutput\fR. The function returns a pointer to the new bitfield or NULL on failure. The following table illustrates input and result of logical NOT:
 .sp
 .nf
 input output
@@ -38,7 +38,7 @@ input output
 .sp
 The \fBbfnot_ip()\fR function is an "in-place" version of the \fBbnot()\fR.
 .sp
-The \fBbfor()\fR function takes pointers to two or more arguments, all pointers to bitfields, and performs bitwise inclusive OR over pairs of bits from the first two arguments (then iteratively with every additional argument, if any) and stores the result in a new bitfield. The function returns a pointer to the new bitfield.
+The \fBbfor()\fR function takes pointers to two or more arguments, all pointers to bitfields, and performs bitwise inclusive OR over pairs of bits from the first two arguments (then iteratively with every additional argument, if any) and stores the result in a new bitfield. The function returns a pointer to the new bitfield or NULL on failure.
 .sp
 The following table illustrates inputs and results of logical inclusive OR:
 .sp
@@ -51,7 +51,7 @@ input1 input2 output
   1      1      1
 .fi
 .sp
-The \fBbfxor()\fR function takes pointers to two arguments, all pointers to bitfields, and performs bitwise eXclusive OR (XOR) over pairs of bits from the first two arguments (then iteratively with every additional argument, if any) and stores the result in a new bitfield. The function returns a pointer to the new bitfield.
+The \fBbfxor()\fR function takes pointers to two arguments, all pointers to bitfields, and performs bitwise eXclusive OR (XOR) over pairs of bits from the first two arguments (then iteratively with every additional argument, if any) and stores the result in a new bitfield. The function returns a pointer to the new bitfield or NULL on failure.
 .sp
 The following table illustrates inputs and results of logical eXclusive OR (XOR):
 .sp
