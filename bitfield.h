@@ -27,41 +27,41 @@ struct bitfield *str2bf(const char *input);	/* converts a null-terminated charac
 
 #define char2bf(X, Y) (struct bitfield *) uint8tobf((const uint8_t *) X, Y)	/* write the contents of an array of chars into a bitfield structure */
 
-struct bitfield *short2bf(const unsigned short *input, unsigned int size); /* write the contents of an array of short integers into a bitfield structure */
+struct bitfield *short2bf(const unsigned short *input, unsigned int size);	/* write the contents of an array of short integers into a bitfield structure */
 
-#define int2bf(X, Y) (struct bitfield *) uint32tobf((const uint32_t *) X, Y) /* write the contents of an array of integers into a bitfield structure */
+#define int2bf(X, Y) (struct bitfield *) uint32tobf((const uint32_t *) X, Y)	/* write the contents of an array of integers into a bitfield structure */
 
-struct bitfield *long2bf(const unsigned long *input, unsigned int size); /* write the contents of an array of long integers into a bitfield structure */
+struct bitfield *long2bf(const unsigned long *input, unsigned int size);	/* write the contents of an array of long integers into a bitfield structure */
 
 #define ll2bf(x, y) (struct bitfield *) uint64tobf((uint64_t *) x, y)	/* write the contents of an array of longlong integers into a bitfield structure */
 
-struct bitfield *uint8tobf(const uint8_t *input, unsigned int size);
+struct bitfield *uint8tobf(const uint8_t * input, unsigned int size);
 
-struct bitfield *uint16tobf(const uint16_t *input, unsigned int size);
+struct bitfield *uint16tobf(const uint16_t * input, unsigned int size);
 
-struct bitfield *uint32tobf(const uint32_t *input, unsigned int size);
+struct bitfield *uint32tobf(const uint32_t * input, unsigned int size);
 
-struct bitfield *uint64tobf(const uint64_t *input, unsigned int size);
+struct bitfield *uint64tobf(const uint64_t * input, unsigned int size);
 
 void str2bf_ip(const char *input, struct bitfield *output);	/* converts a character string of ones and zeroes into a bitfield */
 
-#define char2bf_ip(X, Y) uint8tobf_ip((const uint8_t *) X, Y) /* convert an array of chars into a bitfield structure */
+#define char2bf_ip(X, Y) uint8tobf_ip((const uint8_t *) X, Y)	/* convert an array of chars into a bitfield structure */
 
-void short2bf_ip(const unsigned short *intput, struct bitfield *output); /* convert an array of short integers into a bitfield structure */
+void short2bf_ip(const unsigned short *intput, struct bitfield *output);	/* convert an array of short integers into a bitfield structure */
 
-#define int2bf_ip(X, Y) uint32tobf_ip((const uint32_t *) X, Y) /* convert an array of integers into a bitfield structure */
+#define int2bf_ip(X, Y) uint32tobf_ip((const uint32_t *) X, Y)	/* convert an array of integers into a bitfield structure */
 
-void long2bf_ip(const unsigned long *input, struct bitfield *output); /* convert an array of long integers into a bitfield structure */
+void long2bf_ip(const unsigned long *input, struct bitfield *output);	/* convert an array of long integers into a bitfield structure */
 
-#define ll2bf_ip(x, y) uint64tobf_ip((uint64_t *) x, y); /* convert an array of longlong integers into a bitfield structure */
+#define ll2bf_ip(x, y) uint64tobf_ip((uint64_t *) x, y);	/* convert an array of longlong integers into a bitfield structure */
 
-void uint8tobf_ip(const uint8_t *input, struct bitfield *output);
+void uint8tobf_ip(const uint8_t * input, struct bitfield *output);
 
-void uint16tobf_ip(const uint16_t *input, struct bitfield *output);
+void uint16tobf_ip(const uint16_t * input, struct bitfield *output);
 
-void uint32tobf_ip(const uint32_t *input, struct bitfield *output);
+void uint32tobf_ip(const uint32_t * input, struct bitfield *output);
 
-void uint64tobf_ip(const uint64_t *input, struct bitfield *output);
+void uint64tobf_ip(const uint64_t * input, struct bitfield *output);
 
 /*
  * Convert bitfield structures to integer data types, all unsigned, with 
@@ -76,11 +76,11 @@ char *bf2str(const struct bitfield *input);	/* converts a bitfield into a charac
 
 #define bf2char(X) (unsigned char *) bftouint8(X)	/* return the bitfield as an array of unsigned chars */
 
-unsigned short *bf2short(const struct bitfield *input); /* return the bitfield as an array of unsigned short integers */
+unsigned short *bf2short(const struct bitfield *input);	/* return the bitfield as an array of unsigned short integers */
 
 #define bf2int(X) (unsigned int *) bftouint32(X)	/* return the bitfield as an array of unsigned integers */
 
-unsigned long *bf2long(const struct bitfield *input); /* return the bitfield as an array of unsigned long integers */
+unsigned long *bf2long(const struct bitfield *input);	/* return the bitfield as an array of unsigned long integers */
 
 #define bf2ll(x) (unsigned long long *) bftouint64(x);	/* return the bitfield as an array of unsigned longlong integers */
 
@@ -96,7 +96,7 @@ void bf2str_ip(const struct bitfield *input, char *output);	/* converts a bitfie
 
 #define bf2char_ip(X, Y) bftouint8_ip(X, (uint8_t *) Y)	/* converts a bitfield into an array of unsigned chars */
 
-void bf2short_ip(const struct bitfield *input, unsigned short *output); /* converts a bitfield into an array of unsigned short integers */
+void bf2short_ip(const struct bitfield *input, unsigned short *output);	/* converts a bitfield into an array of unsigned short integers */
 
 #define bf2int_ip(X, Y) bftouint32_ip(X, (uint32_t *) Y)	/* converts a bitfield into an array of unsigned integers */
 
@@ -104,13 +104,13 @@ void bf2long_ip(const struct bitfield *input, unsigned long *output);	/* convert
 
 #define bf2ll_ip(x, y) bftouint64_ip(x, (uint64_t *) y);	/* converts a bitfield into an array of unsigned longlong integers */
 
-void bftouint8_ip(const struct bitfield *input, uint8_t *output);
+void bftouint8_ip(const struct bitfield *input, uint8_t * output);
 
-void bftouint16_ip(const struct bitfield *input, uint16_t *output);
+void bftouint16_ip(const struct bitfield *input, uint16_t * output);
 
-void bftouint32_ip(const struct bitfield *input, uint32_t *output);
+void bftouint32_ip(const struct bitfield *input, uint32_t * output);
 
-void bftouint64_ip(const struct bitfield *input, uint64_t *output);
+void bftouint64_ip(const struct bitfield *input, uint64_t * output);
 
 /*
  * Create and delete bitfields
@@ -140,7 +140,7 @@ void bftogglebit(struct bitfield *instance, const unsigned int bit);	/* toggles 
  * Logical operations with bitfields
  */
 
-struct bitfield * _bfand(unsigned int count, ...);
+struct bitfield *_bfand(unsigned int count, ...);
 
 #define bfand(...) (struct bitfield *) _bfand( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise AND over a pair of bitfields */
 
@@ -148,18 +148,18 @@ struct bitfield *bfnot(const struct bitfield *input);	/* reverses all bits in a 
 
 void bfnot_ip(struct bitfield *instance);	/* reverses all bits in a bitfield */
 
-struct bitfield * _bfor(unsigned int count, ...);
+struct bitfield *_bfor(unsigned int count, ...);
 
 #define bfor(...) (struct bitfield *) _bfor( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise inclusive OR over a pair of bitfields */
 
-struct bitfield * _bfxor(unsigned int count, ...);
+struct bitfield *_bfxor(unsigned int count, ...);
 
 #define bfxor(...) (struct bitfield *) _bfxor( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise exclusive OR over a pair of bitfields */
 
 /*
  * Manipulate bitfields
  */
-struct bitfield * _bfcat(unsigned int count, ...);
+struct bitfield *_bfcat(unsigned int count, ...);
 
 unsigned int count_arguments(char *s);
 

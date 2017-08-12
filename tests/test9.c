@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i;			//counter
+	unsigned int i;		//counter
 	unsigned int len = 80;
 	char *msg = "Testing bfgetbit()";
 	char *failed = "[FAIL]";
@@ -40,7 +40,7 @@ int main()
 	struct bitfield *input = str2bf(input_char);
 
 	for (i = 0; i < len; i++) {
-		if (bfgetbit(input, i) != (unsigned int) input_char[i] - '0') {
+		if (bfgetbit(input, i) != (unsigned int)input_char[i] - '0') {
 			printf("%s\n", failed);
 			free(input_char);
 			bfdel(input);

@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, cmp;			//counter
+	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bf2short()";
 	char *failed = "[FAIL]";
@@ -37,26 +37,28 @@ int main()
 	unsigned short *input_short = bf2short(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 4:
-				input->field[i] = (unsigned long) htole32((uint32_t) input->field[i]);
-				break;
-			case 8:
-				input->field[i] = (unsigned long) htole64((uint64_t) input->field[i]);
-				break;
+		case 4:
+			input->field[i] =
+			    (unsigned long)htole32((uint32_t) input->field[i]);
+			break;
+		case 8:
+			input->field[i] =
+			    (unsigned long)htole64((uint64_t) input->field[i]);
+			break;
 		}
 	}
-//	long_htole_ip(input, BITNSLOTS(len));
+//      long_htole_ip(input, BITNSLOTS(len));
 	unsigned short *check = malloc(shorts * sizeof(unsigned short));
 	memcpy(check, input->field, shorts * sizeof(unsigned short));
 	bfdel(input);
 	for (i = 0; i < shorts; i++) {
 		switch (sizeof(unsigned short)) {
-			case 2:
-				check[i] = (unsigned short) le16toh((uint16_t) check[i]);
-				break;
-			case 4:
-				check[i] = (unsigned short) le32toh((uint32_t) check[i]);
-				break;
+		case 2:
+			check[i] = (unsigned short)le16toh((uint16_t) check[i]);
+			break;
+		case 4:
+			check[i] = (unsigned short)le32toh((uint32_t) check[i]);
+			break;
 		}
 	}
 	cmp = memcmp(input_short, check, shorts * sizeof(unsigned short));

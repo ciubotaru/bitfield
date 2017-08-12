@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, j, cmp;		//counters
+	unsigned int i, j, cmp;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing ll2bf()";
 	char *failed = "[FAIL]";
@@ -30,8 +30,7 @@ int main()
 	for (i = 0; i < dots; i++)
 		printf(".");
 	unsigned int lls = (len - 1) / LONG_LONG_BIT + 1;
-	unsigned long long *input =
-	    calloc(1, lls * sizeof(unsigned long long));
+	unsigned long long *input = calloc(1, lls * sizeof(unsigned long long));
 	for (i = 0; i < lls - 1; i++) {
 		for (j = 0; j < LONG_LONG_BIT; j++) {
 			if (rand() % 2)
@@ -43,15 +42,18 @@ int main()
 			input[lls - 1] |= (1ULL << i);
 	struct bitfield *output = ll2bf(input, len);
 	/* assume long long is always 64 bit */
-	for (i = 0; i < lls; i++) input[i] = (unsigned long long) htole64((uint64_t) input[i]);
+	for (i = 0; i < lls; i++)
+		input[i] = (unsigned long long)htole64((uint64_t) input[i]);
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 8:
-				output->field[i] = (unsigned long) htole64((uint64_t) output->field[i]);
-				break;
-			case 4:
-				output->field[i] = (unsigned long) htole32((uint32_t) output->field[i]);
-				break;
+		case 8:
+			output->field[i] =
+			    (unsigned long)htole64((uint64_t) output->field[i]);
+			break;
+		case 4:
+			output->field[i] =
+			    (unsigned long)htole32((uint32_t) output->field[i]);
+			break;
 		}
 	}
 	cmp = memcmp(input, output->field, (len - 1) / CHAR_BIT + 1);

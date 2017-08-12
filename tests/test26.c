@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, cmp;			//counter
+	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bf2char_ip() and char2bf_ip()";
 	char *failed = "[FAIL]";
@@ -40,12 +40,14 @@ int main()
 	struct bitfield *check = bfclone(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 4:
-				check->field[i] = (unsigned long) htole32((uint32_t) check->field[i]);
-				break;
-			case 8:
-				check->field[i] = (unsigned long) htole64((uint64_t) check->field[i]);
-				break;
+		case 4:
+			check->field[i] =
+			    (unsigned long)htole32((uint32_t) check->field[i]);
+			break;
+		case 8:
+			check->field[i] =
+			    (unsigned long)htole64((uint64_t) check->field[i]);
+			break;
 		}
 	}
 	unsigned char *check_char = malloc(chars * sizeof(unsigned char));

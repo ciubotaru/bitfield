@@ -17,7 +17,7 @@
 
 int main()
 {
-	int i, cmp;			//counter
+	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bfnew_ones(), bfsetall() and bfclearall()";
 	char *failed = "[FAIL]";

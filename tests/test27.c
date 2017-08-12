@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, j, cmp;		//counters
+	unsigned int i, j, cmp;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing short2bf()";
 	char *failed = "[FAIL]";
@@ -44,27 +44,31 @@ int main()
 	unsigned short *input2 = calloc(1, shorts * sizeof(unsigned short));
 	for (i = 0; i < shorts; i++) {
 		switch (sizeof(unsigned short)) {
-			case 2:
-				input2[i] = htole16((uint16_t) input[i]);
-				break;
-			case 4:
-				input2[i] = htole32((uint32_t) input[i]);
-				break;
+		case 2:
+			input2[i] = htole16((uint16_t) input[i]);
+			break;
+		case 4:
+			input2[i] = htole32((uint32_t) input[i]);
+			break;
 		}
 	}
 	struct bitfield *output2 = bfnew(len);
 	memcpy(output2->field, input2, shorts * sizeof(unsigned short));
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 4:
-				output2->field[i] = le32toh((uint32_t) output2->field[i]);
-				break;
-			case 8:
-				output2->field[i] = le64toh((uint64_t) output2->field[i]);
-				break;
+		case 4:
+			output2->field[i] =
+			    le32toh((uint32_t) output2->field[i]);
+			break;
+		case 8:
+			output2->field[i] =
+			    le64toh((uint64_t) output2->field[i]);
+			break;
 		}
 	}
-	cmp = memcmp(output->field, output2->field, BITNSLOTS(len) * sizeof(unsigned long));
+	cmp =
+	    memcmp(output->field, output2->field,
+		   BITNSLOTS(len) * sizeof(unsigned long));
 	free(input);
 	bfdel(output);
 	free(input2);

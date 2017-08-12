@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, cmp;			//counter
+	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bftouint8_ip() and uint8tobf_ip()";
 	char *failed = "[FAIL]";
@@ -40,12 +40,14 @@ int main()
 	struct bitfield *output = bfnew(len);
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 8:
-				output->field[i] = (unsigned long) htole64((uint64_t) input->field[i]);
-				break;
-			case 4:
-				output->field[i] = (unsigned long) htole32((uint32_t) input->field[i]);
-				break;
+		case 8:
+			output->field[i] =
+			    (unsigned long)htole64((uint64_t) input->field[i]);
+			break;
+		case 4:
+			output->field[i] =
+			    (unsigned long)htole32((uint32_t) input->field[i]);
+			break;
 		}
 	}
 	cmp = memcmp(input_uint8, output->field, int8s);
@@ -60,7 +62,7 @@ int main()
 	/* check second function */
 	cmp = bfcmp(input, output, NULL);
 	bfdel(input);
-	bfdel(output);	
+	bfdel(output);
 	if (cmp != 0) {
 		printf("%s\n", failed);
 		return 1;

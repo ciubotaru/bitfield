@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, cmp;			//counter
+	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bftouint32()";
 	char *failed = "[FAIL]";
@@ -44,15 +44,18 @@ int main()
 */
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 4:
-				input->field[i] = (unsigned long) htole32((uint32_t) input->field[i]);
-				break;
-			case 8:
-				input->field[i] = (unsigned long) htole64((uint64_t) input->field[i]);
-				break;
+		case 4:
+			input->field[i] =
+			    (unsigned long)htole32((uint32_t) input->field[i]);
+			break;
+		case 8:
+			input->field[i] =
+			    (unsigned long)htole64((uint64_t) input->field[i]);
+			break;
 		}
 	}
-	for (i = 0; i < int32s; i++) input_int[i] = htole32(input_int[i]);
+	for (i = 0; i < int32s; i++)
+		input_int[i] = htole32(input_int[i]);
 	cmp = memcmp(input_int, input->field, (len - 1) / CHAR_BIT + 1);
 	bfdel(input);
 	free(input_int);

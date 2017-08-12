@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, cmp;			//counter
+	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bf2int()";
 	char *failed = "[FAIL]";
@@ -40,12 +40,12 @@ int main()
 #if __BYTE_ORDER == __BIG_ENDIAN
 	for (i = 0; i < bitnslots; i++) {
 		switch (sizeof(unsigned long)) {
-			case 4:
-				input->field[i] = htole32(input->field[i]);
-				break;
-			case 8:
-				input->field[i] = htole64(input->field[i]);
-				break;
+		case 4:
+			input->field[i] = htole32(input->field[i]);
+			break;
+		case 8:
+			input->field[i] = htole64(input->field[i]);
+			break;
 		}
 	}
 #endif
@@ -53,18 +53,21 @@ int main()
 #if __BYTE_ORDER == __BIG_ENDIAN
 	for (i = 0; i < ints; i++) {
 		switch (sizeof(unsigned int)) {
-			case 2:
-				output2[i] = le16toh(output2[i]);
-				break;
-			case 4:
-				output2[i] = le32toh(output2[i]);
-				break;
+		case 2:
+			output2[i] = le16toh(output2[i]);
+			break;
+		case 4:
+			output2[i] = le32toh(output2[i]);
+			break;
 		}
 	}
 #endif
 	if (ints * sizeof(unsigned int) != bitnslots * sizeof(unsigned long)) {
-		output2 = (unsigned int *) realloc(output2, ints * sizeof(unsigned int));
-		if (output2 == NULL) free(output2);
+		output2 =
+		    (unsigned int *)realloc(output2,
+					    ints * sizeof(unsigned int));
+		if (output2 == NULL)
+			free(output2);
 	}
 	cmp = memcmp(output, output2, ints * sizeof(unsigned int));
 	bfdel(input);

@@ -21,7 +21,7 @@ int main()
 {
 	uint64_t unit = 1;
 	srand((unsigned)time(NULL));
-	unsigned int i, j, cmp;		//counters
+	unsigned int i, j, cmp;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing uint64tobf()";
 	char *failed = "[FAIL]";
@@ -42,15 +42,18 @@ int main()
 		if (rand() % 2)
 			input[int64s - 1] |= (unit << i);
 	struct bitfield *output = uint64tobf(input, len);
-	for (i = 0; i < int64s; i++) input[i] = htole64(input[i]);
+	for (i = 0; i < int64s; i++)
+		input[i] = htole64(input[i]);
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 8:
-				output->field[i] = (unsigned long) htole64((uint64_t) output->field[i]);
-				break;
-			case 4:
-				output->field[i] = (unsigned long) htole32((uint32_t) output->field[i]);
-				break;
+		case 8:
+			output->field[i] =
+			    (unsigned long)htole64((uint64_t) output->field[i]);
+			break;
+		case 4:
+			output->field[i] =
+			    (unsigned long)htole32((uint32_t) output->field[i]);
+			break;
 		}
 	}
 	cmp = memcmp(input, output->field, (len - 1) / CHAR_BIT + 1);

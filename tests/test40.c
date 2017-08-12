@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, cmp;			//counter
+	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bftouint32_ip() and uint32tobf_ip()";
 	char *failed = "[FAIL]";
@@ -41,15 +41,18 @@ int main()
 	uint32_t *check_uint32 = malloc(int32s * sizeof(uint32_t));
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 8:
-				check->field[i] = (unsigned long) htole64((uint64_t) input->field[i]);
-				break;
-			case 4:
-				check->field[i] = (unsigned long) htole32((uint32_t) input->field[i]);
-				break;
+		case 8:
+			check->field[i] =
+			    (unsigned long)htole64((uint64_t) input->field[i]);
+			break;
+		case 4:
+			check->field[i] =
+			    (unsigned long)htole32((uint32_t) input->field[i]);
+			break;
 		}
 	}
-	for (i = 0; i < int32s; i++) check_uint32[i] = htole32(input_uint32[i]);
+	for (i = 0; i < int32s; i++)
+		check_uint32[i] = htole32(input_uint32[i]);
 	cmp = memcmp(check_uint32, check->field, (len - 1) / CHAR_BIT + 1);
 	bfdel(check);
 	free(check_uint32);

@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, j, cmp;		//counters
+	unsigned int i, j, cmp;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing char2bf()";
 	char *failed = "[FAIL]";
@@ -45,15 +45,19 @@ int main()
 	memcpy(output2->field, input, chars);
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 4:
-				output2->field[i] = le32toh((uint32_t) output2->field[i]);
-				break;
-			case 8:
-				output2->field[i] = le64toh((uint64_t) output2->field[i]);
-				break;
+		case 4:
+			output2->field[i] =
+			    le32toh((uint32_t) output2->field[i]);
+			break;
+		case 8:
+			output2->field[i] =
+			    le64toh((uint64_t) output2->field[i]);
+			break;
 		}
 	}
-	cmp = memcmp(output->field, output2->field, BITNSLOTS(len) * sizeof(unsigned long));
+	cmp =
+	    memcmp(output->field, output2->field,
+		   BITNSLOTS(len) * sizeof(unsigned long));
 	free(input);
 	bfdel(output);
 	bfdel(output2);

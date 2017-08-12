@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, j;		//counters
+	unsigned int i, j;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing int2bf()";
 	char *failed = "[FAIL]";
