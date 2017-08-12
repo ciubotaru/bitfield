@@ -9,8 +9,8 @@
 
 #include <stdint.h>
 
-#ifndef HAVE_BITFIELD_H
-#define HAVE_BITFIELD_H
+#ifndef BITFIELD_H
+#define BITFIELD_H
 
 struct bitfield;
 
