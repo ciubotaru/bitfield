@@ -6,7 +6,7 @@ man_MANS=bf_converters.3 bfand.3 bfcat.3 bfclone.3 bfcmp.3 bfcpy.3 bfhamming.3 b
 all: $(man_MANS)
 
 $(man_MANS): %: %.in
-	for i in $(man_MANS); do sed -e 's/%RELEASE_DATE%/$(RELEASE_DATE)/g' -e 's/%VERSION%/$(VERSION)/g' $${i}.in > $$i; done
+	sed -e 's/%RELEASE_DATE%/$(RELEASE_DATE)/g' -e 's/%VERSION%/$(VERSION)/g' $< > $@
 
 install:
 	mkdir -p $(DESTDIR)$(mandir)/man3
