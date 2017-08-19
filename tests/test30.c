@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, j, cmp;		//counters
+	unsigned int i, j, cmp;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing uint8tobf()";
 	char *failed = "[FAIL]";
@@ -43,12 +43,14 @@ int main()
 	struct bitfield *output = uint8tobf(input, len);
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 4:
-				output->field[i] = (unsigned long) htole32((uint32_t) output->field[i]);
-				break;
-			case 8:
-				output->field[i] = (unsigned long) htole64((uint64_t) output->field[i]);
-				break;
+		case 4:
+			output->field[i] =
+			    (unsigned long)htole32((uint32_t) output->field[i]);
+			break;
+		case 8:
+			output->field[i] =
+			    (unsigned long)htole64((uint64_t) output->field[i]);
+			break;
 		}
 	}
 	cmp = memcmp(input, output->field, chars);

@@ -21,7 +21,7 @@ int main()
 {
 	uint32_t unit = 1;
 	srand((unsigned)time(NULL));
-	unsigned int i, j, cmp;		//counters
+	unsigned int i, j, cmp;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing uint32tobf()";
 	char *failed = "[FAIL]";
@@ -49,17 +49,20 @@ int main()
 							sizeof(uint32_t)) :
 	    BITNSLOTS(len) * sizeof(unsigned long);
 */
-//	uint32_t *input2 = uint32_htole(input, bitnslots);
-	for (i = 0; i < int32s; i++) input[i] = htole32(input[i]);
-//	free(input);
+//      uint32_t *input2 = uint32_htole(input, bitnslots);
+	for (i = 0; i < int32s; i++)
+		input[i] = htole32(input[i]);
+//      free(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-		switch(sizeof(unsigned long)) {
-			case 4:
-				output->field[i] = (unsigned long) htole32((uint32_t) output->field[i]);
-				break;
-			case 8:
-				output->field[i] = (unsigned long) htole64((uint64_t) output->field[i]);
-				break;
+		switch (sizeof(unsigned long)) {
+		case 4:
+			output->field[i] =
+			    (unsigned long)htole32((uint32_t) output->field[i]);
+			break;
+		case 8:
+			output->field[i] =
+			    (unsigned long)htole64((uint64_t) output->field[i]);
+			break;
 		}
 	}
 	cmp = memcmp(input, output->field, int32s * sizeof(uint32_t));

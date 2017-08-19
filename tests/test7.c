@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, cmp;			//counter
+	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bfclone() and bfcpy()";
 	char *failed = "[FAIL]";

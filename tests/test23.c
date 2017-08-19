@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, cmp;			//counter
+	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bf2int_ip() and int2bf_ip()";
 	char *failed = "[FAIL]";

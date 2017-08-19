@@ -17,7 +17,7 @@
 
 int main()
 {
-	unsigned int i;			//counter
+	unsigned int i;		//counter
 	unsigned int len = 80;
 	char *msg = "Testing bfsize()";
 	char *failed = "[FAIL]";

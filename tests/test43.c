@@ -20,7 +20,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	unsigned int i, cmp;			//counter
+	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bf2ll()";
 	char *failed = "[FAIL]";
@@ -37,15 +37,18 @@ int main()
 	unsigned long long *output = bf2ll(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
-			case 8:
-				input->field[i] = (unsigned long) htole64((uint64_t) input->field[i]);
-				break;
-			case 4:
-				input->field[i] = (unsigned long) htole32((uint32_t) input->field[i]);
-				break;
+		case 8:
+			input->field[i] =
+			    (unsigned long)htole64((uint64_t) input->field[i]);
+			break;
+		case 4:
+			input->field[i] =
+			    (unsigned long)htole32((uint32_t) input->field[i]);
+			break;
 		}
 	}
-	for (i = 0; i < lls; i++) output[i] = (unsigned long long) htole64((uint64_t) output[i]);
+	for (i = 0; i < lls; i++)
+		output[i] = (unsigned long long)htole64((uint64_t) output[i]);
 	cmp = memcmp(input->field, output, (len - 1) / CHAR_BIT + 1);
 	free(output);
 	bfdel(input);

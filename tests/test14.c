@@ -19,7 +19,7 @@
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, cmp;			//counter
+	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bf2str() and str2bf()";
 	char *failed = "[FAIL]";
