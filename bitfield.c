@@ -21,32 +21,32 @@
 
 /* big-endian-specific macros */
 
-#define bf_letoh_ip(x) _bf_letoh_ip(x)
-#define uint16_letoh_ip(x, y) _uint16_letoh_ip(x, y)
-#define uint32_letoh_ip(x, y) _uint32_letoh_ip(x, y)
-#define uint64_letoh_ip(x, y) _uint64_letoh_ip(x, y)
-#define bf_htole(x) (struct bitfield *) _bf_htole(x)
-#define uint16_htole_ip(x, y) _uint16_htole_ip(x, y)
-#define uint32_htole_ip(x, y) _uint32_htole_ip(x, y)
-#define uint64_htole_ip(x, y) _uint64_htole_ip(x, y)
-#define _uint64tobf(x, y, z) uint64tobf_be(x, y, z)
+#define bf_letoh_ip(x) bf_letoh_ip_(x)
+#define uint16_letoh_ip(x, y) uint16_letoh_ip_(x, y)
+#define uint32_letoh_ip(x, y) uint32_letoh_ip_(x, y)
+#define uint64_letoh_ip(x, y) uint64_letoh_ip_(x, y)
+#define bf_htole(x) (struct bitfield *) bf_htole_(x)
+#define uint16_htole_ip(x, y) uint16_htole_ip_(x, y)
+#define uint32_htole_ip(x, y) uint32_htole_ip_(x, y)
+#define uint64_htole_ip(x, y) uint64_htole_ip_(x, y)
+#define uint64tobf_(x, y, z) uint64tobf_be(x, y, z)
 
 /* big-endian-specific function declarations */
 
-static inline void _bf_letoh_ip(struct bitfield *instance);
-static inline void _uint16_letoh_ip(uint16_t * input, const unsigned int size);
-static inline void _uint32_letoh_ip(uint32_t * input, const unsigned int size);
-static inline void _uint64_letoh_ip(uint64_t * input, const unsigned int size);
-static inline struct bitfield *_bf_htole(const struct bitfield *input);
-static inline void _uint16_htole_ip(uint16_t * input, const unsigned int size);
-static inline void _uint32_htole_ip(uint32_t * input, const unsigned int size);
-static inline void _uint64_htole_ip(uint64_t * input, const unsigned int size);
+static inline void bf_letoh_ip_(struct bitfield *instance);
+static inline void uint16_letoh_ip_(uint16_t * input, const unsigned int size);
+static inline void uint32_letoh_ip_(uint32_t * input, const unsigned int size);
+static inline void uint64_letoh_ip_(uint64_t * input, const unsigned int size);
+static inline struct bitfield *bf_htole_(const struct bitfield *input);
+static inline void uint16_htole_ip_(uint16_t * input, const unsigned int size);
+static inline void uint32_htole_ip_(uint32_t * input, const unsigned int size);
+static inline void uint64_htole_ip_(uint64_t * input, const unsigned int size);
 static inline void uint64tobf_be(const uint64_t * input,
 				 struct bitfield *output, unsigned int size);
 
 /* big-endian-specific function definitions */
 
-static inline void _bf_letoh_ip(struct bitfield *instance)
+static inline void bf_letoh_ip_(struct bitfield *instance)
 /**
  * convert long integers inside a bitfield from little endian to host.
  * needed after memcpy to bf on big endian machines
@@ -74,7 +74,7 @@ static inline void _uint16_letoh_ip(uint16_t * input, const unsigned int size)
 		input[i] = le16toh(input[i]);
 }
 
-static inline void _uint32_letoh_ip(uint32_t * input, const unsigned int size)
+static inline void uint32_letoh_ip_(uint32_t * input, const unsigned int size)
 /**
  * convert integers from little endian to host.
  * needed when memcpy from bitfield to int/long on big endian machines
@@ -87,7 +87,7 @@ static inline void _uint32_letoh_ip(uint32_t * input, const unsigned int size)
 	}
 }
 
-static inline void _uint64_letoh_ip(uint64_t * input, const unsigned int size)
+static inline void uint64_letoh_ip_(uint64_t * input, const unsigned int size)
 /**
  * convert integers from little endian to host.
  * needed when memcpy from bitfield to long on big endian machines
@@ -100,7 +100,7 @@ static inline void _uint64_letoh_ip(uint64_t * input, const unsigned int size)
 	}
 }
 
-static inline struct bitfield *_bf_htole(const struct bitfield *input)
+static inline struct bitfield *bf_htole_(const struct bitfield *input)
 /**
  * convert long integers inside a bitfield from host to little endian.
  * needed after memcpy from bitfield on big endian machines
@@ -122,7 +122,7 @@ static inline struct bitfield *_bf_htole(const struct bitfield *input)
 	return output;
 }
 
-static inline void _uint16_htole_ip(uint16_t * input, const unsigned int size)
+static inline void uint16_htole_ip_(uint16_t * input, const unsigned int size)
 /**
  * write something here!!!
  **/
@@ -132,7 +132,7 @@ static inline void _uint16_htole_ip(uint16_t * input, const unsigned int size)
 		input[i] = htole16(input[i]);
 }
 
-static inline void _uint32_htole_ip(uint32_t * input, const unsigned int size)
+static inline void uint32_htole_ip_(uint32_t * input, const unsigned int size)
 /**
  * write something here!!!
  **/
@@ -142,7 +142,7 @@ static inline void _uint32_htole_ip(uint32_t * input, const unsigned int size)
 		input[i] = htole32(input[i]);
 }
 
-static inline void _uint64_htole_ip(uint64_t * input, const unsigned int size)
+static inline void uint64_htole_ip_(uint64_t * input, const unsigned int size)
 /**
  * write something here!!!
  **/
@@ -171,7 +171,7 @@ static inline void uint64tobf_be(const uint64_t * input,
 #define uint16_htole_ip(x, y)
 #define uint32_htole_ip(x, y)
 #define uint64_htole_ip(x, y)
-#define _uint64tobf(x, y, z) uint64tobf_le(x, y, z)
+#define uint64tobf_(x, y, z) uint64tobf_le(x, y, z)
 
 static inline void uint64tobf_le(const uint64_t * input,
 				 struct bitfield *output, unsigned int size)
@@ -312,7 +312,7 @@ struct bitfield *uint64tobf(const uint64_t * input, unsigned int size)
 		    bfnew(((size - 1) / 64 + 1) * sizeof(uint64_t) * CHAR_BIT);
 		if (!output)
 			return NULL;
-		_uint64tobf(input, output, size);
+		uint64tobf_(input, output, size);
 	}
 	/**
 	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
@@ -745,7 +745,7 @@ void bftogglebit(struct bitfield *instance, const unsigned int bit)
  * Logical operations with bitfields
  */
 
-static inline struct bitfield *__bfand(const struct bitfield *input1,
+static inline struct bitfield *bfand__(const struct bitfield *input1,
 				       const struct bitfield *input2)
 {
 	/* If the inputs are different size, take the shorter, and ignore the difference.
@@ -764,7 +764,7 @@ static inline struct bitfield *__bfand(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *_bfand(unsigned int count, ...)
+struct bitfield *bfand_(unsigned int count, ...)
 {
 	unsigned int i;
 	va_list args;
@@ -773,7 +773,7 @@ struct bitfield *_bfand(unsigned int count, ...)
 	for (i = 1; i < count; i++) {
 
 		struct bitfield *tmp =
-		    __bfand(output, va_arg(args, struct bitfield *));
+		    bfand__(output, va_arg(args, struct bitfield *));
 		if (!tmp) {
 			va_end(args);
 			return NULL;
@@ -811,7 +811,7 @@ void bfnot_ip(struct bitfield *instance)
 	bfcleartail(instance);
 }
 
-static inline struct bitfield *__bfor(const struct bitfield *input1,
+static inline struct bitfield *bfor__(const struct bitfield *input1,
 				      const struct bitfield *input2)
 {
 	/* If the inputs are different size, take the shorter, and ignore the difference.
@@ -830,7 +830,7 @@ static inline struct bitfield *__bfor(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *_bfor(unsigned int count, ...)
+struct bitfield *bfor_(unsigned int count, ...)
 {
 	unsigned int i;
 	va_list args;
@@ -839,7 +839,7 @@ struct bitfield *_bfor(unsigned int count, ...)
 	for (i = 1; i < count; i++) {
 
 		struct bitfield *tmp =
-		    __bfor(output, va_arg(args, struct bitfield *));
+		    bfor__(output, va_arg(args, struct bitfield *));
 		if (!tmp) {
 			bfdel(output);
 			va_end(args);
@@ -854,7 +854,7 @@ struct bitfield *_bfor(unsigned int count, ...)
 	return output;
 }
 
-static inline struct bitfield *__bfxor(const struct bitfield *input1,
+static inline struct bitfield *bfxor__(const struct bitfield *input1,
 				       const struct bitfield *input2)
 {
 	/* If the inputs are different size, take the shorter, and ignore the difference.
@@ -873,7 +873,7 @@ static inline struct bitfield *__bfxor(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *_bfxor(unsigned int count, ...)
+struct bitfield *bfxor_(unsigned int count, ...)
 {
 	unsigned int i;
 	va_list args;
@@ -882,7 +882,7 @@ struct bitfield *_bfxor(unsigned int count, ...)
 	for (i = 1; i < count; i++) {
 
 		struct bitfield *tmp =
-		    __bfxor(output, va_arg(args, struct bitfield *));
+		    bfxor__(output, va_arg(args, struct bitfield *));
 		if (!tmp) {
 			va_end(args);
 			return NULL;
@@ -900,7 +900,7 @@ struct bitfield *_bfxor(unsigned int count, ...)
  * Manipulate bitfields
  */
 
-static inline struct bitfield *__bfcat(const struct bitfield *input1,
+static inline struct bitfield *bfcat__(const struct bitfield *input1,
 				       const struct bitfield *input2)
 {
 	unsigned int i;
@@ -949,7 +949,7 @@ static inline struct bitfield *__bfcat(const struct bitfield *input1,
 	return output;
 }
 
-struct bitfield *_bfcat(unsigned int count, ...)
+struct bitfield *bfcat_(unsigned int count, ...)
 {
 	unsigned int i;
 	va_list args;
@@ -958,7 +958,7 @@ struct bitfield *_bfcat(unsigned int count, ...)
 	for (i = 1; i < count; i++) {
 
 		struct bitfield *tmp =
-		    __bfcat(output, va_arg(args, struct bitfield *));
+		    bfcat__(output, va_arg(args, struct bitfield *));
 		if (!tmp) {
 			va_end(args);
 			return NULL;
@@ -972,7 +972,7 @@ struct bitfield *_bfcat(unsigned int count, ...)
 	return output;
 }
 
-inline unsigned int count_arguments(char *s)
+inline unsigned int bf_count_arguments(char *s)
 {
 	unsigned i, argc = 1;
 	for (i = 0; s[i]; i++)

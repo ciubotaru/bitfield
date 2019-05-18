@@ -140,30 +140,30 @@ void bftogglebit(struct bitfield *instance, const unsigned int bit);	/* toggles 
  * Logical operations with bitfields
  */
 
-struct bitfield *_bfand(unsigned int count, ...);
+struct bitfield *bfand_(unsigned int count, ...);
 
-#define bfand(...) (struct bitfield *) _bfand( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise AND over a pair of bitfields */
+#define bfand(...) (struct bitfield *) bfand_( bf_count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise AND over a pair of bitfields */
 
 struct bitfield *bfnot(const struct bitfield *input);	/* reverses all bits in a bitfield and return the result in new bitfield */
 
 void bfnot_ip(struct bitfield *instance);	/* reverses all bits in a bitfield */
 
-struct bitfield *_bfor(unsigned int count, ...);
+struct bitfield *bfor_(unsigned int count, ...);
 
-#define bfor(...) (struct bitfield *) _bfor( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise inclusive OR over a pair of bitfields */
+#define bfor(...) (struct bitfield *) bfor_( bf_count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise inclusive OR over a pair of bitfields */
 
-struct bitfield *_bfxor(unsigned int count, ...);
+struct bitfield *bfxor_(unsigned int count, ...);
 
-#define bfxor(...) (struct bitfield *) _bfxor( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise exclusive OR over a pair of bitfields */
+#define bfxor(...) (struct bitfield *) bfxor_( bf_count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* performs bitwise exclusive OR over a pair of bitfields */
 
 /*
  * Manipulate bitfields
  */
-struct bitfield *_bfcat(unsigned int count, ...);
+struct bitfield *bfcat_(unsigned int count, ...);
 
-unsigned int count_arguments(char *s);
+unsigned int bf_count_arguments(char *s);
 
-#define bfcat(...) (struct bitfield *) _bfcat( count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* concatenates two bitfields into one */
+#define bfcat(...) (struct bitfield *) bfcat_( bf_count_arguments(#__VA_ARGS__), __VA_ARGS__)	/* concatenates two bitfields into one */
 
 void bfclearall(struct bitfield *instance);	/* fills a bitfield with zeroes */
 
