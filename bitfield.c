@@ -944,6 +944,7 @@ static inline struct bitfield *bfcat__(const struct bitfield *input1,
 	 * input.
 	 * If offset_bit is zero, no additional copies needed.
 	 */
+	if (offset_bit == 0) return output;
 	if ((output_size - 1) % LONG_BIT < (input2->size - 1) % LONG_BIT) {
 		for (i = 0; i < BITNSLOTS(input2->size); i++) {
 			output->field[i + offset_slot + 1] |=
