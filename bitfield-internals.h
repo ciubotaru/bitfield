@@ -20,7 +20,7 @@
 #define BITCLEAR(a, b) ((a)->field[BITSLOT(b)] &= ~BITMASK(b))
 #define BITTEST(a, b) ((a)->field[BITSLOT(b)] & BITMASK(b))
 #define BITTOGGLE(a, b) ((a)->field[BITSLOT(b)] ^= BITMASK(b))
-#define BITNSLOTS(nb) ((nb + LONG_BIT - 1) / LONG_BIT)
+#define BITNSLOTS(nb) (((nb) + LONG_BIT - 1) / LONG_BIT)
 
 struct bitfield {		/* defines a bitfield */
 	unsigned long *field;

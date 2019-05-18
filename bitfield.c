@@ -229,11 +229,12 @@ struct bitfield *str2bf(const char *input)
 
 struct bitfield *short2bf(const unsigned short *input, unsigned int size)
 {
-	struct bitfield *output;
+	struct bitfield *output = NULL;
 	if (sizeof(unsigned short) == 2)
 		output = uint16tobf((uint16_t *) input, size);
-	else
+	else if (sizeof(unsigned short) == 4)
 		output = uint32tobf((uint32_t *) input, size);
+	//else ?
 	return output;
 }
 
@@ -348,8 +349,9 @@ void short2bf_ip(const unsigned short *input, struct bitfield *output)
 {
 	if (sizeof(unsigned short) == 2)
 		uint16tobf_ip((const uint16_t *)input, output);
-	else
+	else if (sizeof(unsigned short) == 4)
 		uint32tobf_ip((const uint32_t *)input, output);
+	//else ?
 }
 
 void long2bf_ip(const unsigned long *input, struct bitfield *output)
@@ -591,8 +593,9 @@ void bf2short_ip(const struct bitfield *input, unsigned short *output)
 {
 	if (sizeof(unsigned short) == 2)
 		bftouint16_ip(input, (uint16_t *) output);
-	else
+	else if (sizeof(unsigned short) == 4)
 		bftouint32_ip(input, (uint32_t *) output);
+	//else ?
 }
 
 void bf2long_ip(const struct bitfield *input, unsigned long *output)
@@ -711,8 +714,14 @@ struct bitfield *bfnew_quick(const unsigned int size)
 
 void bfdel(struct bitfield *instance)
 {
-	free(instance->field);
-	free(instance);
+	if (instance) {
+		if (instance->field) {
+			free(instance->field);
+			instance->field = NULL;
+		}
+		free(instance);
+		instance = NULL;
+	}
 }
 
 /*
