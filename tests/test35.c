@@ -23,8 +23,8 @@ int main()
 	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bftouint32()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -35,13 +35,6 @@ int main()
 			BITSET(input, i);
 	unsigned int int32s = (len - 1) / 32 + 1;
 	uint32_t *input_int = bftouint32(input);
-/*
-	int min_memory_length =
-	    (bitnslots * sizeof(uint32_t) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(uint32_t)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-*/
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
 		case 4:
@@ -57,12 +50,9 @@ int main()
 	for (i = 0; i < int32s; i++)
 		input_int[i] = htole32(input_int[i]);
 	cmp = memcmp(input_int, input->field, (len - 1) / CHAR_BIT + 1);
+	if (cmp != 0) retval = 1;
 	bfdel(input);
 	free(input_int);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

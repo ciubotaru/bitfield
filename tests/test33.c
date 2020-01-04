@@ -23,8 +23,8 @@ int main()
 	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bftouint16()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -50,12 +50,9 @@ int main()
 	for (i = 0; i < uint16s; i++)
 		output[i] = htole16(output[i]);
 	cmp = memcmp(output, input->field, uint16s * sizeof(uint16_t));
+	if (cmp != 0) retval = 1;
 	bfdel(input);
 	free(output);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

@@ -22,8 +22,8 @@ int main()
 	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bf2str_ip() and str2bf_ip()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -41,9 +41,8 @@ int main()
 	bfdel(input);
 	bfdel(output);
 	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
+		retval = 1;
 	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

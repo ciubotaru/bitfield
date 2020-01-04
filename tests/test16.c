@@ -23,8 +23,8 @@ int main()
 	int len = 80;
 	int content;
 	char *msg = "Testing bfisempty()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -53,12 +53,13 @@ int main()
 		/* check if result of bfisempty corresponds with the value of content */
 		int result = bfisempty(input);
 		if (result != content) {
-			printf("%s\n", failed);
 			bfdel(input);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 		bfdel(input);
 	}
-	printf("%s\n", passed);
-	return 0;
+ret:
+	printf("%s\n", status[retval]);
+	return retval;
 }

@@ -22,8 +22,8 @@ int main()
 	int i;			//counter
 	int len = 80;
 	char *msg = "Testing bfrev() and bfrev_ip()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -52,27 +52,23 @@ int main()
 
 	for (i = 0; i < len; i++) {
 		if (BITGET(input2, i) != input_char_rev[i] - '0') {
-			printf("%s\n", failed);
-			free(input_char);
-			free(input_char_rev);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 	}
 
 	bfrev_ip(input2);
 	for (i = 0; i < len; i++) {
 		if (BITGET(input2, i) != input_char[i] - '0') {
-			printf("%s\n", failed);
-			free(input_char);
-			free(input_char_rev);
-			bfdel(input2);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 	}
 
-	printf("%s\n", passed);
+ret:
 	free(input_char);
 	free(input_char_rev);
 	bfdel(input2);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

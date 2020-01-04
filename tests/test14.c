@@ -22,8 +22,8 @@ int main()
 	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bf2str() and str2bf()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -34,14 +34,12 @@ int main()
 			BITSET(input, i);
 	char *input_char = bf2str(input);
 	struct bitfield *output = str2bf(input_char);
-	free(input_char);
 	cmp = bfcmp(input, output, NULL);
+	if (cmp != 0) retval = 1;
+
+	free(input_char);
 	bfdel(input);
 	bfdel(output);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

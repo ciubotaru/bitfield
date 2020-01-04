@@ -22,8 +22,8 @@ int main()
 	unsigned int i, j;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing long2bf()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -42,14 +42,13 @@ int main()
 	struct bitfield *output = long2bf(input, len);
 	for (i = 0; i < bitnslots; i++) {
 		if (output->field[i] != input[i]) {
-			printf("%s\n", failed);
-			free(input);
-			bfdel(output);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 	}
-	printf("%s\n", passed);
+ret:
 	free(input);
 	bfdel(output);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

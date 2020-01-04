@@ -20,8 +20,8 @@ int main()
 	int i;			//counter
 	int len = 80;
 	char *msg = "Testing bfsetbit() and bfclearbit()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -30,21 +30,20 @@ int main()
 	for (i = 0; i < len; i++) {
 		bfsetbit(input, i);
 		if (BITGET(input, i) != 1) {
-			printf("%s\n", failed);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 	}
 
 	for (i = 0; i < len; i++) {
 		bfclearbit(input, i);
 		if (BITGET(input, i) != 0) {
-			printf("%s\n", failed);
-			bfdel(input);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 	}
-
-	printf("%s\n", passed);
+ret:
 	bfdel(input);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

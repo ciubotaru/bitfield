@@ -23,8 +23,8 @@ int main()
 	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bf2char_ip() and char2bf_ip()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -52,24 +52,25 @@ int main()
 	}
 	unsigned char *check_char = malloc(chars * sizeof(unsigned char));
 	memcpy(check_char, check->field, chars);
-	bfdel(check);
 	cmp = memcmp(input_char, check_char, chars);
-	free(check_char);
 	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
+		retval = 1;
+		goto ret;
 	}
 	struct bitfield *output = bfnew(len);
 	char2bf_ip(input_char, output);
-	free(input_char);
 	/* check second function */
 	cmp = bfcmp(input, output, NULL);
+	if (cmp != 0) {
+		retval = 1;
+		goto ret;
+	}
+ret:
+	bfdel(check);
+	free(check_char);
+	free(input_char);
 	bfdel(input);
 	bfdel(output);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

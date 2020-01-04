@@ -23,8 +23,8 @@ int main()
 	unsigned int i, j, cmp;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing uint8tobf()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -54,12 +54,9 @@ int main()
 		}
 	}
 	cmp = memcmp(input, output->field, chars);
+	if (cmp != 0) retval = 1;
 	free(input);
 	bfdel(output);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

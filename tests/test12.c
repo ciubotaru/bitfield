@@ -22,8 +22,8 @@ int main()
 	int i;			//counter
 	int len = 80;
 	char *msg = "Testing bfpopcount()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -45,15 +45,12 @@ int main()
 			count_s++;
 
 	struct bitfield *input = str2bf(input_char);
-	free(input_char);
 	/* population count in bitfield */
 	int count_b = bfpopcount(input);
-	bfdel(input);
+	if (count_s != count_b)  retval = 1;
 
-	if (count_s != count_b) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	free(input_char);
+	bfdel(input);
+	printf("%s\n", status[retval]);
+	return retval;
 }

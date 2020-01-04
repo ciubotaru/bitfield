@@ -23,8 +23,8 @@ int main()
 	unsigned int i, cmp;	//counter
 	unsigned int len = 80;
 	char *msg = "Testing bftouint8_ip() and uint8tobf_ip()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -52,21 +52,17 @@ int main()
 	}
 	cmp = memcmp(input_uint8, output->field, int8s);
 	if (cmp != 0) {
-		printf("%s\n", failed);
-		free(input_uint8);
-		bfdel(input);
-		return 1;
+		retval = 1;
+		goto ret;
 	}
 	uint8tobf_ip(input_uint8, output);
-	free(input_uint8);
 	/* check second function */
 	cmp = bfcmp(input, output, NULL);
-	bfdel(input);
 	bfdel(output);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	if (cmp != 0) retval = 1;
+ret:
+	bfdel(input);
+	free(input_uint8);
+	printf("%s\n", status[retval]);
+	return retval;
 }

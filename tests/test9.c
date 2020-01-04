@@ -22,8 +22,8 @@ int main()
 	unsigned int i;		//counter
 	unsigned int len = 80;
 	char *msg = "Testing bfgetbit()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -41,15 +41,14 @@ int main()
 
 	for (i = 0; i < len; i++) {
 		if (bfgetbit(input, i) != (unsigned int)input_char[i] - '0') {
-			printf("%s\n", failed);
-			free(input_char);
-			bfdel(input);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 	}
 
-	printf("%s\n", passed);
+ret:
 	free(input_char);
 	bfdel(input);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

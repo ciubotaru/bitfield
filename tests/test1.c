@@ -22,8 +22,8 @@ int main()
 	unsigned int i;		//counter
 	unsigned int len = 80;
 	char *msg = "Testing bfsub(), bfcat(), bfshift() and bfshift_ip()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -43,8 +43,8 @@ int main()
 		cmp = bfcmp(input, output, NULL);
 		bfdel(output);
 		if (cmp != 0) {
-			printf("%s\n", failed);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 		/* shift a bitfield using bfshift() */
 		struct bitfield *shifted = bfshift(input, point);
@@ -55,20 +55,20 @@ int main()
 		cmp = bfcmp(shifted, swapped, NULL);
 		bfdel(swapped);
 		if (cmp != 0) {
-			printf("%s\n", failed);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 		/* shift it back and compare to the original bitfield */
 		bfshift_ip(shifted, -point);
 		cmp = bfcmp(input, shifted, NULL);
 		bfdel(shifted);
 		if (cmp != 0) {
-			printf("%s\n", failed);
-			bfdel(input);
-			return 1;
+			retval = 1;
+			goto ret;
 		}
 	}
-	printf("%s\n", passed);
+ret:
+	printf("%s\n", status[retval]);
 	bfdel(input);
-	return 0;
+	return retval;
 }

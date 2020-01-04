@@ -22,8 +22,8 @@ int main()
 	int i;			//counter
 	int len = 80;
 	char *msg = "Testing bftogglebit()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -40,18 +40,13 @@ int main()
 	struct bitfield *output = bfclone(input);
 	for (i = 0; i < len; i++)
 		bftogglebit(output, i);
-
 	struct bitfield *not = bfnot(output);
-	bfdel(output);
-
 	int cmp = bfcmp(input, not, NULL);
-	bfdel(input);
-	bfdel(not);
+	if (cmp != 0) retval = 1;
 
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	bfdel(input);
+	bfdel(output);
+	bfdel(not);
+	printf("%s\n", status[retval]);
+	return retval;
 }

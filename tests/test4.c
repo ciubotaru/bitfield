@@ -20,8 +20,8 @@ int main()
 	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bfnew_ones(), bfsetall() and bfclearall()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -31,31 +31,31 @@ int main()
 
 	struct bitfield *output2 = bfnew_ones(len);
 	cmp = bfcmp(output1, output2, NULL);
-	bfdel(output2);
 	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
+		retval = 1;
+		goto ret;
 	}
 
 	struct bitfield *output3 = bfnew_quick(len);
 	bfsetall(output3);
 	cmp = bfcmp(output1, output3, NULL);
-	bfdel(output1);
 	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
+		retval = 1;
+		goto ret;
 	}
 
 	struct bitfield *output4 = bfnew(len);
 	bfclearall(output3);
 	cmp = bfcmp(output3, output4, NULL);
+	if (cmp != 0) {
+		retval = 1;
+		goto ret;
+	}
+ret:
+	bfdel(output1);
+	bfdel(output2);
 	bfdel(output3);
 	bfdel(output4);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

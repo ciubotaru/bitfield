@@ -20,8 +20,8 @@ int main()
 	unsigned int i;		//counter
 	unsigned int len = 80;
 	char *msg = "Testing bfsize()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -30,13 +30,13 @@ int main()
 	for (i = 1; i <= len; i++) {
 		struct bitfield *input = bfnew_quick(i);
 		if (bfsize(input) != i) {
-			printf("%s\n", failed);
 			bfdel(input);
-			return 1;
+			retval = 1;
+			goto ret;
 		} else
 			bfdel(input);
 	}
-
-	printf("%s\n", passed);
-	return 0;
+ret:
+	printf("%s\n", status[retval]);
+	return retval;
 }

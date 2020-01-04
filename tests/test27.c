@@ -23,8 +23,8 @@ int main()
 	unsigned int i, j, cmp;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing short2bf()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -73,10 +73,7 @@ int main()
 	bfdel(output);
 	free(input2);
 	bfdel(output2);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	if (cmp != 0) retval = 1;
+	printf("%s\n", status[retval]);
+	return retval;
 }

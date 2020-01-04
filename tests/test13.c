@@ -22,8 +22,8 @@ int main()
 	int i;			//counter
 	int len = 80;
 	char *msg = "Testing bfhamming()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -57,17 +57,14 @@ int main()
 	struct bitfield *input1 = str2bf(input_char1);
 	free(input_char1);
 	struct bitfield *input2 = str2bf(input_char2);
-	free(input_char2);
 
 	/* Hamming distance for bitfield */
 	int hamming_b = bfhamming(input1, input2);
+	if (hamming_s != hamming_b) retval = 1;
+
+	free(input_char2);
 	bfdel(input1);
 	bfdel(input2);
-
-	if (hamming_s != hamming_b) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

@@ -24,8 +24,8 @@ int main()
 	int len = 80;
 	int result;
 	char *msg = "Testing bfpos()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -83,11 +83,12 @@ int main()
 			bfdel(needle);
 			/* the result should be equal to j */
 			if (result != j) {
-				printf("%s\n", failed);
-				return 1;
+				retval = 1;
+				goto ret;
 			}
 		}
 	}
-	printf("%s\n", passed);
-	return 0;
+ret:
+	printf("%s\n", status[retval]);
+	return retval;
 }

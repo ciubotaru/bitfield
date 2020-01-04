@@ -22,8 +22,8 @@ int main()
 	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bf2long()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -39,13 +39,11 @@ int main()
 		input_long2[i] = input->field[i];
 	cmp =
 	    memcmp(input_long, input_long2, bitnslots * sizeof(unsigned long));
+	if (cmp) retval = 1;
+
 	bfdel(input);
 	free(input_long);
 	free(input_long2);
-	if (cmp) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

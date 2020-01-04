@@ -24,8 +24,8 @@ int main()
 	unsigned int i, j, cmp;	//counters
 	unsigned int len = 80;
 	char *msg = "Testing uint32tobf()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	unsigned int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -42,17 +42,8 @@ int main()
 		if (rand() % 2)
 			input[int32s - 1] |= (unit << i);
 	struct bitfield *output = uint32tobf(input, len);
-/*
-	int min_memory_length =
-	    (bitnslots * sizeof(uint32_t) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(uint32_t)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-*/
-//      uint32_t *input2 = uint32_htole(input, bitnslots);
 	for (i = 0; i < int32s; i++)
 		input[i] = htole32(input[i]);
-//      free(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
 		switch (sizeof(unsigned long)) {
 		case 4:
@@ -66,12 +57,9 @@ int main()
 		}
 	}
 	cmp = memcmp(input, output->field, int32s * sizeof(uint32_t));
+	if (cmp != 0) retval = 1;
 	free(input);
 	bfdel(output);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

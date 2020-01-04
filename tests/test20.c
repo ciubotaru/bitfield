@@ -23,8 +23,8 @@ int main()
 	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bf2int()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -70,13 +70,11 @@ int main()
 			free(output2);
 	}
 	cmp = memcmp(output, output2, ints * sizeof(unsigned int));
+	if (cmp != 0) retval = 1;
+ret:
 	bfdel(input);
 	free(output);
 	free(output2);
-	if (cmp != 0) {
-		printf("%s\n", failed);
-		return 1;
-	}
-	printf("%s\n", passed);
-	return 0;
+	printf("%s\n", status[retval]);
+	return retval;
 }

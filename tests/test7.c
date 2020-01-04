@@ -22,8 +22,8 @@ int main()
 	int i, cmp;		//counter
 	int len = 80;
 	char *msg = "Testing bfclone() and bfcpy()";
-	char *failed = "[FAIL]";
-	char *passed = "[PASS]";
+	char *status[] = { "[PASS]", "[FAIL]" };
+	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
@@ -44,28 +44,25 @@ int main()
 	cmp = bfcmp(input, input2, NULL);
 	bfdel(input2);
 	if (cmp != 0) {
-		printf("zyu1");
-		printf("%s\n", failed);
-		return 1;
+		retval = 1;
+		goto ret;
 	}
 
 	struct bitfield *input3 = bfnew_quick(len);
 	int result = bfcpy(input, input3);
 	if (result != 0) {
-		printf("zyu2");
-		printf("%s\n", failed);
-		return 1;
+		retval = 1;
+		goto ret;
 	}
 
 	cmp = bfcmp(input, input3, NULL);
 	bfdel(input);
 	bfdel(input3);
 	if (cmp != 0) {
-		printf("zyu3");
-		printf("%s\n", failed);
-		return 1;
+		retval = 1;
+		goto ret;
 	}
-
-	printf("%s\n", passed);
-	return 0;
+ret:
+	printf("%s\n", status[retval]);
+	return retval;
 }
