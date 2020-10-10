@@ -106,6 +106,8 @@ bflz() finds the last clear bit in a bitfield
 
 bfclo() counts leading ones in a bitfield
 
+bfclz() counts leading zeroes in a bitfield
+
 bfhamming() counts the Hamming distance between two bitfields
 
 bfisempty() checks whether all bit of an array are unset

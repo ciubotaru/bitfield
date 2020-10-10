@@ -116,6 +116,13 @@ counts leading set bits in a bitfield
 .RE
 .LP
 .B
+bfclz()
+.br
+.RS
+counts leading clear bits in a bitfield
+.RE
+.LP
+.B
 bfhamming()
 .br
 .RS
