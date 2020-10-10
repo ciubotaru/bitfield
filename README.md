@@ -98,6 +98,8 @@ bfcpy() copies the contents of a bitfield into another pre-existing bitfield
 
 bffs() finds the first set bit in a bitfield
 
+bffz() finds the first clear bit in a bitfield
+
 bfhamming() counts the Hamming distance between two bitfields
 
 bfisempty() checks whether all bit of an array are unset

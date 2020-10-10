@@ -88,6 +88,13 @@ finds the first set bit in a bitfield
 .RE
 .LP
 .B
+bffz()
+.br
+.RS
+finds the first clear bit in a bitfield
+.RE
+.LP
+.B
 bfhamming()
 .br
 .RS

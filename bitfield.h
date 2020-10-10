@@ -175,6 +175,8 @@ unsigned int bfcpy(const struct bitfield *src, struct bitfield *dest);	/* copies
 
 unsigned int bffs(const struct bitfield *instance);	/* find the first set bit in a bit array */
 
+unsigned int bffz(const struct bitfield *instance);	/* find the first clear bit in a bit array */
+
 unsigned int bfhamming(const struct bitfield *input1, const struct bitfield *input2);	/* counts the Hamming distance between two bitfields */
 
 unsigned int bfisempty(const struct bitfield *instance);	/* checks whether all bits of an array are unset */

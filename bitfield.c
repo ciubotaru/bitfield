@@ -1061,6 +1061,36 @@ unsigned int bffs(const struct bitfield *instance)
 	return pos;
 }
 
+unsigned int bffz(const struct bitfield *instance)
+{
+	unsigned int i;
+	unsigned int pos = 0;
+	unsigned int bitnslots = BITNSLOTS(instance->size);
+	unsigned int tmp;
+	for (i = 0; i < bitnslots; i++) {
+#ifdef __GNUC__			/* if GCC or Clang, use builtins */
+		tmp = __builtin_ffsl(~(instance->field[i]));
+#elif defined(_DEFAULT_SOURCE) || defined(_GNU_SOURCE)	/* if Glibc, use extensions */
+		tmp = ffsl(~(instance->field[i]));
+#else
+		if ((~instance->field[i] & (1 + instance->field[i])) <=
+		    0xffffffff)
+			tmp = ffs(~instance->field[i]);
+		else
+			tmp = 32 + ffs(~(instance->field[i]) >> 32);
+#endif
+		if (tmp) {
+			pos = i * LONG_BIT + tmp;
+			/* ignore clear bits in the tail */
+			if (pos <= instance->size)
+				return pos;
+			else
+				return 0;
+		}
+	}
+	return pos;
+}
+
 unsigned int bfhamming(const struct bitfield *input1,
 		       const struct bitfield *input2)
 {
