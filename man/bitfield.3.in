@@ -123,6 +123,13 @@ counts leading clear bits in a bitfield
 .RE
 .LP
 .B
+bfcto()
+.br
+.RS
+counts trailing set bits in a bitfield
+.RE
+.LP
+.B
 bfhamming()
 .br
 .RS
