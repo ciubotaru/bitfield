@@ -100,6 +100,8 @@ bffs() finds the first set bit in a bitfield
 
 bffz() finds the first clear bit in a bitfield
 
+bfls() finds the last set bit in a bitfield
+
 bfhamming() counts the Hamming distance between two bitfields
 
 bfisempty() checks whether all bit of an array are unset

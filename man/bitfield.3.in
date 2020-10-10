@@ -95,6 +95,13 @@ finds the first clear bit in a bitfield
 .RE
 .LP
 .B
+bfls()
+.br
+.RS
+finds the last set bit in a bitfield
+.RE
+.LP
+.B
 bfhamming()
 .br
 .RS

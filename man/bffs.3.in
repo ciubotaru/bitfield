@@ -1,12 +1,13 @@
 .TH bffs 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
-bffs, bffz \- find the first set or clear bit in a bit array.
+bffs, bffz, bfls \- find the position or count certain bits in a bit array.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
 .sp
 .BI "unsigned int bffs(const struct bitfield *"instance ");
 .BI "unsigned int bffz(const struct bitfield *"instance ");
+.BI "unsigned int bfls(const struct bitfield *"instance ");
 .fi
 .SH DESCRIPTION
 A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
@@ -14,6 +15,8 @@ A bit array is represented by a "struct bitfield". It has two elements: an array
 The \fBbffs()\fR function searches for the first set bit in a bit array. It takes a pointer to bitfield \fIinstance\fR and returns the index of the first set bit, starting from one. If there are no set bits, it returns 0.
 .sp
 The \fBbffz()\fR function searches for the first clear bit in a bit array. It takes a pointer to bitfield \fIinstance\fR and returns the index of the first clear bit, starting from one. If there are no clear bits, it returns 0.
+.sp
+The \fBbfls()\fR function searches for the last set bit in a bit array. It takes a pointer to bitfield \fIinstance\fR and returns the index of the last set bit, starting from one. If there are no set bits, it returns 0.
 .sp
 .SH "SEE ALSO"
 For the full list of bitfield functions and their descriptions, see manual page for
