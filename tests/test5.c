@@ -66,7 +66,7 @@ int main()
 			goto ret;
 		}
 	}
-ret:
+ ret:
 	free(input_char);
 	bfdel(input);
 	printf("%s\n", status[retval]);

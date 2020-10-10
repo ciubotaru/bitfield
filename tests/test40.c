@@ -66,8 +66,9 @@ int main()
 	/* check second function */
 	cmp = bfcmp(input, output, NULL);
 	bfdel(output);
-	if (cmp != 0) retval = 1;
-ret:
+	if (cmp != 0)
+		retval = 1;
+ ret:
 	bfdel(input);
 	free(input_uint32);
 	printf("%s\n", status[retval]);

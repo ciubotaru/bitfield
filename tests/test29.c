@@ -81,7 +81,7 @@ int main()
 		retval = 1;
 		goto ret;
 	}
-ret:
+ ret:
 	free(input_short);
 	bfdel(input);
 	printf("%s\n", status[retval]);

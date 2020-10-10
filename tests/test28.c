@@ -64,7 +64,8 @@ int main()
 	cmp = memcmp(input_short, check, shorts * sizeof(unsigned short));
 	free(input_short);
 	free(check);
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 	printf("%s\n", status[retval]);
 	return retval;
 }

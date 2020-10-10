@@ -70,8 +70,9 @@ int main()
 			free(output2);
 	}
 	cmp = memcmp(output, output2, ints * sizeof(unsigned int));
-	if (cmp != 0) retval = 1;
-ret:
+	if (cmp != 0)
+		retval = 1;
+ ret:
 	bfdel(input);
 	free(output);
 	free(output2);

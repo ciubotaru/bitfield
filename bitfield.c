@@ -466,7 +466,7 @@ unsigned long *bf2long(const struct bitfield *input)
 	return output;
 }
 
-inline uint8_t *bftouint8(const struct bitfield * input)
+inline uint8_t *bftouint8(const struct bitfield *input)
 {
 	int nr_bytes = (input->size - 1) / CHAR_BIT + 1;
 	uint8_t *output = calloc(1, nr_bytes);
@@ -486,7 +486,7 @@ inline uint8_t *bftouint8(const struct bitfield * input)
 	return output;
 }
 
-inline uint16_t *bftouint16(const struct bitfield * input)
+inline uint16_t *bftouint16(const struct bitfield *input)
 {
 	int bitnslots = (input->size - 1) / 16 + 1;
 	int nr_bytes = (input->size - 1) / CHAR_BIT + 1;
@@ -508,7 +508,7 @@ inline uint16_t *bftouint16(const struct bitfield * input)
 	return output;
 }
 
-inline uint32_t *bftouint32(const struct bitfield * input)
+inline uint32_t *bftouint32(const struct bitfield *input)
 {
 	int bitnslots = (input->size - 1) / 32 + 1;
 	uint32_t *output;
@@ -540,7 +540,7 @@ inline uint32_t *bftouint32(const struct bitfield * input)
 	return output;
 }
 
-inline uint64_t *bftouint64(const struct bitfield * input)
+inline uint64_t *bftouint64(const struct bitfield *input)
 {
 	int bitnslots = (input->size - 1) / 64 + 1;
 	uint64_t *output;
@@ -755,7 +755,7 @@ void bftogglebit(struct bitfield *instance, const unsigned int bit)
  */
 
 static inline void bfand__(struct bitfield *input1,
-				       const struct bitfield *input2)
+			   const struct bitfield *input2)
 {
 	/* If the inputs are different size, take the shorter, and ignore the difference.
 	 * This way we'll surely have no error.
@@ -763,7 +763,8 @@ static inline void bfand__(struct bitfield *input1,
 	int size = input1->size < input2->size ? input1->size : input2->size;
 	int bitnslots = BITNSLOTS(size);
 	int i;
-	for (i = 0; i < bitnslots; i++) input1->field[i] &= input2->field[i];
+	for (i = 0; i < bitnslots; i++)
+		input1->field[i] &= input2->field[i];
 }
 
 struct bitfield *bfand_(unsigned int count, ...)
@@ -809,7 +810,7 @@ void bfnot_ip(struct bitfield *instance)
 }
 
 static inline void bfor__(struct bitfield *input1,
-				      const struct bitfield *input2)
+			  const struct bitfield *input2)
 {
 	/* If the inputs are different size, take the shorter, and ignore the difference.
 	 * This way we'll surely have no error.
@@ -817,7 +818,8 @@ static inline void bfor__(struct bitfield *input1,
 	int size = input1->size < input2->size ? input1->size : input2->size;
 	int bitnslots = BITNSLOTS(size);
 	int i;
-	for (i = 0; i < bitnslots; i++) input1->field[i] |= input2->field[i];
+	for (i = 0; i < bitnslots; i++)
+		input1->field[i] |= input2->field[i];
 }
 
 struct bitfield *bfor_(unsigned int count, ...)
@@ -839,7 +841,7 @@ struct bitfield *bfor_(unsigned int count, ...)
 }
 
 static inline void bfxor__(struct bitfield *input1,
-				       const struct bitfield *input2)
+			   const struct bitfield *input2)
 {
 	/* If the inputs are different size, take the shorter, and ignore the difference.
 	 * This way we'll surely have no error.
@@ -847,7 +849,8 @@ static inline void bfxor__(struct bitfield *input1,
 	int size = input1->size < input2->size ? input1->size : input2->size;
 	int bitnslots = BITNSLOTS(size);
 	int i;
-	for (i = 0; i < bitnslots; i++) input1->field[i] ^= input2->field[i];
+	for (i = 0; i < bitnslots; i++)
+		input1->field[i] ^= input2->field[i];
 }
 
 struct bitfield *bfxor_(unsigned int count, ...)
@@ -907,7 +910,8 @@ static inline struct bitfield *bfcat__(const struct bitfield *input1,
 	 * input.
 	 * If offset_bit is zero, no additional copies needed.
 	 */
-	if (offset_bit == 0) return output;
+	if (offset_bit == 0)
+		return output;
 	if ((output_size - 1) % LONG_BIT < (input2->size - 1) % LONG_BIT) {
 		for (i = 0; i < BITNSLOTS(input2->size); i++) {
 			output->field[i + offset_slot + 1] |=

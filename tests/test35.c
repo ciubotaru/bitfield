@@ -50,7 +50,8 @@ int main()
 	for (i = 0; i < int32s; i++)
 		input_int[i] = htole32(input_int[i]);
 	cmp = memcmp(input_int, input->field, (len - 1) / CHAR_BIT + 1);
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 	bfdel(input);
 	free(input_int);
 	printf("%s\n", status[retval]);

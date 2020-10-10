@@ -64,8 +64,10 @@ int main()
 	uint64tobf_ip(input_uint64, output);
 	/* check second function */
 	cmp = bfcmp(input, output, NULL);
-	bfdel(output);	if (cmp != 0) retval = 1;
-ret:
+	bfdel(output);
+	if (cmp != 0)
+		retval = 1;
+ ret:
 	bfdel(input);
 	free(input_uint64);
 	printf("%s\n", status[retval]);

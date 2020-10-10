@@ -88,7 +88,7 @@ int main()
 			}
 		}
 	}
-ret:
+ ret:
 	printf("%s\n", status[retval]);
 	return retval;
 }

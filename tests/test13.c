@@ -60,7 +60,8 @@ int main()
 
 	/* Hamming distance for bitfield */
 	int hamming_b = bfhamming(input1, input2);
-	if (hamming_s != hamming_b) retval = 1;
+	if (hamming_s != hamming_b)
+		retval = 1;
 
 	free(input_char2);
 	bfdel(input1);

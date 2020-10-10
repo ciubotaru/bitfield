@@ -73,7 +73,8 @@ int main()
 	bfdel(output);
 	free(input2);
 	bfdel(output2);
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 	printf("%s\n", status[retval]);
 	return retval;
 }

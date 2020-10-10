@@ -48,7 +48,8 @@ int main()
 		}
 	}
 	cmp = memcmp(input_int, input->field, chars);
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 	free(input_int);
 	bfdel(input);
 	printf("%s\n", status[retval]);

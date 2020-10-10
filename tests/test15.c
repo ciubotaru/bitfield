@@ -39,7 +39,8 @@ int main()
 		input_long2[i] = input->field[i];
 	cmp =
 	    memcmp(input_long, input_long2, bitnslots * sizeof(unsigned long));
-	if (cmp) retval = 1;
+	if (cmp)
+		retval = 1;
 
 	bfdel(input);
 	free(input_long);

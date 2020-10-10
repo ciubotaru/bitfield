@@ -65,7 +65,7 @@ int main()
 		retval = 1;
 		goto ret;
 	}
-ret:
+ ret:
 	bfdel(check);
 	free(check_char);
 	free(input_char);

@@ -42,7 +42,8 @@ int main()
 		bftogglebit(output, i);
 	struct bitfield *not = bfnot(output);
 	int cmp = bfcmp(input, not, NULL);
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 
 	bfdel(input);
 	bfdel(output);

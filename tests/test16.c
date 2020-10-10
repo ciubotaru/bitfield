@@ -59,7 +59,7 @@ int main()
 		}
 		bfdel(input);
 	}
-ret:
+ ret:
 	printf("%s\n", status[retval]);
 	return retval;
 }

@@ -35,7 +35,8 @@ int main()
 	char *input_char = bf2str(input);
 	struct bitfield *output = str2bf(input_char);
 	cmp = bfcmp(input, output, NULL);
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 
 	free(input_char);
 	bfdel(input);

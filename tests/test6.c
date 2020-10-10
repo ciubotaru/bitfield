@@ -42,7 +42,7 @@ int main()
 			goto ret;
 		}
 	}
-ret:
+ ret:
 	bfdel(input);
 	printf("%s\n", status[retval]);
 	return retval;

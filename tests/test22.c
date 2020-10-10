@@ -49,8 +49,9 @@ int main()
 	cmp = bfcmp(input, output, NULL);
 	bfdel(input);
 	bfdel(output);
-	if (cmp != 0) retval = 1;
-ret:
+	if (cmp != 0)
+		retval = 1;
+ ret:
 	printf("%s\n", status[retval]);
 	return retval;
 }

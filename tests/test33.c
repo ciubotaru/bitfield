@@ -50,7 +50,8 @@ int main()
 	for (i = 0; i < uint16s; i++)
 		output[i] = htole16(output[i]);
 	cmp = memcmp(output, input->field, uint16s * sizeof(uint16_t));
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 	bfdel(input);
 	free(output);
 	printf("%s\n", status[retval]);

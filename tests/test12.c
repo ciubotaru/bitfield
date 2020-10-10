@@ -47,7 +47,8 @@ int main()
 	struct bitfield *input = str2bf(input_char);
 	/* population count in bitfield */
 	int count_b = bfpopcount(input);
-	if (count_s != count_b)  retval = 1;
+	if (count_s != count_b)
+		retval = 1;
 
 	free(input_char);
 	bfdel(input);

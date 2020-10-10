@@ -50,7 +50,8 @@ int main()
 	for (i = 0; i < lls; i++)
 		output[i] = (unsigned long long)htole64((uint64_t) output[i]);
 	cmp = memcmp(input->field, output, (len - 1) / CHAR_BIT + 1);
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 	free(output);
 	bfdel(input);
 	printf("%s\n", status[retval]);

@@ -65,7 +65,7 @@ int main()
 		}
 	}
 
-ret:
+ ret:
 	free(input_char);
 	free(input_char_rev);
 	bfdel(input2);

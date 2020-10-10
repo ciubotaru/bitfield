@@ -49,7 +49,7 @@ int main()
 		retval = 1;
 		goto ret;
 	}
-ret:
+ ret:
 	free(input);
 	bfdel(output);
 	printf("%s\n", status[retval]);

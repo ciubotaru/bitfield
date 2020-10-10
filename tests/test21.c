@@ -59,7 +59,8 @@ int main()
 		bfdel(input);
 		bfdel(check);
 		bfdel(output);
-		if (cmp) retval = 1;
+		if (cmp)
+			retval = 1;
 	}
 	printf("%s\n", status[retval]);
 	return retval;

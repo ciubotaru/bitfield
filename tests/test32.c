@@ -64,7 +64,8 @@ int main()
 		}
 	}
 	cmp = memcmp(input, output->field, shorts * sizeof(unsigned short));
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 	free(input);
 	bfdel(output);
 	printf("%s\n", status[retval]);

@@ -51,7 +51,7 @@ int main()
 		retval = 1;
 		goto ret;
 	}
-ret:
+ ret:
 	bfdel(output1);
 	bfdel(output2);
 	bfdel(output3);

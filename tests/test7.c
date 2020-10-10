@@ -62,7 +62,7 @@ int main()
 		retval = 1;
 		goto ret;
 	}
-ret:
+ ret:
 	printf("%s\n", status[retval]);
 	return retval;
 }

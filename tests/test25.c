@@ -55,7 +55,8 @@ int main()
 	cmp = memcmp(input_char, input->field, min_memory_length);
 	bfdel(input);
 	free(input_char);
-	if (cmp != 0) retval = 1;
+	if (cmp != 0)
+		retval = 1;
 	printf("%s\n", status[retval]);
 	return retval;
 }
