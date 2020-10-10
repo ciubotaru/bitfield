@@ -81,6 +81,13 @@ copies the contents of a bitfield into another pre-existing bitfield
 .RE
 .LP
 .B
+bffs()
+.br
+.RS
+finds the first set bit in a bitfield
+.RE
+.LP
+.B
 bfhamming()
 .br
 .RS

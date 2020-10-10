@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>		//for ffs()
 #include <stdarg.h>
 #include <assert.h>
 #include <endian.h>
@@ -1031,6 +1032,35 @@ unsigned int bfcpy(const struct bitfield *src, struct bitfield *dest)
 	return 0;
 }
 
+unsigned int bffs(const struct bitfield *instance)
+{
+	unsigned int i;
+	unsigned int pos = 0;
+	unsigned int bitnslots = BITNSLOTS(instance->size);
+	unsigned int tmp;
+	for (i = 0; i < bitnslots; i++) {
+#ifdef __GNUC__
+		/* if GCC or Clang, use builtins */
+		tmp = __builtin_ffsl(instance->field[i]);
+#elif defined(_DEFAULT_SOURCE) || defined(_GNU_SOURCE) || defined(__FreeBSD__) || defined(__APPLE__)
+		/* GNU libc and FreeBSD 5.3+ (and OS X 10.4+) libc have ffsl */
+		tmp = ffsl(instance->field[i]);
+#else
+		/* at least, every POSIX system has ffs */
+		if ((instance->field[i] & (1 + ~instance->field[i])) <=
+		    0xffffffff)
+			tmp = ffs(instance->field[i]);
+		else
+			tmp = 32 + ffs(instance->field[i] >> 32);
+#endif
+		if (tmp) {
+			pos = i * LONG_BIT + tmp;
+			return pos;
+		}
+	}
+	return pos;
+}
+
 unsigned int bfhamming(const struct bitfield *input1,
 		       const struct bitfield *input2)
 {
@@ -1283,7 +1313,7 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 			memcpy(output->field, (input->field) + start_slot, (output_slots - 1) * sizeof(unsigned long));	// the easiest case
 	}
 
-    /** filling the last output slot
+		     /** filling the last output slot
      *  Three cases here:
      *  1. the data for the last slot in output are stretched over 2 slots in input
      *  This can be tested by start_offset > end_offset. In this case we need to

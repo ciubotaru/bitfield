@@ -69,8 +69,21 @@ install:
 	ln -s bfshift.3 $(DESTDIR)$(mandir)/man3/bfshift_ip.3
 
 uninstall:
-	for i in bf2str.3 bf2char.3 bf2int.3 bf2short.3 bf2long.3 bf2ll.3 bftouint8.3 bftouint16.3 bftouint32.3 bftouint64.3 bf2str_ip.3 bf2char_ip.3 bf2int_ip.3 bf2short_ip.3 bf2long_ip.3 bf2ll_ip.3 bftouint8_ip.3 bftouint16_ip.3 bftouint32_ip.3 bftouint64_ip.3 str2bf.3 char2bf.3 short2bf.3 int2bf.3 long2bf.3 ll2bf.3 uint8tobf.3 uint16tobf.3 uint32tobf.3 uint64tobf.3 str2bf_ip.3 char2bf_ip.3 short2bf_ip.3 int2bf_ip.3 long2bf_ip.3 ll2bf_ip.3 uint8tobf_ip.3 uint16tobf_ip.3 uint32tobf_ip.3 uint64tobf_ip.3 bfnot.3 bfnot_ip.3 bfor.3 bfxor.3 bfdel.3 bfnew_ones.3 bfnew_quick.3 bfprint_lsb.3 bfprint_msb.3 bfrev_ip.3 bfclearall.3 bfclearbit.3 bfgetbit.3 bftogglebit.3 bfshift_ip.3; do if [ -e $(DESTDIR)$(mandir)/man3/$$i ]; then rm -v $(DESTDIR)$(mandir)/man3/$$i; fi; done
-	for i in $(man_MANS); do if [ -e $(DESTDIR)$(mandir)/man3/$$i ]; then rm -v $(DESTDIR)$(mandir)/man3/$$i; fi; done
+	for i in bf2str.3 bf2char.3 bf2int.3 bf2short.3 bf2long.3 bf2ll.3 \
+	bftouint8.3 bftouint16.3 bftouint32.3 bftouint64.3 bf2str_ip.3 \
+	bf2char_ip.3 bf2int_ip.3 bf2short_ip.3 bf2long_ip.3 bf2ll_ip.3 \
+	bftouint8_ip.3 bftouint16_ip.3 bftouint32_ip.3 bftouint64_ip.3 \
+	str2bf.3 char2bf.3 short2bf.3 int2bf.3 long2bf.3 ll2bf.3 uint8tobf.3 \
+	uint16tobf.3 uint32tobf.3 uint64tobf.3 str2bf_ip.3 char2bf_ip.3 \
+	short2bf_ip.3 int2bf_ip.3 long2bf_ip.3 ll2bf_ip.3 uint8tobf_ip.3 \
+	uint16tobf_ip.3 uint32tobf_ip.3 uint64tobf_ip.3 bfnot.3 bfnot_ip.3 \
+	bfor.3 bfxor.3 bfdel.3 bfnew_ones.3 bfnew_quick.3 bfprint_lsb.3 \
+	bfprint_msb.3 bfrev_ip.3 bfclearall.3 bfclearbit.3 bfgetbit.3 \
+	bftogglebit.3 bfshift_ip.3; do \
+	if [ -e $(DESTDIR)$(mandir)/man3/$$i ]; then \
+	rm -v $(DESTDIR)$(mandir)/man3/$$i; fi; done
+	for i in $(man_MANS); do if [ -e $(DESTDIR)$(mandir)/man3/$$i ]; then \
+	rm -v $(DESTDIR)$(mandir)/man3/$$i; fi; done
 
 distclean:
 	rm Makefile
