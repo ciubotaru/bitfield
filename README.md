@@ -110,6 +110,8 @@ bfclz() counts leading zeroes in a bitfield
 
 bfcto() counts trailing ones in a bitfield
 
+bfctz() counts trailing zeroes in a bitfield
+
 bfhamming() counts the Hamming distance between two bitfields
 
 bfisempty() checks whether all bit of an array are unset

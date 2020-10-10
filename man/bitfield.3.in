@@ -130,6 +130,13 @@ counts trailing set bits in a bitfield
 .RE
 .LP
 .B
+bfctz()
+.br
+.RS
+counts trailing clear bits in a bitfield
+.RE
+.LP
+.B
 bfhamming()
 .br
 .RS

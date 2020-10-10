@@ -1215,6 +1215,38 @@ unsigned int bfcto(const struct bitfield *instance)
 #endif
 }
 
+unsigned int bfctz(const struct bitfield *instance)
+{
+#ifdef __GNUC__
+	int i;
+	unsigned int count = 0;
+	unsigned int bitnslots = BITNSLOTS(instance->size);
+	for (i = 0; i < bitnslots - 1; i++) {
+		if (instance->field[i] == 0) {
+			count += LONG_BIT;
+		} else if (~instance->field[i] == 0) {
+			return count;
+		} else {
+			return count + __builtin_ctzl(instance->field[i]);
+		}
+	}
+	if (instance->field[bitnslots - 1] == 0) {
+		count += (instance->size - 1) % LONG_BIT + 1;
+	} else if (~instance->field[bitnslots - 1] == 0) {
+		return count;
+	} else {
+		count += __builtin_ctzl(instance->field[bitnslots - 1]);
+	}
+	return count;
+#else
+	unsigned int ffs = bffs(instance);
+	if (ffs)
+		return ffs - 1;
+	else
+		return instance->size;
+#endif
+}
+
 unsigned int bfhamming(const struct bitfield *input1,
 		       const struct bitfield *input2)
 {

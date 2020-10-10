@@ -1,6 +1,6 @@
 .TH bffs 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
-bffs, bffz, bfls, bflz, bfclo, bfclz \- find the position or count certain bits in a bit array.
+bffs, bffz, bfls, bflz, bfclo, bfclz, bfcto, bfctz \- find the position or count certain bits in a bit array.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
@@ -11,6 +11,8 @@ bffs, bffz, bfls, bflz, bfclo, bfclz \- find the position or count certain bits 
 .BI "unsigned int bflz(const struct bitfield *"instance ");
 .BI "unsigned int bfclo(const struct bitfield *"instance ");
 .BI "unsigned int bfclz(const struct bitfield *"instance ");
+.BI "unsigned int bfcto(const struct bitfield *"instance ");
+.BI "unsigned int bfctz(const struct bitfield *"instance ");
 .fi
 .SH DESCRIPTION
 A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
@@ -26,6 +28,10 @@ The \fBbflz()\fR function searches for the last clear bit in a bit array. It tak
 The \fBbfclo()\fR function counts leading set bits in bit array \fIinstance\fR, starting at most significant position.
 .sp
 The \fBbfclz()\fR function counts leading clear bits in bit array \fIinstance\fR, starting at most significant position.
+.sp
+The \fBbfcto()\fR function counts trailing set bits in a bit array \fIinstance\fR, starting at most significant position.
+.sp
+The \fBbfctz()\fR function counts trailing clear bits in a bit array \fIinstance\fR, starting at most significant position.
 .sp
 .SH "SEE ALSO"
 For the full list of bitfield functions and their descriptions, see manual page for
