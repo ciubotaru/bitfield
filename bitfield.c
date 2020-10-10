@@ -1112,6 +1112,27 @@ unsigned int bfls(const struct bitfield *instance)
 	return 0;
 }
 
+unsigned int bflz(const struct bitfield *instance)
+{
+	int i;
+#if defined(__FreeBSD__) || defined(__APPLE__)
+	/* FreeBSD 5.3+ (and OS X 10.4+) libc have flsl */
+	unsigned int bitnslots = BITNSLOTS(instance->size);
+	unsigned int tmp;
+	for (i = bitnslots - 1; i >= 0; i--) {
+		tmp = flsl(~instance->field[i]);
+		if (tmp)
+			return i * LONG_BIT + tmp;
+	}
+#else
+	for (i = instance->size - 1; i >= 0; i--) {
+		if (!BITGET(instance, i))
+			return i + 1;
+	}
+#endif
+	return 0;
+}
+
 unsigned int bfhamming(const struct bitfield *input1,
 		       const struct bitfield *input2)
 {

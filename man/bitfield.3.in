@@ -102,6 +102,13 @@ finds the last set bit in a bitfield
 .RE
 .LP
 .B
+bflz()
+.br
+.RS
+finds the last clear bit in a bitfield
+.RE
+.LP
+.B
 bfhamming()
 .br
 .RS
