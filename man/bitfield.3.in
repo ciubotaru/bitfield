@@ -109,6 +109,13 @@ finds the last clear bit in a bitfield
 .RE
 .LP
 .B
+bfclo()
+.br
+.RS
+counts leading set bits in a bitfield
+.RE
+.LP
+.B
 bfhamming()
 .br
 .RS

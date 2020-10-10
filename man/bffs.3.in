@@ -1,6 +1,6 @@
 .TH bffs 3 "%RELEASE_DATE%" "bitfield %VERSION%" "Bit array manipulation library"
 .SH NAME
-bffs, bffz, bfls, bflz \- find the position or count certain bits in a bit array.
+bffs, bffz, bfls, bflz, bfclo \- find the position or count certain bits in a bit array.
 .SH SYNOPSIS
 .nf
 .B "#include <bitfield.h>
@@ -9,6 +9,7 @@ bffs, bffz, bfls, bflz \- find the position or count certain bits in a bit array
 .BI "unsigned int bffz(const struct bitfield *"instance ");
 .BI "unsigned int bfls(const struct bitfield *"instance ");
 .BI "unsigned int bflz(const struct bitfield *"instance ");
+.BI "unsigned int bfclo(const struct bitfield *"instance ");
 .fi
 .SH DESCRIPTION
 A bit array is represented by a "struct bitfield". It has two elements: an array of unsigned long integers \fIfield\fR and an unsigned integer \fIsize\fR.
@@ -20,6 +21,8 @@ The \fBbffz()\fR function searches for the first clear bit in a bit array. It ta
 The \fBbfls()\fR function searches for the last set bit in a bit array. It takes a pointer to bitfield \fIinstance\fR and returns the index of the last set bit, starting from one. If there are no set bits, it returns 0.
 .sp
 The \fBbflz()\fR function searches for the last clear bit in a bit array. It takes a pointer to bitfield \fIinstance\fR and returns the index of the last set bit, starting from one. If there are no clear bits, it returns 0.
+.sp
+The \fBbfclo()\fR function counts leading set bits in bit array \fIinstance\fR, starting at most significant position.
 .sp
 .SH "SEE ALSO"
 For the full list of bitfield functions and their descriptions, see manual page for
