@@ -14,6 +14,7 @@
 #include <stdarg.h>
 #include <assert.h>
 #include <endian.h>
+#include "config.h"
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
@@ -1271,9 +1272,40 @@ unsigned int bfpopcount(const struct bitfield *instance)
 {
 	unsigned int bits = 0;
 	unsigned int i;
-	for (i = 0; i < BITNSLOTS(instance->size); i++)
+	for (i = 0; i < BITNSLOTS(instance->size); i++) {
+#if defined(HAVE_BUILTIN_POPCOUNTL)
 		/* this is GCC and Clang only */
 		bits += __builtin_popcountl(instance->field[i]);
+#elif defined(HAVE_POPCOUNTL)
+		bits += popcountl(instance->field[i]);
+#elif defined(HAVE_POPCOUNT)
+		bits += popcount((unsigned int)instance->field[i]);
+		if (sizeof(unsigned int) != sizeof(unsigned long))
+			bits +=
+			    popcount((unsigned int)(instance->field[i] >> 32));
+#else
+		unsigned long m1, m2, m4, h01, tmp;
+		if (sizeof(uint64_t) == sizeof(unsigned long)) {
+			m1 = 0x5555555555555555L;
+			m2 = 0x3333333333333333L;
+			m4 = 0x0F0F0F0F0F0F0F0FL;
+			h01 = 0x0101010101010101L;
+		} else {
+			m1 = 0x55555555;
+			m2 = 0x33333333;
+			m4 = 0x0F0F0F0F;
+			h01 = 0x01010101;
+		}
+		tmp = instance->field[i];
+		tmp -= (tmp >> 1) & m1;
+		tmp = (tmp & m2) + ((tmp >> 2) & m2);
+		tmp = (tmp + (tmp >> 4)) & m4;
+		if (sizeof(uint64_t) == sizeof(unsigned long))
+			bits += (tmp * h01) >> 56;
+		else
+			bits += (tmp * h01) >> 24;
+#endif
+	}
 	return bits;
 }
 

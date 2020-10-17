@@ -26,5 +26,20 @@ AC_C_INLINE
 # Checks for library functions.
 AC_FUNC_MALLOC
 
+AC_CHECK_FUNCS_ONCE(popcount popcountl, , )
+
+# Check for __builtin_popcountl
+AC_MSG_CHECKING([for __builtin_popcountl()])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[
+__builtin_popcountl(1UL);
+return 0;
+]])], [
+AC_MSG_RESULT([yes])
+AC_DEFINE([HAVE_BUILTIN_POPCOUNTL], 1,
+          [Define to 1 if compiler provides __builtin_popcountl().])
+], [
+AC_MSG_RESULT([no])
+])
+
 #AC_CONFIG_FILES([Makefile])
 AC_OUTPUT([Makefile] [tests/Makefile] [man/Makefile] [examples/Makefile])
