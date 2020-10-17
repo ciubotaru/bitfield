@@ -64,7 +64,7 @@ static inline void bf_letoh_ip_(struct bitfield *instance)
 				BITNSLOTS(bfsize(instance)));
 }
 
-static inline void _uint16_letoh_ip(uint16_t * input, const unsigned int size)
+static inline void uint16_letoh_ip_(uint16_t * input, const unsigned int size)
 /**
  * convert short integers from little endian to host.
  * needed when memcpy from bitfield to short on big endian machines
