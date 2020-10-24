@@ -1,10 +1,28 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define to 1 if compiler provides __builtin_clzl(). */
+#undef HAVE_BUILTIN_CLZL
+
+/* Define to 1 if compiler provides __builtin_ctzl(). */
+#undef HAVE_BUILTIN_CTZL
+
+/* Define to 1 if compiler provides __builtin_ffsl(). */
+#undef HAVE_BUILTIN_FFSL
+
 /* Define to 1 if compiler provides __builtin_popcountl(). */
 #undef HAVE_BUILTIN_POPCOUNTL
 
 /* Define to 1 if you have the <endian.h> header file. */
 #undef HAVE_ENDIAN_H
+
+/* Define to 1 if you have the `ffs' function. */
+#undef HAVE_FFS
+
+/* Define to 1 if you have the `ffsl' function. */
+#undef HAVE_FFSL
+
+/* Define to 1 if you have the `flsl' function. */
+#undef HAVE_FLSL
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H

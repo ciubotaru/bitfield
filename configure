@@ -2019,6 +2019,9 @@ fi
 
 as_fn_append ac_func_list " popcount"
 as_fn_append ac_func_list " popcountl"
+as_fn_append ac_func_list " ffs"
+as_fn_append ac_func_list " ffsl"
+as_fn_append ac_func_list " flsl"
 # Check that the precious variables saved in the cache have kept the same
 # value.
 ac_cache_corrupted=false
@@ -3471,6 +3474,108 @@ if ac_fn_c_try_link "$LINENO"; then :
 $as_echo "yes" >&6; }
 
 $as_echo "#define HAVE_BUILTIN_POPCOUNTL 1" >>confdefs.h
+
+
+else
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+# Check for __builtin_ffsl
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __builtin_ffsl()" >&5
+$as_echo_n "checking for __builtin_ffsl()... " >&6; }
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+__builtin_ffsl(1UL);
+return 0;
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+$as_echo "#define HAVE_BUILTIN_FFSL 1" >>confdefs.h
+
+
+else
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+# Check for __builtin_clzl
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __builtin_clzl()" >&5
+$as_echo_n "checking for __builtin_clzl()... " >&6; }
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+__builtin_clzl(1UL);
+return 0;
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+$as_echo "#define HAVE_BUILTIN_CLZL 1" >>confdefs.h
+
+
+else
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+# Check for __builtin_ctzl
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __builtin_ctzl()" >&5
+$as_echo_n "checking for __builtin_ctzl()... " >&6; }
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+__builtin_ctzl(1UL);
+return 0;
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+$as_echo "#define HAVE_BUILTIN_CTZL 1" >>confdefs.h
 
 
 else

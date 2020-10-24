@@ -1040,13 +1040,11 @@ unsigned int bffs(const struct bitfield *instance)
 	unsigned int bitnslots = BITNSLOTS(instance->size);
 	unsigned int tmp;
 	for (i = 0; i < bitnslots; i++) {
-#ifdef __GNUC__
-		/* if GCC or Clang, use builtins */
+#if defined(HAVE_BUILTIN_FFSL)
 		tmp = __builtin_ffsl(instance->field[i]);
-#elif defined(_DEFAULT_SOURCE) || defined(_GNU_SOURCE) || defined(__FreeBSD__) || defined(__APPLE__)
-		/* GNU libc and FreeBSD 5.3+ (and OS X 10.4+) libc have ffsl */
+#elif defined(HAVE_FFSL)
 		tmp = ffsl(instance->field[i]);
-#else
+#elif defined(HAVE_FFS)
 		/* at least, every POSIX system has ffs */
 		if ((instance->field[i] & (1 + ~instance->field[i])) <=
 		    0xffffffff)
@@ -1069,11 +1067,11 @@ unsigned int bffz(const struct bitfield *instance)
 	unsigned int bitnslots = BITNSLOTS(instance->size);
 	unsigned int tmp;
 	for (i = 0; i < bitnslots; i++) {
-#ifdef __GNUC__			/* if GCC or Clang, use builtins */
+#if defined(HAVE_BUILTIN_FFSL)
 		tmp = __builtin_ffsl(~(instance->field[i]));
-#elif defined(_DEFAULT_SOURCE) || defined(_GNU_SOURCE)	/* if Glibc, use extensions */
+#elif defined(HAVE_FFSL)
 		tmp = ffsl(~(instance->field[i]));
-#else
+#elif defined(HAVE_FFS)
 		if ((~instance->field[i] & (1 + instance->field[i])) <=
 		    0xffffffff)
 			tmp = ffs(~instance->field[i]);
@@ -1095,7 +1093,7 @@ unsigned int bffz(const struct bitfield *instance)
 unsigned int bfls(const struct bitfield *instance)
 {
 	int i;
-#if defined(__FreeBSD__) || defined(__APPLE__)
+#if defined(HAVE_FLSL)
 	/* FreeBSD 5.3+ (and OS X 10.4+) libc have flsl */
 	unsigned int bitnslots = BITNSLOTS(instance->size);
 	unsigned int tmp;
@@ -1116,7 +1114,7 @@ unsigned int bfls(const struct bitfield *instance)
 unsigned int bflz(const struct bitfield *instance)
 {
 	int i;
-#if defined(__FreeBSD__) || defined(__APPLE__)
+#if defined(HAVE_FLSL)
 	/* FreeBSD 5.3+ (and OS X 10.4+) libc have flsl */
 	unsigned int bitnslots = BITNSLOTS(instance->size);
 	unsigned int tmp;
@@ -1141,7 +1139,7 @@ unsigned int bfclo(const struct bitfield *instance)
 	unsigned int bitnslots = BITNSLOTS(instance->size);
 	unsigned int tail = LONG_BIT - instance->size % LONG_BIT;
 	unsigned int tmp;
-#ifdef __GNUC__
+#if defined(HAVE_BUILTIN_CLZL)
 	if (instance->field[bitnslots - 1])
 		count =
 		    __builtin_clzl(~(instance->field[bitnslots - 1] << tail));
@@ -1170,7 +1168,7 @@ unsigned int bfclz(const struct bitfield *instance)
 	unsigned int bitnslots = BITNSLOTS(instance->size);
 	unsigned int tail = LONG_BIT - instance->size % LONG_BIT;
 	unsigned int tmp;
-#ifdef __GNUC__
+#if defined(HAVE_BUILTIN_CLZL)
 	if (instance->field[bitnslots - 1])
 		return __builtin_clzl(instance->field[bitnslots - 1] << tail);
 	else
@@ -1193,7 +1191,7 @@ unsigned int bfclz(const struct bitfield *instance)
 
 unsigned int bfcto(const struct bitfield *instance)
 {
-#ifdef __GNUC__
+#if defined(HAVE_BUILTIN_CTZL)
 	int i;
 	unsigned int count = 0;
 	unsigned int bitnslots = BITNSLOTS(instance->size);
@@ -1218,7 +1216,7 @@ unsigned int bfcto(const struct bitfield *instance)
 
 unsigned int bfctz(const struct bitfield *instance)
 {
-#ifdef __GNUC__
+#if defined(HAVE_BUILTIN_CTZL)
 	int i;
 	unsigned int count = 0;
 	unsigned int bitnslots = BITNSLOTS(instance->size);

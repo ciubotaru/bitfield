@@ -26,7 +26,7 @@ AC_C_INLINE
 # Checks for library functions.
 AC_FUNC_MALLOC
 
-AC_CHECK_FUNCS_ONCE(popcount popcountl, , )
+AC_CHECK_FUNCS_ONCE(popcount popcountl ffs ffsl flsl, , )
 
 # Check for __builtin_popcountl
 AC_MSG_CHECKING([for __builtin_popcountl()])
@@ -37,6 +37,45 @@ return 0;
 AC_MSG_RESULT([yes])
 AC_DEFINE([HAVE_BUILTIN_POPCOUNTL], 1,
           [Define to 1 if compiler provides __builtin_popcountl().])
+], [
+AC_MSG_RESULT([no])
+])
+
+# Check for __builtin_ffsl
+AC_MSG_CHECKING([for __builtin_ffsl()])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[
+__builtin_ffsl(1UL);
+return 0;
+]])], [
+AC_MSG_RESULT([yes])
+AC_DEFINE([HAVE_BUILTIN_FFSL], 1,
+          [Define to 1 if compiler provides __builtin_ffsl().])
+], [
+AC_MSG_RESULT([no])
+])
+
+# Check for __builtin_clzl
+AC_MSG_CHECKING([for __builtin_clzl()])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[
+__builtin_clzl(1UL);
+return 0;
+]])], [
+AC_MSG_RESULT([yes])
+AC_DEFINE([HAVE_BUILTIN_CLZL], 1,
+          [Define to 1 if compiler provides __builtin_clzl().])
+], [
+AC_MSG_RESULT([no])
+])
+
+# Check for __builtin_ctzl
+AC_MSG_CHECKING([for __builtin_ctzl()])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[
+__builtin_ctzl(1UL);
+return 0;
+]])], [
+AC_MSG_RESULT([yes])
+AC_DEFINE([HAVE_BUILTIN_CTZL], 1,
+          [Define to 1 if compiler provides __builtin_ctzl().])
 ], [
 AC_MSG_RESULT([no])
 ])
