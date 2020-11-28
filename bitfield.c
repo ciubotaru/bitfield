@@ -183,7 +183,7 @@ static inline void uint64tobf_le(const uint64_t * input,
 
 #endif
 
-inline void bfcleartail(struct bitfield *instance)
+static inline void bfcleartail(struct bitfield *instance)
 {
 	int tail = instance->size % LONG_BIT;
 	if (tail != 0) {
