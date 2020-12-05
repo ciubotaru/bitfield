@@ -1,3 +1,11 @@
+/**
+ * File name: examples/bfcat.c
+ * Project name: bitfield, a bit array manipulation library written in C                                               * URL: https://github.com/ciubotaru/bitfield
+ * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>
+ * License: General Public License, version 3 or later
+ * Copyright 2016, 2017
+**/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

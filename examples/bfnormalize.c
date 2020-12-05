@@ -1,10 +1,10 @@
 /**
- * File name: examples/int2bf.c
+ * File name: examples/bfnormalize.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
- * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
+ * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>
  * License: General Public License, version 3 or later
- * Copyright 2016
+ * Copyright 2016, 2017
 **/
 
 /* Convert a random non-negative integer number to a bit array */

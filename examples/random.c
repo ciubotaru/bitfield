@@ -2,9 +2,9 @@
  * File name: examples/random.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
- * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
+ * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>
  * License: General Public License, version 3 or later
- * Date: September 9, 2015
+ * Copyright 2015, 2016
 **/
 
 #include <stdlib.h>

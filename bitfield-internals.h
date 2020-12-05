@@ -1,3 +1,11 @@
+/**
+ * File name: bitfield-internals.h
+ * Project name: bitfield, a bit array manipulation library written in C                                               * URL: https://github.com/ciubotaru/bitfield
+ * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>
+ * License: General Public License, version 3 or later
+ * Copyright 2015, 2016, 2017, 2019
+**/
+
 #ifndef CHAR_BIT
 #include <limits.h>
 #endif

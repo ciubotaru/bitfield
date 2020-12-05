@@ -2,9 +2,9 @@
  * File name: tests/test17.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
- * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
+ * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>
  * License: General Public License, version 3 or later
- * Date: February 15, 2016
+ * Copyright 2016, 2020
 **/
 
 #include <stdio.h>

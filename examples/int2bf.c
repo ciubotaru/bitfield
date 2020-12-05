@@ -2,7 +2,7 @@
  * File name: examples/int2bf.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
- * Author: Vitalie Ciubotaru <vitalie at ciubotaru dot tk>
+ * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>
  * License: General Public License, version 3 or later
  * Copyright 2016
 **/
