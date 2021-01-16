@@ -6,20 +6,21 @@
  * Copyright 2015, 2016, 2017, 2019
 **/
 
+#include "config.h"
 #ifndef CHAR_BIT
 #include <limits.h>
 #endif
 #ifndef SHORT_BIT
-#define SHORT_BIT (unsigned int) (sizeof(unsigned short) * CHAR_BIT)
+#define SHORT_BIT (unsigned int) (SIZEOF_UNSIGNED_SHORT * CHAR_BIT)
 #endif
 #ifndef INT_BIT
-#define INT_BIT (unsigned int) (sizeof(unsigned int) * CHAR_BIT)
+#define INT_BIT (unsigned int) (SIZEOF_UNSIGNED_INT * CHAR_BIT)
 #endif
 #ifndef LONG_BIT
-#define LONG_BIT (unsigned int) (sizeof(unsigned long) * CHAR_BIT)
+#define LONG_BIT (unsigned int) (SIZEOF_UNSIGNED_LONG * CHAR_BIT)
 #endif
 #ifndef LONG_LONG_BIT
-#define LONG_LONG_BIT (unsigned int) (sizeof(unsigned long long) * CHAR_BIT)
+#define LONG_LONG_BIT (unsigned int) (SIZEOF_UNSIGNED_LONG_LONG * CHAR_BIT)
 #endif
 #define BITMASK(b) (1UL << ((b) % LONG_BIT))
 #define BITSLOT(b) ((b) / LONG_BIT)
