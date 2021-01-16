@@ -82,6 +82,18 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
+/* The number of bytes in type unsigned int */
+#undef SIZEOF_UNSIGNED_INT
+
+/* The number of bytes in type unsigned long */
+#undef SIZEOF_UNSIGNED_LONG
+
+/* The number of bytes in type unsigned long long */
+#undef SIZEOF_UNSIGNED_LONG_LONG
+
+/* The number of bytes in type unsigned short */
+#undef SIZEOF_UNSIGNED_SHORT
+
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
