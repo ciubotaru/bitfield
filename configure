@@ -3587,6 +3587,170 @@ fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking size of unsigned short" >&5
+$as_echo_n "checking size of unsigned short... " >&6; }
+if ${ac_cv_sizeof_unsigned_short+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  for ac_size in 4 8 1 2 16  ; do # List sizes in rough order of prevalence.
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <sys/types.h>
+
+
+int
+main ()
+{
+switch (0) case 0: case (sizeof (unsigned short) == $ac_size):;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ac_cv_sizeof_unsigned_short=$ac_size
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  if test x$ac_cv_sizeof_unsigned_short != x ; then break; fi
+done
+
+fi
+
+if test x$ac_cv_sizeof_unsigned_short = x ; then
+  as_fn_error $? "cannot determine a size for unsigned short" "$LINENO" 5
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_sizeof_unsigned_short" >&5
+$as_echo "$ac_cv_sizeof_unsigned_short" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define SIZEOF_UNSIGNED_SHORT $ac_cv_sizeof_unsigned_short
+_ACEOF
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking size of unsigned int" >&5
+$as_echo_n "checking size of unsigned int... " >&6; }
+if ${ac_cv_sizeof_unsigned_int+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  for ac_size in 4 8 1 2 16  ; do # List sizes in rough order of prevalence.
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <sys/types.h>
+
+
+int
+main ()
+{
+switch (0) case 0: case (sizeof (unsigned int) == $ac_size):;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ac_cv_sizeof_unsigned_int=$ac_size
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  if test x$ac_cv_sizeof_unsigned_int != x ; then break; fi
+done
+
+fi
+
+if test x$ac_cv_sizeof_unsigned_int = x ; then
+  as_fn_error $? "cannot determine a size for unsigned int" "$LINENO" 5
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_sizeof_unsigned_int" >&5
+$as_echo "$ac_cv_sizeof_unsigned_int" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define SIZEOF_UNSIGNED_INT $ac_cv_sizeof_unsigned_int
+_ACEOF
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking size of unsigned long" >&5
+$as_echo_n "checking size of unsigned long... " >&6; }
+if ${ac_cv_sizeof_unsigned_long+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  for ac_size in 4 8 1 2 16  ; do # List sizes in rough order of prevalence.
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <sys/types.h>
+
+
+int
+main ()
+{
+switch (0) case 0: case (sizeof (unsigned long) == $ac_size):;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ac_cv_sizeof_unsigned_long=$ac_size
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  if test x$ac_cv_sizeof_unsigned_long != x ; then break; fi
+done
+
+fi
+
+if test x$ac_cv_sizeof_unsigned_long = x ; then
+  as_fn_error $? "cannot determine a size for unsigned long" "$LINENO" 5
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_sizeof_unsigned_long" >&5
+$as_echo "$ac_cv_sizeof_unsigned_long" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define SIZEOF_UNSIGNED_LONG $ac_cv_sizeof_unsigned_long
+_ACEOF
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking size of unsigned long long" >&5
+$as_echo_n "checking size of unsigned long long... " >&6; }
+if ${ac_cv_sizeof_unsigned_long_long+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  for ac_size in 4 8 1 2 16  ; do # List sizes in rough order of prevalence.
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <sys/types.h>
+
+
+int
+main ()
+{
+switch (0) case 0: case (sizeof (unsigned long long) == $ac_size):;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ac_cv_sizeof_unsigned_long_long=$ac_size
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  if test x$ac_cv_sizeof_unsigned_long_long != x ; then break; fi
+done
+
+fi
+
+if test x$ac_cv_sizeof_unsigned_long_long = x ; then
+  as_fn_error $? "cannot determine a size for unsigned long long" "$LINENO" 5
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_sizeof_unsigned_long_long" >&5
+$as_echo "$ac_cv_sizeof_unsigned_long_long" >&6; }
+
+cat >>confdefs.h <<_ACEOF
+#define SIZEOF_UNSIGNED_LONG_LONG $ac_cv_sizeof_unsigned_long_long
+_ACEOF
+
+
+
 #AC_CONFIG_FILES([Makefile])
 ac_config_files="$ac_config_files Makefile tests/Makefile man/Makefile examples/Makefile"
 

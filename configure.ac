@@ -80,5 +80,13 @@ AC_DEFINE([HAVE_BUILTIN_CTZL], 1,
 AC_MSG_RESULT([no])
 ])
 
+AX_COMPILE_CHECK_SIZEOF(unsigned short)
+
+AX_COMPILE_CHECK_SIZEOF(unsigned int)
+
+AX_COMPILE_CHECK_SIZEOF(unsigned long)
+
+AX_COMPILE_CHECK_SIZEOF(unsigned long long)
+
 #AC_CONFIG_FILES([Makefile])
 AC_OUTPUT([Makefile] [tests/Makefile] [man/Makefile] [examples/Makefile])
