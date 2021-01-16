@@ -24,13 +24,13 @@ export LD_LIBRARY_PATH
 all: shared static man
 
 shared: libbitfield.so.$(VERSION)
-libbitfield.so.$(VERSION): bitfield.c
+libbitfield.so.$(VERSION): bitfield.c bitfield.h bitfield-internals.h
 	$(CC) $(CFLAGS) -c -fpic bitfield.c -o bf-shared.o -I. $(LIBS)
 	$(CC) $(CFLAGS) -shared -Wl,-soname,libbitfield.so.1 -o libbitfield.so.$(VERSION) bf-shared.o $(LIBS)
 	for i in libbitfield.so.1 libbitfield.so; do ln -svf libbitfield.so.$(VERSION) $$i; done
 
 static: libbitfield.a
-libbitfield.a: bitfield.c
+libbitfield.a: bitfield.c bitfield.h bitfield-internals.h
 	$(CC) $(CFLAGS) -c bitfield.c -o bf-static.o $(LIBS)
 	$(AR) rcs libbitfield.a bf-static.o
 
