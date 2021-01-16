@@ -36,46 +36,16 @@ int main()
 	int bitnslots = BITNSLOTS(len);
 	int ints = (len - 1) / INT_BIT + 1;
 	unsigned int *output = bf2int(input);
-	unsigned int *output2 = malloc(bitnslots * sizeof(unsigned long));
-#if __BYTE_ORDER == __BIG_ENDIAN
-	for (i = 0; i < bitnslots; i++) {
-		switch (sizeof(unsigned long)) {
-		case 4:
-			input->field[i] = htole32(input->field[i]);
-			break;
-		case 8:
-			input->field[i] = htole64(input->field[i]);
-			break;
+	for (i = 0; i < len; i++) {
+		if ((output[i / INT_BIT] >> (i % INT_BIT) & 1) != BITGET(input, i)) {
+			retval = 1;
+			goto ret;
 		}
 	}
-#endif
-	memcpy(output2, input->field, bitnslots * sizeof(unsigned long));
-#if __BYTE_ORDER == __BIG_ENDIAN
-	for (i = 0; i < ints; i++) {
-		switch (sizeof(unsigned int)) {
-		case 2:
-			output2[i] = le16toh(output2[i]);
-			break;
-		case 4:
-			output2[i] = le32toh(output2[i]);
-			break;
-		}
-	}
-#endif
-	if (ints * sizeof(unsigned int) != bitnslots * sizeof(unsigned long)) {
-		output2 =
-		    (unsigned int *)realloc(output2,
-					    ints * sizeof(unsigned int));
-		if (output2 == NULL)
-			free(output2);
-	}
-	cmp = memcmp(output, output2, ints * sizeof(unsigned int));
-	if (cmp != 0)
-		retval = 1;
+
  ret:
 	bfdel(input);
 	free(output);
-	free(output2);
 	printf("%s\n", status[retval]);
 	return retval;
 }

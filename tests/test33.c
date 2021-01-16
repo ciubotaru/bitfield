@@ -36,16 +36,16 @@ int main()
 	unsigned int uint16s = (len - 1) / 16 + 1;
 	uint16_t *output = bftouint16(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-		switch (sizeof(unsigned long)) {
-		case 4:
-			input->field[i] =
-			    (unsigned long)htole32((uint32_t) input->field[i]);
-			break;
-		case 8:
-			input->field[i] =
-			    (unsigned long)htole64((uint64_t) input->field[i]);
-			break;
-		}
+#if SIZEOF_UNSIGNED_LONG == 1
+#elif SIZEOF_UNSIGNED_LONG == 2
+		input->field[i] = htole16(input->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 4
+		input->field[i] = htole32(input->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 8
+		input->field[i] = htole64(input->field[i]);
+#else
+#error Not implemented
+#endif
 	}
 	for (i = 0; i < uint16s; i++)
 		output[i] = htole16(output[i]);

@@ -36,18 +36,17 @@ int main()
 			BITSET(input, i);
 	unsigned short *input_short = bf2short(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-		switch (sizeof(unsigned long)) {
-		case 4:
-			input->field[i] =
-			    (unsigned long)htole32((uint32_t) input->field[i]);
-			break;
-		case 8:
-			input->field[i] =
-			    (unsigned long)htole64((uint64_t) input->field[i]);
-			break;
-		}
+#if SIZEOF_UNSIGNED_LONG == 1
+#elif SIZEOF_UNSIGNED_LONG == 2
+		input->field[i] = htole16(input->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 4
+		input->field[i] = htole32(input->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 8
+		input->field[i] = htole64(input->field[i]);
+#else
+#error Not implemented
+#endif
 	}
-//      long_htole_ip(input, BITNSLOTS(len));
 	unsigned short *check = malloc(shorts * sizeof(unsigned short));
 	memcpy(check, input->field, shorts * sizeof(unsigned short));
 	bfdel(input);

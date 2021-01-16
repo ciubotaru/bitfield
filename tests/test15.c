@@ -32,19 +32,16 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	unsigned long *input_long = bf2long(input);
-	int bitnslots = BITNSLOTS(len);
-	unsigned long *input_long2 = malloc(bitnslots * sizeof(unsigned long));
-	for (i = 0; i < bitnslots; i++)
-		input_long2[i] = input->field[i];
-	cmp =
-	    memcmp(input_long, input_long2, bitnslots * sizeof(unsigned long));
-	if (cmp)
-		retval = 1;
+	unsigned long *output = bf2long(input);
+	for (i = 0; i < len; i++) {
+		if ((output[i / sizeof(unsigned long) / CHAR_BIT] >> (i % (sizeof(unsigned long) * CHAR_BIT)) & 1UL) != BITGET(input, i)) {
+			retval = 1;
+			break;
+		}
+	}
 
 	bfdel(input);
-	free(input_long);
-	free(input_long2);
+	free(output);
 	printf("%s\n", status[retval]);
 	return retval;
 }

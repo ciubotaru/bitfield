@@ -38,19 +38,19 @@ int main()
 	unsigned int min_memory_length =
 	    (bitnslots * sizeof(unsigned char) <
 	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(unsigned char)) :
+						       sizeof(unsigned char)) :
 	    BITNSLOTS(len) * sizeof(unsigned long);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-		switch (sizeof(unsigned long)) {
-		case 4:
-			input->field[i] =
-			    (unsigned long)htole32((uint32_t) input->field[i]);
-			break;
-		case 8:
-			input->field[i] =
-			    (unsigned long)htole64((uint64_t) input->field[i]);
-			break;
-		}
+#if SIZEOF_UNSIGNED_LONG == 1
+#elif SIZEOF_UNSIGNED_LONG == 2
+		input->field[i] = htole16(input->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 4
+		input->field[i] = htole32(input->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 8
+		input->field[i] = htole64(input->field[i]);
+#else
+#error Not implemented
+#endif
 	}
 	cmp = memcmp(input_char, input->field, min_memory_length);
 	bfdel(input);

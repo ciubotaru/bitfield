@@ -29,41 +29,18 @@ int main()
 	for (i = 0; i < dots; i++)
 		printf(".");
 
-	char *input_char1 = malloc((len + 1) * sizeof(char));	/* allocate space for 80+1 chars */
+	int count = 0;
+	struct bitfield *input1 = bfnew(len);
+	struct bitfield *input2 = bfnew(len);
 	for (i = 0; i < len; i++) {
-		if (rand() % 2) {
-			input_char1[i] = '1';
-		} else
-			input_char1[i] = '0';
+		if (rand() % 2) BITSET(input1, i);
+		if (rand() % 2) BITSET(input2, i);
+		if (BITGET(input1, i) != BITGET(input2, i))
+			count++;
 	}
-	input_char1[len] = '\0';
-
-	char *input_char2 = malloc((len + 1) * sizeof(char));	/* allocate space for 80+1 chars */
-	for (i = 0; i < len; i++) {
-		if (rand() % 2) {
-			input_char2[i] = '1';
-		} else
-			input_char2[i] = '0';
-	}
-	input_char2[len] = '\0';
-
-	/* Hamming distance counter for char string */
-	int hamming_s = 0;
-	for (i = 0; i < len; i++) {
-		if (input_char1[i] != input_char2[i])
-			hamming_s++;
-	}
-
-	struct bitfield *input1 = str2bf(input_char1);
-	free(input_char1);
-	struct bitfield *input2 = str2bf(input_char2);
-
-	/* Hamming distance for bitfield */
-	int hamming_b = bfhamming(input1, input2);
-	if (hamming_s != hamming_b)
+	if (count != bfhamming(input1, input2))
 		retval = 1;
 
-	free(input_char2);
 	bfdel(input1);
 	bfdel(input2);
 	printf("%s\n", status[retval]);

@@ -39,16 +39,17 @@ int main()
 	/* check first function */
 	struct bitfield *output = bfnew(len);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-		switch (sizeof(unsigned long)) {
-		case 8:
-			output->field[i] =
-			    (unsigned long)htole64((uint64_t) input->field[i]);
-			break;
-		case 4:
-			output->field[i] =
-			    (unsigned long)htole32((uint32_t) input->field[i]);
-			break;
-		}
+#if SIZEOF_UNSIGNED_LONG == 1
+		output->field[i] = input->field[i];
+#elif SIZEOF_UNSIGNED_LONG == 2
+		output->field[i] = htole16(input->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 4
+		output->field[i] = htole32(input->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 8
+		output->field[i] = htole64(input->field[i]);
+#else
+#error Not implemented
+#endif
 	}
 	cmp = memcmp(input_uint8, output->field, int8s);
 	if (cmp != 0) {

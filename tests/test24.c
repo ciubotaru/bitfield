@@ -44,16 +44,19 @@ int main()
 	struct bitfield *output2 = bfnew(len);
 	memcpy(output2->field, input, chars);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-		switch (sizeof(unsigned long)) {
-		case 4:
-			output2->field[i] =
-			    le32toh((uint32_t) output2->field[i]);
-			break;
-		case 8:
-			output2->field[i] =
-			    le64toh((uint64_t) output2->field[i]);
-			break;
-		}
+	#if SIZEOF_UNSIGNED_LONG == 1
+	#elif SIZEOF_UNSIGNED_LONG == 2
+		output2->field[i] =
+		    le16toh(output2->field[i]);
+	#elif SIZEOF_UNSIGNED_LONG == 4
+		output2->field[i] =
+		    le32toh(output2->field[i]);
+	#elif SIZEOF_UNSIGNED_LONG == 8
+		output2->field[i] =
+		    le64toh(output2->field[i]);
+	#elif
+	#error Not implemented
+	#endif
 	}
 	cmp =
 	    memcmp(output->field, output2->field,

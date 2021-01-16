@@ -28,9 +28,10 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
+	unsigned int longs = (len - 1) / sizeof(unsigned long) / CHAR_BIT + 1;
 	unsigned int bitnslots = BITNSLOTS(len);
-	unsigned long *input = calloc(1, bitnslots * sizeof(unsigned long));
-	for (i = 0; i < bitnslots - 1; i++) {
+	unsigned long *input = calloc(1, longs * sizeof(unsigned long));
+	for (i = 0; i < longs - 1; i++) {
 		for (j = 0; j < LONG_BIT; j++) {
 			if (rand() % 2)
 				input[i] |= (1UL << j);
@@ -40,13 +41,13 @@ int main()
 		if (rand() % 2)
 			input[bitnslots - 1] |= (1UL << i);
 	struct bitfield *output = long2bf(input, len);
-	for (i = 0; i < bitnslots; i++) {
-		if (output->field[i] != input[i]) {
+	for (i = 0; i < len; i++) {
+		if ((input[i / sizeof(unsigned long) / CHAR_BIT] >> (i % (sizeof(unsigned long) * CHAR_BIT)) & 1UL) != BITGET(output, i)) {
 			retval = 1;
-			goto ret;
+			break;
 		}
 	}
- ret:
+
 	free(input);
 	bfdel(output);
 	printf("%s\n", status[retval]);

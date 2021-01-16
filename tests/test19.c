@@ -40,14 +40,14 @@ int main()
 		if (rand() % 2)
 			input[bitnslots - 1] |= (1U << i);
 	struct bitfield *output = int2bf(input, len);
-	int min_memory_length =
-	    (bitnslots * sizeof(unsigned int) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(unsigned int)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input, output->field, min_memory_length) != 0) {
-		retval = 1;
-		goto ret;
+
+	for (i = 0; i < len; i++) {
+		if (((input[i / INT_BIT] >> 
+		    (i % INT_BIT)) & 1) != 
+		    BITGET(output, i)) {
+			retval = 1;
+			goto ret;
+		}
 	}
  ret:
 	free(input);

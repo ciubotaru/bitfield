@@ -45,16 +45,16 @@ int main()
 	for (i = 0; i < int64s; i++)
 		input[i] = htole64(input[i]);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-		switch (sizeof(unsigned long)) {
-		case 8:
-			output->field[i] =
-			    (unsigned long)htole64((uint64_t) output->field[i]);
-			break;
-		case 4:
-			output->field[i] =
-			    (unsigned long)htole32((uint32_t) output->field[i]);
-			break;
-		}
+#if SIZEOF_UNSIGNED_LONG == 1
+#elif SIZEOF_UNSIGNED_LONG == 2
+		output->field[i] = htole16(output->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 4
+		output->field[i] = htole32(output->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 8
+		output->field[i] = htole64(output->field[i]);
+#else
+#error Not implemented
+#endif
 	}
 	cmp = memcmp(input, output->field, (len - 1) / CHAR_BIT + 1);
 	if (cmp != 0)

@@ -36,14 +36,11 @@ int main()
 	unsigned int *input_int = calloc(bitnslots, sizeof(unsigned int));
 	bf2int_ip(input, input_int);
 	/* check first function */
-	int min_memory_length =
-	    (bitnslots * sizeof(unsigned int) <
-	     BITNSLOTS(len) * sizeof(unsigned long)) ? (bitnslots *
-							sizeof(unsigned int)) :
-	    BITNSLOTS(len) * sizeof(unsigned long);
-	if (memcmp(input_int, input->field, min_memory_length) != 0) {
-		retval = 1;
-		goto ret;
+	for (i = 0; i < len; i++) {
+		if ((input_int[i / INT_BIT] >> (i % INT_BIT) & 1) != BITGET(input, i)) {
+			retval = 1;
+			goto ret;
+		}
 	}
 	struct bitfield *output = bfnew(len);
 	int2bf_ip(input_int, output);

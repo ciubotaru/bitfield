@@ -39,16 +39,16 @@ int main()
 	/* check first function */
 	struct bitfield *check = bfclone(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-		switch (sizeof(unsigned long)) {
-		case 4:
-			check->field[i] =
-			    (unsigned long)htole32((uint32_t) check->field[i]);
-			break;
-		case 8:
-			check->field[i] =
-			    (unsigned long)htole64((uint64_t) check->field[i]);
-			break;
-		}
+#if SIZEOF_UNSIGNED_LONG == 1
+#elif SIZEOF_UNSIGNED_LONG == 2
+		check->field[i] = htole16(check->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 4
+		check->field[i] = htole32(check->field[i]);
+#elif SIZEOF_UNSIGNED_LONG == 8
+		check->field[i] = htole64(check->field[i]);
+#else
+#error Not implemented
+#endif
 	}
 	unsigned char *check_char = malloc(chars * sizeof(unsigned char));
 	memcpy(check_char, check->field, chars);
