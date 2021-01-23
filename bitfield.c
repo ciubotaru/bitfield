@@ -231,21 +231,69 @@ struct bitfield *str2bf(const char *input)
 
 struct bitfield *short2bf(const unsigned short *input, unsigned int size)
 {
-	struct bitfield *output = NULL;
-	if (sizeof(unsigned short) == 2)
-		output = uint16tobf((uint16_t *) input, size);
-	else if (sizeof(unsigned short) == 4)
-		output = uint32tobf((uint32_t *) input, size);
-	//else ?
+	struct bitfield *output = bfnew(size);
+	if (!output)
+		return NULL;
+#if (SIZEOF_UNSIGNED_SHORT == 2)
+	uint16tobf_ip((uint16_t *) input, output);
+#elif (SIZEOF_UNSIGNED_SHORT == 4)
+	uint32tobf_ip((uint32_t *) input, output);
+#elif (SIZEOF_UNSIGNED_SHORT == 8)
+	uint64tobf_ip((uint64_t *) input, output);
+#else
+#error "Unsupported size of 'short'."
+#endif
+	return output;
+}
+
+struct bitfield *int2bf(const unsigned int *input, unsigned int size)
+{
+	struct bitfield *output = bfnew(size);
+	if (!output)
+		return NULL;
+#if (SIZEOF_UNSIGNED_INT == 2)
+	uint16tobf_ip((uint16_t *) input, output);
+#elif (SIZEOF_UNSIGNED_INT == 4)
+	uint32tobf_ip((uint32_t *) input, output);
+#elif (SIZEOF_UNSIGNED_INT == 8)
+	uint64tobf_ip((uint64_t *) input, output);
+#else
+#error "Unsupported size of 'int'."
+#endif
 	return output;
 }
 
 struct bitfield *long2bf(const unsigned long *input, unsigned int size)
 {
-	struct bitfield *output = bfnew_quick(size);
+	struct bitfield *output = bfnew(size);
 	if (!output)
 		return NULL;
-	memcpy(output->field, input, BITNSLOTS(size) * sizeof(unsigned long));
+#if (SIZEOF_UNSIGNED_LONG == 2)
+	uint16tobf_ip((uint16_t *) input, output);
+#elif (SIZEOF_UNSIGNED_LONG == 4)
+	uint32tobf_ip((uint32_t *) input, output);
+#elif (SIZEOF_UNSIGNED_LONG == 8)
+	uint64tobf_ip((uint64_t *) input, output);
+#else
+#error "Unsupported size of 'long'."
+#endif
+	return output;
+}
+
+struct bitfield *ll2bf(const unsigned long long *input, unsigned int size)
+{
+	struct bitfield *output = bfnew(size);
+	if (!output)
+		return NULL;
+#if (SIZEOF_UNSIGNED_LONG_LONG == 2)
+	uint16tobf_ip((uint16_t *) input, oitput);
+#elif (SIZEOF_UNSIGNED_LONG_LONG == 4)
+	uint32tobf_ip((uint32_t *) input, output);
+#elif (SIZEOF_UNSIGNED_LONG_LONG == 8)
+	uint64tobf_ip((uint64_t *) input, output);
+#else
+#error "Unsupported size of 'long long'."
+#endif
 	return output;
 }
 
@@ -254,10 +302,7 @@ struct bitfield *uint8tobf(const uint8_t * input, unsigned int size)
 	struct bitfield *output = bfnew(size);
 	if (!output)
 		return NULL;
-	int nr_bytes = (size - 1) / CHAR_BIT + 1;
-	/* order ints in LE, memcpy to bifield, order result in host endian */
-	memcpy(output->field, input, nr_bytes);
-	bf_letoh_ip(output);
+	uint8tobf_ip(input, output);
 	return output;
 }
 
@@ -266,14 +311,7 @@ struct bitfield *uint16tobf(const uint16_t * input, unsigned int size)
 	struct bitfield *output = bfnew(size);
 	if (!output)
 		return NULL;
-	memcpy(output->field, input, ((size - 1) / 16 + 1) * sizeof(uint16_t));
-	uint16_htole_ip((uint16_t *) output->field, (size - 1) / 16 + 1);
-	bf_letoh_ip(output);
-	/**
-	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
-	 * memcpy did not cover the end of bitfield memory.
-	 **/
-	bfcleartail(output);
+	uint16tobf_ip(input, output);
 	return output;
 }
 
@@ -282,46 +320,16 @@ struct bitfield *uint32tobf(const uint32_t * input, unsigned int size)
 	struct bitfield *output = bfnew(size);
 	if (!output)
 		return NULL;
-	memcpy(output->field, input, ((size - 1) / 32 + 1) * sizeof(uint32_t));
-	if (sizeof(unsigned long) != sizeof(uint32_t)) {
-		uint32_htole_ip((uint32_t *) output->field,
-				(size - 1) / 32 + 1);
-		bf_letoh_ip(output);
-	}
-	/**
-	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
-	 * memcpy did not cover the end of bitfield memory.
-	 **/
-	bfcleartail(output);
+	uint32tobf_ip(input, output);
 	return output;
 }
 
 struct bitfield *uint64tobf(const uint64_t * input, unsigned int size)
 {
-	/**
-	 * if sizeof long equals 64 bits, copy as is on any architecture
-	 * if sizeof long is less than 64 bits AND big-endian, than
-	 * copy to a non-const array, swap to little-endian, copy the needed part and 
-	 * swap the result back to big-endian
-	 * if sizeof long is less than 64 bits AND little-endian, then just copy the needed part
-	**/
-	struct bitfield *output;
-	if (sizeof(unsigned long) == sizeof(uint64_t)) {
-		output = long2bf((unsigned long *)input, size);
-		if (!output)
-			return NULL;
-	} else {
-		output =
-		    bfnew(((size - 1) / 64 + 1) * sizeof(uint64_t) * CHAR_BIT);
-		if (!output)
-			return NULL;
-		uint64tobf_(input, output, size);
-	}
-	/**
-	 * clear the tail, in case bfnew created a bitfield with non-zeroes AND
-	 * memcpy did not cover the end of bitfield memory.
-	 **/
-	bfcleartail(output);
+	struct bitfield *output = bfnew(size);
+	if (!output)
+		return NULL;
+	uint64tobf_ip(input, output);
 	return output;
 }
 
@@ -448,23 +456,71 @@ char *bf2str(const struct bitfield *input)
 
 unsigned short *bf2short(const struct bitfield *input)
 {
-	unsigned short *output;
-	if (sizeof(unsigned short) == 2)
-		output = (unsigned short *)bftouint16(input);
-	else
-		output = (unsigned short *)bftouint32(input);
+	int output_slots =
+	    (input->size - 1) / (SIZEOF_UNSIGNED_SHORT * CHAR_BIT) + 1;
+	unsigned short *output =
+	    calloc(1, output_slots * SIZEOF_UNSIGNED_SHORT);
+#if (SIZEOF_UNSIGNED_SHORT == 2)
+	bftouint16_ip(input, (uint16_t *) output);
+#elif (SIZEOF_UNSIGNED_SHORT== 4)
+	bftouint32_ip(input, (uint32_t *) output);
+#elif (SIZEOF_UNSIGNED_SHORT == 8)
+	bftouint64_ip(input, (uint64_t *) output);
+#else
+#error "Unsupported size of 'short'."
+#endif
+	return output;
+}
+
+unsigned int *bf2int(const struct bitfield *input)
+{
+	int output_slots =
+	    (input->size - 1) / (SIZEOF_UNSIGNED_INT * CHAR_BIT) + 1;
+	unsigned int *output = calloc(1, output_slots * SIZEOF_UNSIGNED_INT);
+#if (SIZEOF_UNSIGNED_INT == 2)
+	bftouint16_ip(input, (uint16_t *) output);
+#elif (SIZEOF_UNSIGNED_INT == 4)
+	bftouint32_ip(input, (uint32_t *) output);
+#elif (SIZEOF_UNSIGNED_INT == 8)
+	bftouint64_ip(input, (uint64_t *) output);
+#else
+#error "Unsupported size of 'int'."
+#endif
 	return output;
 }
 
 unsigned long *bf2long(const struct bitfield *input)
 {
-	int i;
-	int bitnslots = BITNSLOTS(input->size);
-	unsigned long *output = malloc(bitnslots * sizeof(unsigned long));
-	if (!output)
-		return NULL;
-	for (i = 0; i < bitnslots; i++)
-		output[i] = input->field[i];
+	int output_slots =
+	    (input->size - 1) / (SIZEOF_UNSIGNED_LONG * CHAR_BIT) + 1;
+	unsigned long *output = calloc(1, output_slots * SIZEOF_UNSIGNED_LONG);
+#if (SIZEOF_UNSIGNED_LONG == 2)
+	bftouint16_ip(input, (uint16_t *) output);
+#elif (SIZEOF_UNSIGNED_LONG == 4)
+	bftouint32_ip(input, (uint32_t *) output);
+#elif (SIZEOF_UNSIGNED_LONG == 8)
+	bftouint64_ip(input, (uint64_t *) output);
+#else
+#error "Unsupported size of 'long'."
+#endif
+	return output;
+}
+
+unsigned long long *bf2ll(const struct bitfield *input)
+{
+	int output_slots =
+	    (input->size - 1) / (SIZEOF_UNSIGNED_LONG_LONG * CHAR_BIT) + 1;
+	unsigned long long *output =
+	    calloc(1, output_slots * SIZEOF_UNSIGNED_LONG_LONG);
+#if (SIZEOF_UNSIGNED_LONG_LONG == 2)
+	bftouint16_ip(input, (uint16_t *) output);
+#elif (SIZEOF_UNSIGNED_LONG_LONG == 4)
+	bftouint32_ip(input, (uint32_t *) output);
+#elif (SIZEOF_UNSIGNED_LONG_LONG == 8)
+	bftouint64_ip(input, (uint64_t *) output);
+#else
+#error "Unsupported size of 'long long'."
+#endif
 	return output;
 }
 
@@ -474,99 +530,37 @@ inline uint8_t *bftouint8(const struct bitfield *input)
 	uint8_t *output = calloc(1, nr_bytes);
 	if (!output)
 		return NULL;
-#if __BYTE_ORDER == __BIG_ENDIAN
-	struct bitfield *tmp = bf_htole(input);
-	if (!tmp) {
-		free(output);
-		return NULL;
-	}
-	memcpy(output, tmp->field, nr_bytes);
-	bfdel(tmp);
-#else
-	memcpy(output, input->field, nr_bytes);
-#endif
+	bftouint8_ip(input, output);
 	return output;
 }
 
 inline uint16_t *bftouint16(const struct bitfield *input)
 {
-	int bitnslots = (input->size - 1) / 16 + 1;
-	int nr_bytes = (input->size - 1) / CHAR_BIT + 1;
-	uint16_t *output = calloc(1, bitnslots * sizeof(uint16_t));
+	int output_slots = (input->size - 1) / 16 + 1;
+	uint16_t *output = calloc(1, output_slots * 2);
 	if (!output)
 		return NULL;
-#if __BYTE_ORDER == __BIG_ENDIAN
-	struct bitfield *tmp = bf_htole(input);
-	if (!tmp) {
-		free(output);
-		return NULL;
-	}
-	memcpy(output, tmp->field, nr_bytes);
-	bfdel(tmp);
-	uint16_letoh_ip(output, bitnslots);
-#else
-	memcpy(output, input->field, nr_bytes);
-#endif
+	bftouint16_ip(input, output);
 	return output;
 }
 
 inline uint32_t *bftouint32(const struct bitfield *input)
 {
-	int bitnslots = (input->size - 1) / 32 + 1;
-	uint32_t *output;
-	if (sizeof(uint32_t) == sizeof(unsigned long)) {
-		output = malloc(bitnslots * sizeof(uint32_t));
-		if (!output)
-			return NULL;
-		int i;
-		for (i = 0; i < bitnslots; i++)
-			output[i] = input->field[i];
-	} else {
-		int nr_bytes = (input->size - 1) / CHAR_BIT + 1;
-		output = calloc(1, bitnslots * sizeof(uint32_t));
-		if (!output)
-			return NULL;
-#if __BYTE_ORDER == __BIG_ENDIAN
-		struct bitfield *tmp = bf_htole(input);
-		if (!tmp) {
-			free(output);
-			return NULL;
-		}
-		memcpy(output, tmp->field, nr_bytes);
-		bfdel(tmp);
-		uint32_letoh_ip(output, bitnslots);
-#else
-		memcpy(output, input->field, nr_bytes);
-#endif
-	}
+	int output_slots = (input->size - 1) / 32 + 1;
+	uint32_t *output = calloc(1, output_slots * 4);
+	if (!output)
+		return NULL;
+	bftouint32_ip(input, output);
 	return output;
 }
 
 inline uint64_t *bftouint64(const struct bitfield *input)
 {
-	int bitnslots = (input->size - 1) / 64 + 1;
-	uint64_t *output;
-	if (sizeof(uint64_t) == sizeof(unsigned long)) {
-		output = malloc(bitnslots * sizeof(uint64_t));
-		if (!output)
-			return NULL;
-		memcpy(output, input->field, bitnslots * sizeof(uint64_t));
-	} else {
-		int nr_bytes = (input->size - 1) / CHAR_BIT + 1;
-		output = calloc(1, bitnslots * sizeof(uint64_t));
-#if __BYTE_ORDER == __BIG_ENDIAN
-		struct bitfield *tmp = bf_htole(input);
-		if (!tmp) {
-			free(output);
-			return NULL;
-		}
-		memcpy(output, tmp->field, nr_bytes);
-		bfdel(tmp);
-		uint64_letoh_ip(output, bitnslots);
-#else
-		memcpy(output, input->field, nr_bytes);
-#endif
-	}
+	int output_slots = (input->size - 1) / 64 + 1;
+	uint64_t *output = calloc(1, output_slots * 8);
+	if (!output)
+		return NULL;
+	bftouint64_ip(input, output);
 	return output;
 }
 
