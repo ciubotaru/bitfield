@@ -1235,7 +1235,8 @@ unsigned int bfclo(const struct bitfield *instance)
 	int i;
 	unsigned int count = 0;
 	unsigned int bitnslots = BITNSLOTS(instance->size);
-	unsigned int tail = LONG_BIT - instance->size % LONG_BIT;
+	unsigned int tail = instance->size % LONG_BIT;
+	if (tail) tail = LONG_BIT - tail;
 	unsigned int tmp;
 #if defined(HAVE_BUILTIN_CLZL)
 	if (instance->field[bitnslots - 1])
@@ -1264,7 +1265,8 @@ unsigned int bfclz(const struct bitfield *instance)
 	int i;
 	unsigned int count = 0;
 	unsigned int bitnslots = BITNSLOTS(instance->size);
-	unsigned int tail = LONG_BIT - instance->size % LONG_BIT;
+	unsigned int tail = instance->size % LONG_BIT;
+	if (tail) tail = LONG_BIT - tail;
 	unsigned int tmp;
 #if defined(HAVE_BUILTIN_CLZL)
 	if (instance->field[bitnslots - 1])
