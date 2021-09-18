@@ -6,6 +6,9 @@
 /* Define to 1 if compiler provides __builtin_ctzl(). */
 #undef HAVE_BUILTIN_CTZL
 
+/* Define to 1 if compiler provides __builtin_ffs(). */
+#undef HAVE_BUILTIN_FFS
+
 /* Define to 1 if compiler provides __builtin_ffsl(). */
 #undef HAVE_BUILTIN_FFSL
 

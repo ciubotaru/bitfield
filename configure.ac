@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([bitfield], [1.0.1], [vitalie@ciubotaru.tk])
+AC_INIT([bitfield], [1.0.1], [vitalie@ciubotaru.tokyo])
 AC_CONFIG_SRCDIR([bitfield.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([libbitfield.pc])
@@ -37,6 +37,19 @@ return 0;
 AC_MSG_RESULT([yes])
 AC_DEFINE([HAVE_BUILTIN_POPCOUNTL], 1,
           [Define to 1 if compiler provides __builtin_popcountl().])
+], [
+AC_MSG_RESULT([no])
+])
+
+# Check for __builtin_ffs
+AC_MSG_CHECKING([for __builtin_ffs()])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[
+__builtin_ffs(1);
+return 0;
+]])], [
+AC_MSG_RESULT([yes])
+AC_DEFINE([HAVE_BUILTIN_FFS], 1,
+          [Define to 1 if compiler provides __builtin_ffs().])
 ], [
 AC_MSG_RESULT([no])
 ])
@@ -89,4 +102,5 @@ AX_COMPILE_CHECK_SIZEOF(unsigned long)
 AX_COMPILE_CHECK_SIZEOF(unsigned long long)
 
 #AC_CONFIG_FILES([Makefile])
-AC_OUTPUT([Makefile] [tests/Makefile] [man/Makefile] [examples/Makefile])
+AC_CONFIG_FILES([Makefile tests/Makefile man/Makefile examples/Makefile])
+AC_OUTPUT
