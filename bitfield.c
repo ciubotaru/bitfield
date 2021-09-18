@@ -1236,7 +1236,8 @@ unsigned int bfclo(const struct bitfield *instance)
 	unsigned int count = 0;
 	unsigned int bitnslots = BITNSLOTS(instance->size);
 	unsigned int tail = instance->size % LONG_BIT;
-	if (tail) tail = LONG_BIT - tail;
+	if (tail)
+		tail = LONG_BIT - tail;
 	unsigned int tmp;
 #if defined(HAVE_BUILTIN_CLZL)
 	if (instance->field[bitnslots - 1])
@@ -1266,7 +1267,8 @@ unsigned int bfclz(const struct bitfield *instance)
 	unsigned int count = 0;
 	unsigned int bitnslots = BITNSLOTS(instance->size);
 	unsigned int tail = instance->size % LONG_BIT;
-	if (tail) tail = LONG_BIT - tail;
+	if (tail)
+		tail = LONG_BIT - tail;
 	unsigned int tmp;
 #if defined(HAVE_BUILTIN_CLZL)
 	if (instance->field[bitnslots - 1])
@@ -1527,7 +1529,8 @@ void bfsetall(struct bitfield *instance)
 
 void bfshift_ip(struct bitfield *input, const int offset)
 {
-	if (!input) return;
+	if (!input)
+		return;
 	int size = bfsize(input);
 	if (size <= 1) {
 		return;		/* input too short to shift */
@@ -1632,7 +1635,7 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 			memcpy(output->field, (input->field) + start_slot, (output_slots - 1) * sizeof(unsigned long));	// the easiest case
 	}
 
-		     /** filling the last output slot
+				/** filling the last output slot
      *  Three cases here:
      *  1. the data for the last slot in output are stretched over 2 slots in input
      *  This can be tested by start_offset > end_offset. In this case we need to
@@ -1707,14 +1710,16 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 				/* this can probably be optimized */
 				chunk_a = output->field[j];
 				tmp1 = bfshift(input, -i);
-				if (!tmp1) goto error;
+				if (!tmp1)
+					goto error;
 				chunk_b = tmp1->field[j];
 				bfdel(tmp1);
 			}
 			/* compare. if a is greater, offset i becomes new best candidate. move to next i */
 			if (chunk_a > chunk_b) {
 				tmp1 = bfshift(input, -i);
-				if (!tmp1) goto error;
+				if (!tmp1)
+					goto error;
 				bfdel(output);
 				output = tmp1;
 				break;
