@@ -1160,31 +1160,9 @@ unsigned int bffs(const struct bitfield *instance)
 
 unsigned int bffz(const struct bitfield *instance)
 {
-	unsigned int i;
-	unsigned int pos = 0;
-	unsigned int bitnslots = BITNSLOTS(instance->size);
-	unsigned int tmp;
-	for (i = 0; i < bitnslots; i++) {
-#if defined(HAVE_BUILTIN_FFSL)
-		tmp = __builtin_ffsl(~(instance->field[i]));
-#elif defined(HAVE_FFSL)
-		tmp = ffsl(~(instance->field[i]));
-#elif defined(HAVE_FFS)
-		if ((~instance->field[i] & (1 + instance->field[i])) <=
-		    0xffffffff)
-			tmp = ffs(~instance->field[i]);
-		else
-			tmp = 32 + ffs(~(instance->field[i]) >> 32);
-#endif
-		if (tmp) {
-			pos = i * LONG_BIT + tmp;
-			/* ignore clear bits in the tail */
-			if (pos <= instance->size)
-				return pos;
-			else
-				return 0;
-		}
-	}
+	struct bitfield *reversed = bfnot(instance);
+	unsigned int pos = bffs(reversed);
+	bfdel(reversed);
 	return pos;
 }
 
