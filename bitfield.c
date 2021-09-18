@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>		//for ffs()
+#include <string.h>		//for ffsl()
 #include <stdarg.h>
 #include <assert.h>
 #include <endian.h>
