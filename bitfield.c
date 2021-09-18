@@ -1041,9 +1041,8 @@ struct bitfield *bfcat_(unsigned int count, ...)
 			return NULL;
 		}
 		/* reassign *output to point to new struct without leaking memory */
-		free(output->field);
-		*output = *tmp;
-		free(tmp);
+		bfdel(output);
+		output = tmp;
 	}
 	va_end(args);
 	return output;
@@ -1527,6 +1526,7 @@ void bfsetall(struct bitfield *instance)
 
 void bfshift_ip(struct bitfield *input, const int offset)
 {
+	if (!input) return;
 	int size = bfsize(input);
 	if (size <= 1) {
 		return;		/* input too short to shift */
@@ -1547,9 +1547,11 @@ void bfshift_ip(struct bitfield *input, const int offset)
 	struct bitfield *second_chunk = bfsub(input, offset_internal, size);
 
 	struct bitfield *tmp = bfcat(second_chunk, first_chunk);
-	free(input->field);
-	*input = *tmp;
-	free(tmp);
+	if (tmp) {
+		free(input->field);
+		input->field = tmp->field;
+		free(tmp);
+	}
 	bfdel(first_chunk);
 	bfdel(second_chunk);
 }
@@ -1678,7 +1680,7 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 	unsigned long chunk_a, chunk_b;
 	struct bitfield *tmp1, *tmp2;
 	/* counters for bit offsets and slots/chunks/longs */
-	unsigned int i, j;
+	int i, j;
 	/* shift input string 1 position at a time and compare with best candidate (size - 1 comparisons) */
 	for (i = 1; i <= size - 1; i++) {
 		/* compare 1 slot/long at a time */
@@ -1704,15 +1706,16 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 				/* this can probably be optimized */
 				chunk_a = output->field[j];
 				tmp1 = bfshift(input, -i);
+				if (!tmp1) goto error;
 				chunk_b = tmp1->field[j];
 				bfdel(tmp1);
 			}
 			/* compare. if a is greater, offset i becomes new best candidate. move to next i */
 			if (chunk_a > chunk_b) {
 				tmp1 = bfshift(input, -i);
-				free(output->field);
-				*output = *tmp1;
-				free(tmp1);
+				if (!tmp1) goto error;
+				bfdel(output);
+				output = tmp1;
 				break;
 			}
 			/* if a is smaller, move to next offset */
