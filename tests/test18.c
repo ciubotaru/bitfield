@@ -32,17 +32,19 @@ int main()
 	unsigned int bitnslots = BITNSLOTS(len);
 	unsigned long *input = calloc(1, longs * sizeof(unsigned long));
 	for (i = 0; i < longs - 1; i++) {
-		for (j = 0; j < LONG_BIT; j++) {
+		for (j = 0; j < SIZEOF_UNSIGNED_LONG * CHAR_BIT; j++) {
 			if (rand() % 2)
 				input[i] |= (1UL << j);
 		}
 	}
-	for (i = 0; i < len % LONG_BIT; i++)
+	for (i = 0; i < len % SIZEOF_UNSIGNED_LONG * CHAR_BIT; i++)
 		if (rand() % 2)
 			input[bitnslots - 1] |= (1UL << i);
 	struct bitfield *output = long2bf(input, len);
 	for (i = 0; i < len; i++) {
-		if ((input[i / sizeof(unsigned long) / CHAR_BIT] >> (i % (sizeof(unsigned long) * CHAR_BIT)) & 1UL) != BITGET(output, i)) {
+		if ((input[i / sizeof(unsigned long) / CHAR_BIT] >>
+		     (i % (sizeof(unsigned long) * CHAR_BIT)) & 1UL) !=
+		    BITGET(output, i)) {
 			retval = 1;
 			break;
 		}

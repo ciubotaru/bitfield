@@ -34,7 +34,9 @@ int main()
 			BITSET(input, i);
 	unsigned long *output = bf2long(input);
 	for (i = 0; i < len; i++) {
-		if ((output[i / sizeof(unsigned long) / CHAR_BIT] >> (i % (sizeof(unsigned long) * CHAR_BIT)) & 1UL) != BITGET(input, i)) {
+		if ((output[i / sizeof(unsigned long) / CHAR_BIT] >>
+		     (i % (sizeof(unsigned long) * CHAR_BIT)) & 1UL) !=
+		    BITGET(input, i)) {
 			retval = 1;
 			break;
 		}

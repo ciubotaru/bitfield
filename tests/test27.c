@@ -29,15 +29,16 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	unsigned int shorts = (len - 1) / SHORT_BIT + 1;
+	unsigned int shorts =
+	    (len - 1) / (SIZEOF_UNSIGNED_SHORT * CHAR_BIT) + 1;
 	unsigned short *input = calloc(1, shorts * sizeof(unsigned short));
 	for (i = 0; i < shorts - 1; i++) {
-		for (j = 0; j < SHORT_BIT; j++) {
+		for (j = 0; j < (SIZEOF_UNSIGNED_SHORT * CHAR_BIT); j++) {
 			if (rand() % 2)
 				input[i] |= (1U << j);
 		}
 	}
-	for (i = 0; i < (len - 1) % SHORT_BIT + 1; i++)
+	for (i = 0; i < (len - 1) % (SIZEOF_UNSIGNED_SHORT * CHAR_BIT) + 1; i++)
 		if (rand() % 2)
 			input[shorts - 1] |= (1U << i);
 	struct bitfield *output = short2bf(input, len);
@@ -55,13 +56,13 @@ int main()
 	struct bitfield *output2 = bfnew(len);
 	memcpy(output2->field, input2, shorts * sizeof(unsigned short));
 	for (i = 0; i < BITNSLOTS(len); i++) {
-#if SIZEOF_UNSIGNED_LONG == 1
+#if STORAGE_UNIT_SIZE == 8
 
-#elif SIZEOF_UNSIGNED_LONG == 2
+#elif STORAGE_UNIT_SIZE == 16
 		output2->field[i] = le16toh(output2->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 4
+#elif STORAGE_UNIT_SIZE == 32
 		output2->field[i] = le32toh(output2->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 8
+#elif STORAGE_UNIT_SIZE == 64
 		output2->field[i] = le64toh(output2->field[i]);
 #else
 #error Not implemented
@@ -69,7 +70,7 @@ int main()
 	}
 	cmp =
 	    memcmp(output->field, output2->field,
-		   BITNSLOTS(len) * sizeof(unsigned long));
+		   BITNSLOTS(len) * sizeof(storage_unit));
 	free(input);
 	bfdel(output);
 	free(input2);

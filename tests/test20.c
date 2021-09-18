@@ -34,10 +34,12 @@ int main()
 		if (rand() % 2)
 			BITSET(input, i);
 	int bitnslots = BITNSLOTS(len);
-	int ints = (len - 1) / INT_BIT + 1;
+	int ints = (len - 1) / (SIZEOF_UNSIGNED_INT * CHAR_BIT) + 1;
 	unsigned int *output = bf2int(input);
 	for (i = 0; i < len; i++) {
-		if ((output[i / INT_BIT] >> (i % INT_BIT) & 1) != BITGET(input, i)) {
+		if ((output[i / (SIZEOF_UNSIGNED_INT * CHAR_BIT)] >>
+		     (i % (SIZEOF_UNSIGNED_INT * CHAR_BIT)) & 1) !=
+		    BITGET(input, i)) {
 			retval = 1;
 			goto ret;
 		}

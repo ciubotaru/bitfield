@@ -42,12 +42,12 @@ int main()
 		check_uint16[i] = htole16(input_uint16[i]);
 	struct bitfield *check = bfclone(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-#if SIZEOF_UNSIGNED_LONG == 1
-#elif SIZEOF_UNSIGNED_LONG == 2
+#if STORAGE_UNIT_SIZE == 8
+#elif STORAGE_UNIT_SIZE == 16
 		check->field[i] = htole16(check->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 4
+#elif STORAGE_UNIT_SIZE == 32
 		check->field[i] = htole32(check->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 8
+#elif STORAGE_UNIT_SIZE == 64
 		check->field[i] = htole64(check->field[i]);
 #else
 #error Not implemented

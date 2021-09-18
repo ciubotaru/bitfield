@@ -32,12 +32,13 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int bitnslots = (len + LONG_BIT - 1) / LONG_BIT;
+	int bitnslots = (len + SIZEOF_UNSIGNED_LONG * CHAR_BIT - 1) / (SIZEOF_UNSIGNED_LONG * CHAR_BIT);
 	unsigned long *input_long = calloc(bitnslots, sizeof(unsigned long));
 	bf2long_ip(input, input_long);
 	/* check first function */
 	for (i = 0; i < len; i++) {
-		if ((input_long[i / LONG_BIT] >> (i % LONG_BIT) & 1UL) != BITGET(input, i)) {
+		if ((input_long[i / (SIZEOF_UNSIGNED_LONG * CHAR_BIT)] >> (i % (SIZEOF_UNSIGNED_LONG * CHAR_BIT)) & 1UL) !=
+		    BITGET(input, i)) {
 			retval = 1;
 			goto ret;
 		}

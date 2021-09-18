@@ -29,15 +29,16 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	unsigned int lls = (len - 1) / LONG_LONG_BIT + 1;
+	unsigned int lls =
+	    (len - 1) / (SIZEOF_UNSIGNED_LONG_LONG * CHAR_BIT) + 1;
 	unsigned long long *input = calloc(1, lls * sizeof(unsigned long long));
 	for (i = 0; i < lls - 1; i++) {
-		for (j = 0; j < LONG_LONG_BIT; j++) {
+		for (j = 0; j < (SIZEOF_UNSIGNED_LONG_LONG * CHAR_BIT); j++) {
 			if (rand() % 2)
 				input[i] |= (1ULL << j);
 		}
 	}
-	for (i = 0; i < len % LONG_LONG_BIT; i++)
+	for (i = 0; i < len % (SIZEOF_UNSIGNED_LONG_LONG * CHAR_BIT); i++)
 		if (rand() % 2)
 			input[lls - 1] |= (1ULL << i);
 	struct bitfield *output = ll2bf(input, len);
@@ -45,12 +46,12 @@ int main()
 	for (i = 0; i < lls; i++)
 		input[i] = (unsigned long long)htole64((uint64_t) input[i]);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-#if SIZEOF_UNSIGNED_LONG == 1
-#elif SIZEOF_UNSIGNED_LONG == 2
+#if STORAGE_UNIT_SIZE == 8
+#elif STORAGE_UNIT_SIZE == 16
 		output->field[i] = htole16(output->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 4
+#elif STORAGE_UNIT_SIZE == 32
 		output->field[i] = htole32(output->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 8
+#elif STORAGE_UNIT_SIZE == 64
 		output->field[i] = htole64(output->field[i]);
 #else
 #error Not implemented

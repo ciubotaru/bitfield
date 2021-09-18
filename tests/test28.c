@@ -29,24 +29,26 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	unsigned int shorts = (len - 1) / SHORT_BIT + 1;
+	unsigned int shorts =
+	    (len - 1) / (SIZEOF_UNSIGNED_SHORT * CHAR_BIT) + 1;
 	struct bitfield *input = bfnew(len);
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
 	unsigned short *input_short = bf2short(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-#if SIZEOF_UNSIGNED_LONG == 1
-#elif SIZEOF_UNSIGNED_LONG == 2
+#if STORAGE_UNIT_SIZE == 8
+#elif STORAGE_UNIT_SIZE == 16
 		input->field[i] = htole16(input->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 4
+#elif STORAGE_UNIT_SIZE == 32
 		input->field[i] = htole32(input->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 8
+#elif STORAGE_UNIT_SIZE == 64
 		input->field[i] = htole64(input->field[i]);
 #else
 #error Not implemented
 #endif
 	}
+//      long_htole_ip(input, BITNSLOTS(len));
 	unsigned short *check = malloc(shorts * sizeof(unsigned short));
 	memcpy(check, input->field, shorts * sizeof(unsigned short));
 	bfdel(input);

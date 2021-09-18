@@ -33,18 +33,19 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	unsigned int shorts = (len - 1) / SHORT_BIT + 1;
+	unsigned int shorts =
+	    (len - 1) / (SIZEOF_UNSIGNED_SHORT * CHAR_BIT) + 1;
 	unsigned short *input_short = malloc(shorts * sizeof(unsigned short));
 	bf2short_ip(input, input_short);
 	/* check first function */
 	struct bitfield *check = bfclone(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-#if SIZEOF_UNSIGNED_LONG == 1
-#elif SIZEOF_UNSIGNED_LONG == 2
+#if STORAGE_UNIT_SIZE == 8
+#elif STORAGE_UNIT_SIZE == 16
 		check->field[i] = htole16(check->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 4
+#elif STORAGE_UNIT_SIZE == 32
 		check->field[i] = htole32(check->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 8
+#elif STORAGE_UNIT_SIZE == 64
 		check->field[i] = htole64(check->field[i]);
 #else
 #error Not implemented

@@ -32,6 +32,7 @@ int main()
 	/* testing bffs for no set bits */
 	ffs_check = bffs(input);
 	if (ffs_check != 0) {
+		printf("00");
 		retval = 1;
 		goto ret;
 	}
@@ -40,6 +41,7 @@ int main()
 		BITSET(input, i);
 		ffs_check = bffs(input);
 		if (i + 1 != ffs_check) {
+			printf("%i", i);
 			retval = 1;
 			goto ret;
 		}

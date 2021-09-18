@@ -28,22 +28,23 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	unsigned int bitnslots = (len - 1) / INT_BIT + 1;
+	unsigned int bitnslots =
+	    (len - 1) / (SIZEOF_UNSIGNED_INT * CHAR_BIT) + 1;
 	unsigned int *input = calloc(1, bitnslots * sizeof(unsigned int));
 	for (i = 0; i < bitnslots - 1; i++) {
-		for (j = 0; j < INT_BIT; j++) {
+		for (j = 0; j < (SIZEOF_UNSIGNED_INT * CHAR_BIT); j++) {
 			if (rand() % 2)
 				input[i] |= (1U << j);
 		}
 	}
-	for (i = 0; i < len % INT_BIT; i++)
+	for (i = 0; i < len % (SIZEOF_UNSIGNED_INT * CHAR_BIT); i++)
 		if (rand() % 2)
 			input[bitnslots - 1] |= (1U << i);
 	struct bitfield *output = int2bf(input, len);
 
 	for (i = 0; i < len; i++) {
-		if (((input[i / INT_BIT] >> 
-		    (i % INT_BIT)) & 1) != 
+		if (((input[i / (SIZEOF_UNSIGNED_INT * CHAR_BIT)] >>
+		      (i % (SIZEOF_UNSIGNED_INT * CHAR_BIT))) & 1) !=
 		    BITGET(output, i)) {
 			retval = 1;
 			goto ret;

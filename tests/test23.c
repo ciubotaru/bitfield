@@ -32,12 +32,14 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	int bitnslots = (len - 1) / INT_BIT + 1;
+	int bitnslots = (len - 1) / (SIZEOF_UNSIGNED_INT * CHAR_BIT) + 1;
 	unsigned int *input_int = calloc(bitnslots, sizeof(unsigned int));
 	bf2int_ip(input, input_int);
 	/* check first function */
 	for (i = 0; i < len; i++) {
-		if ((input_int[i / INT_BIT] >> (i % INT_BIT) & 1) != BITGET(input, i)) {
+		if ((input_int[i / (SIZEOF_UNSIGNED_INT * CHAR_BIT)] >>
+		     (i % (SIZEOF_UNSIGNED_INT * CHAR_BIT)) & 1) !=
+		    BITGET(input, i)) {
 			retval = 1;
 			goto ret;
 		}

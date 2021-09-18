@@ -33,15 +33,16 @@ int main()
 	for (i = 0; i < len; i++)
 		if (rand() % 2)
 			BITSET(input, i);
-	unsigned int lls = (len - 1) / LONG_LONG_BIT + 1;
+	unsigned int lls =
+	    (len - 1) / (SIZEOF_UNSIGNED_LONG_LONG * CHAR_BIT) + 1;
 	unsigned long long *output = bf2ll(input);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-#if SIZEOF_UNSIGNED_LONG == 1
-#elif SIZEOF_UNSIGNED_LONG == 2
+#if STORAGE_UNIT_SIZE == 8
+#elif STORAGE_UNIT_SIZE == 16
 		input->field[i] = htole16(input->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 4
+#elif STORAGE_UNIT_SIZE == 32
 		input->field[i] = htole32(input->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 8
+#elif STORAGE_UNIT_SIZE == 64
 		input->field[i] = htole64(input->field[i]);
 #else
 #error Not implemented

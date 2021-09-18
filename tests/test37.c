@@ -38,12 +38,12 @@ int main()
 	for (i = 0; i < int64s; i++)
 		input_int[i] = htole64(input_int[i]);
 	for (i = 0; i < BITNSLOTS(len); i++) {
-#if SIZEOF_UNSIGNED_LONG == 1
-#elif SIZEOF_UNSIGNED_LONG == 2
+#if STORAGE_UNIT_SIZE == 8
+#elif STORAGE_UNIT_SIZE == 16
 		input->field[i] = htole16(input->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 4
+#elif STORAGE_UNIT_SIZE == 32
 		input->field[i] = htole32(input->field[i]);
-#elif SIZEOF_UNSIGNED_LONG == 8
+#elif STORAGE_UNIT_SIZE == 64
 		input->field[i] = htole64(input->field[i]);
 #else
 #error Not implemented

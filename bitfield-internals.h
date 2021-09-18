@@ -10,28 +10,39 @@
 #ifndef CHAR_BIT
 #include <limits.h>
 #endif
-#ifndef SHORT_BIT
-#define SHORT_BIT (unsigned int) (SIZEOF_UNSIGNED_SHORT * CHAR_BIT)
+
+#if (defined(__x86_64__) || defined(__aarch64__) || defined(__PPC64__))
+#define STORAGE_UNIT_SIZE 64
+#elif (defined(__i386) || defined(__PPC__) || defined(__arm__))
+#define STORAGE_UNIT_SIZE 32
+#else
+#error Unknown architecture
 #endif
-#ifndef INT_BIT
-#define INT_BIT (unsigned int) (SIZEOF_UNSIGNED_INT * CHAR_BIT)
+
+#if STORAGE_UNIT_SIZE == 64
+typedef uint64_t storage_unit;
+#define STORAGE_UNIT_PREFIX(x) INT64_C(x)
+#elif STORAGE_UNIT_SIZE == 32
+typedef uint32_t storage_unit;
+#define STORAGE_UNIT_PREFIX(x) INT32_C(x)
+#elif STORAGE_UNIT_SIZE == 16
+typedef uint16_t storage_unit;
+#define STORAGE_UNIT_PREFIX(x) INT16_C(x)
+#elif STORAGE_UNIT_SIZE == 8
+typedef uint8_t storage_unit;
+#define STORAGE_UNIT_PREFIX(x) INT8_C(x)
 #endif
-#ifndef LONG_BIT
-#define LONG_BIT (unsigned int) (SIZEOF_UNSIGNED_LONG * CHAR_BIT)
-#endif
-#ifndef LONG_LONG_BIT
-#define LONG_LONG_BIT (unsigned int) (SIZEOF_UNSIGNED_LONG_LONG * CHAR_BIT)
-#endif
-#define BITMASK(b) (1UL << ((b) % LONG_BIT))
-#define BITSLOT(b) ((b) / LONG_BIT)
-#define BITGET(a, b) (((a)->field[BITSLOT(b)] >> ((b) % LONG_BIT))  & 1UL)
+
+#define BITMASK(b) (STORAGE_UNIT_PREFIX(1) << ((b) % STORAGE_UNIT_SIZE))
+#define BITSLOT(b) ((b) / STORAGE_UNIT_SIZE)
+#define BITGET(a, b) (((a)->field[BITSLOT(b)] >> ((b) % STORAGE_UNIT_SIZE))  & STORAGE_UNIT_PREFIX(1))
 #define BITSET(a, b) ((a)->field[BITSLOT(b)] |= BITMASK(b))
 #define BITCLEAR(a, b) ((a)->field[BITSLOT(b)] &= ~BITMASK(b))
 #define BITTEST(a, b) ((a)->field[BITSLOT(b)] & BITMASK(b))
 #define BITTOGGLE(a, b) ((a)->field[BITSLOT(b)] ^= BITMASK(b))
-#define BITNSLOTS(nb) (((nb) + LONG_BIT - 1) / LONG_BIT)
+#define BITNSLOTS(nb) (((nb) + STORAGE_UNIT_SIZE - 1) / STORAGE_UNIT_SIZE)
 
 struct bitfield {		/* defines a bitfield */
-	unsigned long *field;
+	storage_unit *field;
 	unsigned int size;
 };

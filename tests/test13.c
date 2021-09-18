@@ -33,8 +33,10 @@ int main()
 	struct bitfield *input1 = bfnew(len);
 	struct bitfield *input2 = bfnew(len);
 	for (i = 0; i < len; i++) {
-		if (rand() % 2) BITSET(input1, i);
-		if (rand() % 2) BITSET(input2, i);
+		if (rand() % 2)
+			BITSET(input1, i);
+		if (rand() % 2)
+			BITSET(input2, i);
 		if (BITGET(input1, i) != BITGET(input2, i))
 			count++;
 	}

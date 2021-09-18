@@ -42,6 +42,8 @@ int main()
 		clo_check = bfclo(input);
 		if (len - i != clo_check) {
 			retval = 1;
+			printf("Bit #%i: expected %i, received %i", i, len - i,
+			       clo_check);
 			goto ret;
 		}
 	}
