@@ -19,7 +19,7 @@
 int main()
 {
 	int i;			//counter
-	unsigned int len = 400;
+	unsigned int len;
 	char *msg = "Testing bfctz()";
 	char *status[] = { "[PASS]", "[FAIL]" };
 	int retval = 0;
@@ -27,23 +27,36 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	struct bitfield *input = bfnew_ones(len);
+	struct bitfield *input;
 	unsigned int ctz;
-	unsigned int ctz_check;
-	/* testing bfctz for no clear bits */
-	ctz_check = bfctz(input);
-	if (ctz_check != 0) {
+
+	/* testing for null input */
+	input = NULL;
+	ctz = bfctz(input);
+	if (ctz != 0) {
 		retval = 1;
 		goto ret;
 	}
-	/* testing bfctz for a clear bit in all possible places */
-	for (i = 0; i < len; i++) {
-		BITCLEAR(input, i);
-		ctz_check = bfctz(input);
-		if (i + 1 != ctz_check) {
+	/* testing for different sizes of bitfield */
+	for (len = 1; len < 2 * STORAGE_UNIT_SIZE; len++) {
+		input = bfnew_ones(len);
+		/* testing bfctz for no clear bits */
+		ctz = bfctz(input);
+		if (ctz != 0) {
 			retval = 1;
 			goto ret;
 		}
+		/* testing bfctz for a clear bit in all possible places */
+		for (i = 0; i < len; i++) {
+			BITCLEAR(input, i);
+			ctz = bfctz(input);
+			if (i + 1 != ctz) {
+				retval = 1;
+				goto ret;
+			}
+		}
+		bfdel(input);
+		input = NULL;
 	}
  ret:
 	bfdel(input);

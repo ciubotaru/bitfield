@@ -1355,6 +1355,8 @@ unsigned int bfcto(const struct bitfield *instance)
 
 unsigned int bfctz(const struct bitfield *instance)
 {
+	if (!instance)
+		return 0;
 #if defined(HAVE_BUILTIN_CTZL)
 	int i;
 	unsigned int count = 0;
@@ -1365,23 +1367,21 @@ unsigned int bfctz(const struct bitfield *instance)
 	    (instance->size - 1) / (SIZEOF_UNSIGNED_LONG * CHAR_BIT) + 1;
 	unsigned long mask =
 	    (1UL << (instance->size % (SIZEOF_UNSIGNED_LONG * CHAR_BIT))) - 1UL;
+	if (mask == 0UL) mask = ~0UL;
 	for (i = 0; i < bitnslots - 1; i++) {
-		if (data[i] == 0) {
+		if (data[i] == 0UL)
 			count += (SIZEOF_UNSIGNED_LONG * CHAR_BIT);
-		} else if (~data[i] == 0) {
+		else if (data[i] == ~0UL)
 			return count;
-		} else {
-			return count +
-			    __builtin_ctzl(data[i]);
-		}
+		else
+			return count + __builtin_ctzl(data[i]);
 	}
-	if ((data[bitnslots - 1] & mask) == 0) {
+	if (data[bitnslots - 1] == 0UL)
 		count += last_slot_size;
-	} else if (~(data[bitnslots - 1] & mask) == 0) {
+	else if (data[bitnslots - 1] == mask)
 		return count;
-	} else {
+	else
 		count += __builtin_ctzl(data[bitnslots - 1] & mask);
-	}
 	return count;
 #else
 	unsigned int ffs = bffs(instance);
