@@ -1143,33 +1143,34 @@ unsigned int bfcpy(const struct bitfield *src, struct bitfield *dest)
 
 unsigned int bffs(const struct bitfield *instance)
 {
+	if (!instance)
+		return 0;
 	unsigned int i;
 	unsigned int pos = 0;
 	unsigned int bitnslots = BITNSLOTS(instance->size);
 	unsigned int tmp;
 	for (i = 0; i < bitnslots; i++) {
-		if (STORAGE_UNIT_SIZE <= SIZEOF_UNSIGNED_INT) {
+#if (STORAGE_UNIT_SIZE <= (SIZEOF_UNSIGNED_INT * CHAR_BIT))
 #if defined(HAVE_BUILTIN_FFS)
-			tmp = __builtin_ffs((unsigned int) instance->field[i]);
+		tmp = __builtin_ffs((unsigned int) instance->field[i]);
 #elif defined(HAVE_FFS)
-			tmp = ffs((unsigned int) instance->field[i]);
+		tmp = ffs((unsigned int) instance->field[i]);
 #elif defined(HAVE_BUILTIN_FFSL)
-			tmp = __builtin_ffsl((unsigned long) instance->field[i]);
+		tmp = __builtin_ffsl((unsigned long) instance->field[i]);
 #elif defined(HAVE_FFSL)
-			tmp = ffsl((unsigned long) instance->field[i]);
+		tmp = ffsl((unsigned long) instance->field[i]);
 #else
 #error No ffs function available.
 #endif
-		}
-		else {
+#else
 #if defined(HAVE_BUILTIN_FFSL)
-			tmp = __builtin_ffsl((unsigned long) instance->field[i]);
+		tmp = __builtin_ffsl((unsigned long) instance->field[i]);
 #elif defined(HAVE_FFSL)
-			tmp = ffsl((unsigned long) instance->field[i]);
+		tmp = ffsl((unsigned long) instance->field[i]);
 #else
 #error No ffs function available.
 #endif
-		}
+#endif
 		if (tmp) return i * STORAGE_UNIT_SIZE + tmp;
 	}
 	return pos;
