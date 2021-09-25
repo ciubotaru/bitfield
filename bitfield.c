@@ -1178,6 +1178,8 @@ unsigned int bffs(const struct bitfield *instance)
 
 unsigned int bffz(const struct bitfield *instance)
 {
+	if (!instance)
+		return 0;
 	struct bitfield *reversed = bfnot(instance);
 	unsigned int pos = bffs(reversed);
 	bfdel(reversed);
