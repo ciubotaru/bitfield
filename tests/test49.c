@@ -19,7 +19,7 @@
 int main()
 {
 	int i;			//counter
-	unsigned int len = 400;
+	unsigned int len;
 	char *msg = "Testing bfclo()";
 	char *status[] = { "[PASS]", "[FAIL]" };
 	int retval = 0;
@@ -27,25 +27,36 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	struct bitfield *input = bfnew(len);
+	struct bitfield *input;
 	unsigned int clo;
-	unsigned int clo_check;
-	/* testing bfclo for no clear bits */
-	clo_check = bfclo(input);
-	if (clo_check != 0) {
+
+	/* testing for null input */
+	input = NULL;
+	clo = bfclo(input);
+	if (clo != 0) {
 		retval = 1;
 		goto ret;
 	}
-	/* testing bfclo for a clear set in all possible places */
-	for (i = len - 1; i >= 0; i--) {
-		BITSET(input, i);
-		clo_check = bfclo(input);
-		if (len - i != clo_check) {
+	/* testing for different sizes of bitfield */
+	for (len = 1; len < 2 * STORAGE_UNIT_SIZE; len++) {
+		input = bfnew(len);
+		/* testing bfclo for no set bits */
+		clo = bfclo(input);
+		if (clo != 0) {
 			retval = 1;
-			printf("Bit #%i: expected %i, received %i", i, len - i,
-			       clo_check);
 			goto ret;
 		}
+		/* testing bfclo for a set bit in all possible places */
+		for (i = len - 1; i >= 0; i--) {
+			BITSET(input, i);
+			clo = bfclo(input);
+			if (len - i != clo) {
+				retval = 1;
+				goto ret;
+			}
+		}
+		bfdel(input);
+		input = NULL;
 	}
  ret:
 	bfdel(input);

@@ -1234,6 +1234,8 @@ unsigned int bflz(const struct bitfield *instance)
 
 unsigned int bfclo(const struct bitfield *instance)
 {
+	if (!instance)
+		return 0;
 #if defined(HAVE_BUILTIN_CLZL)
 	int i;
 	unsigned int count = 0;
@@ -1244,28 +1246,34 @@ unsigned int bfclo(const struct bitfield *instance)
 	    (instance->size - 1) / (SIZEOF_UNSIGNED_LONG * CHAR_BIT) + 1;
 	unsigned long mask =
 	    (1UL << (instance->size % (SIZEOF_UNSIGNED_LONG * CHAR_BIT))) - 1UL;
-	if (data[bitnslots - 1])
+	/* there is at least one bit in the last slot, so empty mask means full mask */
+	if (mask == 0UL)
+		mask = ~(0UL);
+	/* __builtin_clzl() has UB when input is 0, so we check it first */
+	if (data[bitnslots - 1] == mask)
+		count += last_slot_size;
+	else if (data[bitnslots - 1])
 		count =
-		    __builtin_clzl(
-		    ~((data[bitnslots - 1] & mask ) <<
-		    (SIZEOF_UNSIGNED_LONG * CHAR_BIT - last_slot_size)));
+		    __builtin_clzl(~
+				   (data[bitnslots - 1] <<
+				    (SIZEOF_UNSIGNED_LONG * CHAR_BIT -
+				     last_slot_size)));
 	if (count < last_slot_size)
 		return count;
 	for (i = bitnslots - 2; i >= 0; i--) {
-		if (~data[i])
-			return count +
-			    __builtin_clzl(~data[i]);
-		else
+		if (data[i] == ~0UL)
 			count += SIZEOF_UNSIGNED_LONG * CHAR_BIT;
+		else
+			return count + __builtin_clzl(~data[i]);
 	}
+	return count;
 #else				/* write your own */
 	unsigned int tmp = bflz(instance);
 	if (tmp)
-		count = instance->size - tmp;
+		return instance->size - tmp;
 	else
-		count = instance->size;
+		return instance->size;
 #endif
-	return count;
 }
 
 unsigned int bfclz(const struct bitfield *instance)
