@@ -19,7 +19,7 @@
 int main()
 {
 	int i;			//counter
-	unsigned int len = 400;
+	unsigned int len;
 	char *msg = "Testing bfcto()";
 	char *status[] = { "[PASS]", "[FAIL]" };
 	int retval = 0;
@@ -27,23 +27,37 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	struct bitfield *input = bfnew(len);
+	struct bitfield *input;
 	unsigned int cto;
-	unsigned int cto_check;
-	/* testing bfcto for no set bits */
-	cto_check = bfcto(input);
-	if (cto_check != 0) {
+
+	/* testing for null input */
+	input = NULL;
+	cto = bfcto(input);
+	if (cto != 0) {
 		retval = 1;
 		goto ret;
 	}
-	/* testing bfcto for a set bit in all possible places */
-	for (i = 0; i < len; i++) {
-		BITSET(input, i);
-		cto_check = bfcto(input);
-		if (i + 1 != cto_check) {
+
+	/* testing for different sizes of bitfield */
+	for (len = 1; len < 2 * STORAGE_UNIT_SIZE; len++) {
+		input = bfnew(len);
+		/* testing bfcto for no set bits */
+		cto = bfcto(input);
+		if (cto != 0) {
 			retval = 1;
 			goto ret;
 		}
+		/* testing bfcto for a set bit in all possible places */
+		for (i = 0; i < len; i++) {
+			BITSET(input, i);
+			cto = bfcto(input);
+			if (i + 1 != cto) {
+				retval = 1;
+				goto ret;
+			}
+		}
+		bfdel(input);
+		input = NULL;
 	}
  ret:
 	bfdel(input);
