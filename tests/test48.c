@@ -19,7 +19,7 @@
 int main()
 {
 	unsigned int i;		//counter
-	unsigned int len = 400;
+	unsigned int len;
 	char *msg = "Testing bflz()";
 	char *status[] = { "[PASS]", "[FAIL]" };
 	int retval = 0;
@@ -27,24 +27,38 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	struct bitfield *input = bfnew_ones(len);
+	struct bitfield *input;
 	unsigned int flz;
-	unsigned int flz_check;
-	/* testing bflz for no clear bits */
-	flz_check = bflz(input);
-	if (flz_check != 0) {
+
+	/* testing for null input */
+	input = NULL;
+	flz = bflz(input);
+	if (flz != 0) {
 		retval = 1;
 		goto ret;
 	}
-	/* testing bfls for a clear in all possible places */
-	for (i = 0; i < len; i++) {
-		BITCLEAR(input, i);
-		flz_check = bflz(input);
-		if (i + 1 != flz_check) {
+
+	/* testing for different size of bitfield */
+	for (len = 1; len < 2 * STORAGE_UNIT_SIZE; len++) {
+		input = bfnew_ones(len);
+		/* testing bflz for no clear bits */
+		flz = bflz(input);
+		if (flz != 0) {
 			retval = 1;
 			goto ret;
 		}
-		BITSET(input, i);
+		/* testing bfls for a clear in all possible places */
+		for (i = 0; i < len; i++) {
+			BITCLEAR(input, i);
+			flz = bflz(input);
+			if (i + 1 != flz) {
+				retval = 1;
+				goto ret;
+			}
+			BITSET(input, i);
+		}
+		bfdel(input);
+		input = NULL;
 	}
  ret:
 	bfdel(input);

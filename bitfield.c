@@ -1211,6 +1211,8 @@ unsigned int bfls(const struct bitfield *instance)
 
 unsigned int bflz(const struct bitfield *instance)
 {
+	if (!instance)
+		return 0;
 	int i;
 #if defined(HAVE_FLSL)
 	/* FreeBSD 5.3+ (and OS X 10.4+) libc have flsl */
