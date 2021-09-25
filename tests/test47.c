@@ -19,7 +19,7 @@
 int main()
 {
 	unsigned int i;		//counter
-	unsigned int len = 400;
+	unsigned int len;
 	char *msg = "Testing bfls()";
 	char *status[] = { "[PASS]", "[FAIL]" };
 	int retval = 0;
@@ -27,24 +27,38 @@ int main()
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	struct bitfield *input = bfnew(len);
+	struct bitfield *input;
 	unsigned int fls;
-	unsigned int fls_check;
-	/* testing bflz for no set bits */
-	fls_check = bfls(input);
-	if (fls_check != 0) {
-		retval = 1;
+
+	/* testing for null input */
+	input = NULL;
+	fls = bfls(input);
+	if (fls != 0) {
+		retval = 0;
 		goto ret;
 	}
-	/* testing bfls for a set in all possible places */
-	for (i = 0; i < len; i++) {
-		BITSET(input, i);
-		fls_check = bfls(input);
-		if (i + 1 != fls_check) {
+
+	/* testing for different sizes of bitfield */
+	for (len = 1; len < 2 * STORAGE_UNIT_SIZE; len++) {
+		input = bfnew(len);
+		/* testing bflz for no set bits */
+		fls = bfls(input);
+		if (fls != 0) {
 			retval = 1;
 			goto ret;
 		}
-		BITCLEAR(input, i);
+		/* testing bfls for a set in all possible places */
+		for (i = 0; i < len; i++) {
+			BITSET(input, i);
+			fls = bfls(input);
+			if (i + 1 != fls) {
+				retval = 1;
+				goto ret;
+			}
+			BITCLEAR(input, i);
+		}
+		bfdel(input);
+		input = NULL;
 	}
  ret:
 	bfdel(input);
