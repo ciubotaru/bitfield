@@ -34,11 +34,11 @@ typedef uint8_t storage_unit;
 #endif
 
 #define BITMASK(b) (STORAGE_UNIT_PREFIX(1) << ((b) % STORAGE_UNIT_SIZE))
-#define BITSLOT(b) ((b) / STORAGE_UNIT_SIZE)
-#define BITGET(a, b) (((a)->field[BITSLOT(b)] >> ((b) % STORAGE_UNIT_SIZE))  & STORAGE_UNIT_PREFIX(1))
-#define BITSET(a, b) ((a)->field[BITSLOT(b)] |= BITMASK(b))
-#define BITCLEAR(a, b) ((a)->field[BITSLOT(b)] &= ~BITMASK(b))
-#define BITTOGGLE(a, b) ((a)->field[BITSLOT(b)] ^= BITMASK(b))
+#define BITSLOTNR(b) ((b) / STORAGE_UNIT_SIZE)
+#define BITGET(a, b) (((a)->field[BITSLOTNR(b)] >> ((b) % STORAGE_UNIT_SIZE))  & STORAGE_UNIT_PREFIX(1))
+#define BITSET(a, b) ((a)->field[BITSLOTNR(b)] |= BITMASK(b))
+#define BITCLEAR(a, b) ((a)->field[BITSLOTNR(b)] &= ~BITMASK(b))
+#define BITTOGGLE(a, b) ((a)->field[BITSLOTNR(b)] ^= BITMASK(b))
 #define BITNSLOTS(nb) (((nb) + STORAGE_UNIT_SIZE - 1) / STORAGE_UNIT_SIZE)
 #define BFSIZE(a) ((a)->size)
 #define BITSLOTBYNO(a, b) ((a)->field[b])

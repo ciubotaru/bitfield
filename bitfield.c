@@ -998,7 +998,7 @@ static inline struct bitfield *bfcat__(const struct bitfield *input1,
 
 	/* find offset bit and offset slot */
 	unsigned int offset_bit = BFTAILSIZE(input1);
-	unsigned int offset_slot = BFSIZE(input1) / STORAGE_UNIT_SIZE;
+	unsigned int offset_slot = BITSLOTNR(BFSIZE(input1));
 
 	for (i = 0; i < BITNSLOTS(BFSIZE(input2)); i++) {
 		BITSLOTBYNO(output, i + offset_slot) |=
@@ -1116,8 +1116,8 @@ unsigned int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
 	    (BFTAILSIZE(input1) == 0) ?
 	    -STORAGE_UNIT_PREFIX(1) :
 	    (STORAGE_UNIT_PREFIX(1) << BFTAILSIZE(input1)) - STORAGE_UNIT_PREFIX(1);
-	if ((BITSLOTBYNO(input1, (BFSIZE(input1) - 1) / STORAGE_UNIT_SIZE) & mask) !=
-	    (BITSLOTBYNO(input2, (BFSIZE(input2) - 1) / STORAGE_UNIT_SIZE) & mask)) {
+	if ((BITSLOTBYNO(input1, BITSLOTNR((BFSIZE(input1) - 1))) & mask) !=
+	    (BITSLOTBYNO(input2, BITSLOTNR(BFSIZE(input2) - 1)) & mask)) {
 		msg = "Bitfields differ";
 		retcode = 1;
 		goto error;
@@ -1493,11 +1493,11 @@ void bfprint_lsb(const struct bitfield *instance)
 	for (i = 0; i < BFSIZE(instance); i++)
 #if STORAGE_UNIT_SIZE == 64
 		printf("%" PRId64 "",
-		       (BITSLOTBYNO(instance, i / STORAGE_UNIT_SIZE) >> (i % STORAGE_UNIT_SIZE)) &
+		       (BITSLOTBYNO(instance, BITSLOTNR(i)) >> (i % STORAGE_UNIT_SIZE)) &
 		       STORAGE_UNIT_PREFIX(1));
 #else
 		printf("%" PRId32 "",
-		       (BITSLOTBYNO(instance, i / STORAGE_UNIT_SIZE) >> (i % STORAGE_UNIT_SIZE)) &
+		       (BITSLOTBYNO(instance, BITSLOTNR(i)) >> (i % STORAGE_UNIT_SIZE)) &
 		       STORAGE_UNIT_PREFIX(1));
 #endif
 	/* maybe it would be quicker to convert bitfield to string (bf2str) and print it all at once */
@@ -1512,7 +1512,7 @@ void bfprint_msb(const struct bitfield *instance)
 #else
 		printf("%" PRId32 "",
 #endif
-		       (BITSLOTBYNO(instance, i / STORAGE_UNIT_SIZE) >> (i % STORAGE_UNIT_SIZE)) &
+		       (BITSLOTBYNO(instance, BITSLOTNR(i)) >> (i % STORAGE_UNIT_SIZE)) &
 		       STORAGE_UNIT_PREFIX(1));
 }
 
@@ -1680,8 +1680,8 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 
 	int start_offset = start % STORAGE_UNIT_SIZE;	//position of start bit inside slot
 	int end_offset = (end - 1) % STORAGE_UNIT_SIZE;
-	int start_slot = start / STORAGE_UNIT_SIZE;
-	int end_slot = (end - 1) / STORAGE_UNIT_SIZE;	// the slot storing the last bit included into subfield
+	int start_slot = BITSLOTNR(start);
+	int end_slot = BITSLOTNR(end - 1);	// the slot storing the last bit included into subfield
 	int output_slots = BITNSLOTS(end - start);
 //    unsigned_long mask_1 = (start_offset = 0) ? -STORAGE_UNIT_PREFIX(1) : (STORAGE_UNIT_PREFIX(1) << (STORAGE_UNIT_SIZE - offset)) - STORAGE_UNIT_PREFIX(1);
 
@@ -1715,10 +1715,10 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
      *  to the beginning of the last slot in input (i.e. start_offset bits to left).
  **/
 	if (start_offset > end_offset) {
-		BITSLOTBYNO(output, (end - start - 1) / STORAGE_UNIT_SIZE) =
+		BITSLOTBYNO(output, BITSLOTNR(end - start - 1)) =
 		    BITSLOTBYNO(input, end_slot - 1) >> start_offset;
 		storage_unit mask = (STORAGE_UNIT_PREFIX(1) << (end_offset + 1)) - STORAGE_UNIT_PREFIX(1);	// mask cannot be full, so no need to check
-		BITSLOTBYNO(output, (end - start - 1) / STORAGE_UNIT_SIZE) |=
+		BITSLOTBYNO(output, BITSLOTNR(end - start - 1)) |=
 		    (BITSLOTBYNO(input, end_slot) & mask) << (STORAGE_UNIT_SIZE -
 							  start_offset);
 	} else if (start_offset == 0) {
@@ -1728,11 +1728,11 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 		     1) ? -STORAGE_UNIT_PREFIX(1) : (STORAGE_UNIT_PREFIX(1) <<
 						     (end_offset + 1)) -
 		    STORAGE_UNIT_PREFIX(1);
-		BITSLOTBYNO(output, (end - start - 1) / STORAGE_UNIT_SIZE) =
+		BITSLOTBYNO(output, BITSLOTNR(end - start - 1)) =
 		    (BITSLOTBYNO(input, end_slot) & mask);
 	} else {
 		storage_unit mask = (STORAGE_UNIT_PREFIX(1) << (end_offset - start_offset + 1)) - STORAGE_UNIT_PREFIX(1);	/* +1, because end_offset is the bit _included_ in selection */
-		BITSLOTBYNO(output, (end - start - 1) / STORAGE_UNIT_SIZE) |=
+		BITSLOTBYNO(output, BITSLOTNR(end - start - 1)) |=
 		    (BITSLOTBYNO(input, end_slot) & (mask << start_offset)) >>
 		    start_offset;
 	}
