@@ -1,4 +1,4 @@
-SRCFILES = $(wildcard *.c)
+SRCFILES = $(sort $(wildcard *.c))
 TESTFILES = $(patsubst %.c, %, $(SRCFILES))
 LIBS=-L.. -I..
 

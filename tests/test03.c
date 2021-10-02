@@ -1,5 +1,5 @@
 /**
- * File name: tests/test2.c
+ * File name: tests/test03.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>
@@ -14,32 +14,42 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bf2str_ip() and str2bf_ip() */
+/* Testing bfand(), bfnot(), bfor() and bfxor() */
 
 int main()
 {
 	srand((unsigned)time(NULL));
 	int i, cmp;		//counter
 	int len = 80;
-	char *msg = "Testing bf2str_ip() and str2bf_ip()";
+	char *msg = "Testing bfand(), bfnot(), bfor() and bfxor()";
 	char *status[] = { "[PASS]", "[FAIL]" };
 	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
 	printf("%s", msg);
 	for (i = 0; i < dots; i++)
 		printf(".");
-	struct bitfield *input = bfnew(len);
-	struct bitfield *output = bfnew(len);
-	char *input_char = malloc((len + 1) * sizeof(char));
-	for (i = 0; i < len; i++)
+	struct bitfield *input1 = bfnew(len);
+	struct bitfield *input2 = bfnew(len);
+	for (i = 0; i < len; i++) {
 		if (rand() % 2)
-			BITSET(input, i);
-	bf2str_ip(input, input_char);
-	str2bf_ip(input_char, output);
-	free(input_char);
-	cmp = bfcmp(input, output, NULL);
-	bfdel(input);
-	bfdel(output);
+			BITSET(input1, i);
+		if (rand() % 2)
+			BITSET(input2, i);
+	}
+
+	struct bitfield *output1 = bfxor(input1, input2);
+	struct bitfield *and = bfand(input1, input2);
+	struct bitfield *or = bfor(input1, input2);
+	bfdel(input1);
+	bfdel(input2);
+	struct bitfield *not = bfnot(and);
+	bfdel(and);
+	struct bitfield *output2 = bfand(or, not);
+	bfdel(or);
+	bfdel(not);
+	cmp = bfcmp(output1, output2, NULL);
+	bfdel(output1);
+	bfdel(output2);
 	if (cmp != 0) {
 		retval = 1;
 	}

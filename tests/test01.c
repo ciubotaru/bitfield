@@ -1,5 +1,5 @@
 /**
- * File name: tests/test1.c
+ * File name: tests/test01.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>

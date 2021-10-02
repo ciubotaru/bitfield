@@ -1,10 +1,10 @@
 /**
- * File name: tests/test7.c
+ * File name: tests/test08.c
  * Project name: bitfield, a bit array manipulation library written in C
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>
  * License: General Public License, version 3 or later
- * Copyright 2015, 2016, 2017, 2020
+ * Copyright 2015, 2016, 2020
 **/
 
 #include <stdio.h>
@@ -14,14 +14,14 @@
 #include "bitfield.h"
 #include "bitfield-internals.h"
 
-/* Testing bfclone() and bfcpy() */
+/* Testing bfrev() and bfrev_ip */
 
 int main()
 {
 	srand((unsigned)time(NULL));
-	int i, cmp;		//counter
+	int i;			//counter
 	int len = 80;
-	char *msg = "Testing bfclone() and bfcpy()";
+	char *msg = "Testing bfrev() and bfrev_ip()";
 	char *status[] = { "[PASS]", "[FAIL]" };
 	int retval = 0;
 	int dots = len - strlen(msg) - 6;	/* 6 is the length of pass/fail string */
@@ -36,33 +36,39 @@ int main()
 			input_char[i] = '0';
 	}
 	input_char[len] = '\0';
-	struct bitfield *input = str2bf(input_char);
-	free(input_char);
+	char *input_char_rev = malloc((len + 1) * sizeof(char));
+	for (i = 0; i < len; i++) {
+		if (input_char[i] == '1')
+			input_char_rev[len - i - 1] = '1';
+		else
+			input_char_rev[len - i - 1] = '0';
+	}
+	input_char_rev[len] = '\0';
 
-	struct bitfield *input2 = bfclone(input);
+	struct bitfield *input1 = str2bf(input_char);
 
-	cmp = bfcmp(input, input2, NULL);
-	bfdel(input2);
-	if (cmp != 0) {
-		retval = 1;
-		goto ret;
+	struct bitfield *input2 = bfrev(input1);
+	bfdel(input1);
+
+	for (i = 0; i < len; i++) {
+		if (BITGET(input2, i) != input_char_rev[i] - '0') {
+			retval = 1;
+			goto ret;
+		}
 	}
 
-	struct bitfield *input3 = bfnew_quick(len);
-	int result = bfcpy(input, input3);
-	if (result != 0) {
-		retval = 1;
-		goto ret;
+	bfrev_ip(input2);
+	for (i = 0; i < len; i++) {
+		if (BITGET(input2, i) != input_char[i] - '0') {
+			retval = 1;
+			goto ret;
+		}
 	}
 
-	cmp = bfcmp(input, input3, NULL);
-	bfdel(input);
-	bfdel(input3);
-	if (cmp != 0) {
-		retval = 1;
-		goto ret;
-	}
  ret:
+	free(input_char);
+	free(input_char_rev);
+	bfdel(input2);
 	printf("%s\n", status[retval]);
 	return retval;
 }
