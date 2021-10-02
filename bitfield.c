@@ -4,7 +4,7 @@
  * URL: https://github.com/ciubotaru/bitfield
  * Author: Vitalie Ciubotaru <vitalie@ciubotaru.tokyo>
  * License: General Public License, version 3 or later
- * Copyright 2015, 2016, 2017, 2019, 2020
+ * Copyright 2015-2017, 2019-2021
 **/
 
 #include <stdio.h>
