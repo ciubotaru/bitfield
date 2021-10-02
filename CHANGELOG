@@ -1,4 +1,9 @@
 Changelog
+1.1.0
+* Added bffs(), bffz(), bfls(), bflz(), bfclo(), bfclz(), bfcto() and bfctz()
+  functions.
+* Storage unit size is architecture-dependent now.
+* Minir bugfixes and optimizations.
 
 1.0.1
 * Minor bugfixes.
