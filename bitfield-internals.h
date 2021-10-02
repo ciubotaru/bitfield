@@ -43,6 +43,7 @@ typedef uint8_t storage_unit;
 #define BITNSLOTS(nb) (((nb) + STORAGE_UNIT_SIZE - 1) / STORAGE_UNIT_SIZE)
 #define BFSIZE(a) ((a)->size)
 #define BITSLOTBYNO(a, b) ((a)->field[b])
+#define BFTAILSIZE(a) (BFSIZE(a) % STORAGE_UNIT_SIZE)
 
 struct bitfield {		/* defines a bitfield */
 	storage_unit *field;
