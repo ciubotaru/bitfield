@@ -42,6 +42,7 @@ typedef uint8_t storage_unit;
 #define BITTOGGLE(a, b) ((a)->field[BITSLOT(b)] ^= BITMASK(b))
 #define BITNSLOTS(nb) (((nb) + STORAGE_UNIT_SIZE - 1) / STORAGE_UNIT_SIZE)
 #define BFSIZE(a) ((a)->size)
+#define BITSLOTBYNO(a, b) ((a)->field[b])
 
 struct bitfield {		/* defines a bitfield */
 	storage_unit *field;

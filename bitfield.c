@@ -122,13 +122,13 @@ static inline struct bitfield *bf_htole_(const struct bitfield *input)
 	unsigned int i;
 	for (i = 0; i < BITNSLOTS(BFSIZE(input)); i++) {
 #if (STORAGE_UNIT_SIZE == 8)
-		output->field[i] = input->field[i];
+		output->field[i] = BITSLOTBYNO(input, i);
 #elif (STORAGE_UNIT_SIZE == 16)
-		output->field[i] = htole16(input->field[i]);
+		output->field[i] = htole16(BITSLOTBYNO(input, i));
 #elif (STORAGE_UNIT_SIZE == 32)
-		output->field[i] = htole32(input->field[i]);
+		output->field[i] = htole32(BITSLOTBYNO(input, i));
 #elif (STORAGE_UNIT_SIZE == 64)
-		output->field[i] = htole64(input->field[i]);
+		output->field[i] = htole64(BITSLOTBYNO(input, i));
 #else
 #error "Unsupported storage unit size."
 #endif
@@ -203,7 +203,7 @@ static inline void bfcleartail(struct bitfield *instance)
 		storage_unit mask =
 		    (STORAGE_UNIT_PREFIX(1) << tail) - STORAGE_UNIT_PREFIX(1);
 		/* clear the extra bits */
-		instance->field[BITNSLOTS(BFSIZE(instance)) - 1] &= mask;
+		BITSLOTBYNO(instance, BITNSLOTS(BFSIZE(instance)) - 1) &= mask;
 	}
 }
 
@@ -227,18 +227,18 @@ struct bitfield *str2bf(const char *input)
 	for (i = 0; i < bitnslots - 1; i++) {
 		for (j = 0; j < STORAGE_UNIT_SIZE; j++) {
 			if (input[i * STORAGE_UNIT_SIZE + j] == '1')
-				output->field[i] |=
+				BITSLOTBYNO(output, i) |=
 				    (STORAGE_UNIT_PREFIX(1) << j);
 			else
-				output->field[i] &=
+				BITSLOTBYNO(output, i) &=
 				    ~(STORAGE_UNIT_PREFIX(1) << j);
 		}
 	}
 	for (j = 0; j < (input_len - 1) % STORAGE_UNIT_SIZE + 1; j++) {
 		if (input[i * STORAGE_UNIT_SIZE + j] == '1')
-			output->field[i] |= (STORAGE_UNIT_PREFIX(1) << j);
+			BITSLOTBYNO(output, i) |= (STORAGE_UNIT_PREFIX(1) << j);
 		else
-			output->field[i] &= ~(STORAGE_UNIT_PREFIX(1) << j);
+			BITSLOTBYNO(output, i) &= ~(STORAGE_UNIT_PREFIX(1) << j);
 	}
 	bfcleartail(output);
 	return output;
@@ -361,18 +361,18 @@ void str2bf_ip(const char *input, struct bitfield *output)
 	for (i = 0; i < bitnslots - 1; i++) {
 		for (j = 0; j < STORAGE_UNIT_SIZE; j++) {
 			if (input[i * STORAGE_UNIT_SIZE + j] == '1')
-				output->field[i] |=
+				BITSLOTBYNO(output, i) |=
 				    (STORAGE_UNIT_PREFIX(1) << j);
 			else
-				output->field[i] &=
+				BITSLOTBYNO(output, i) &=
 				    ~(STORAGE_UNIT_PREFIX(1) << j);
 		}
 	}
 	for (j = 0; j < (input_len - 1) % STORAGE_UNIT_SIZE + 1; j++) {
 		if (input[i * STORAGE_UNIT_SIZE + j] == '1')
-			output->field[i] |= (STORAGE_UNIT_PREFIX(1) << j);
+			BITSLOTBYNO(output, i) |= (STORAGE_UNIT_PREFIX(1) << j);
 		else
-			output->field[i] &= ~(STORAGE_UNIT_PREFIX(1) << j);
+			BITSLOTBYNO(output, i) &= ~(STORAGE_UNIT_PREFIX(1) << j);
 	}
 }
 
@@ -515,14 +515,14 @@ char *bf2str(const struct bitfield *input)
 	unsigned int i, j;
 	for (i = 0; i < bitnslots - 1; i++) {
 		for (j = 0; j < STORAGE_UNIT_SIZE; j++) {
-			if ((input->field[i] >> j) & 1LU)
+			if ((BITSLOTBYNO(input, i) >> j) & 1LU)
 				output[i * STORAGE_UNIT_SIZE + j] = '1';
 			else
 				output[i * STORAGE_UNIT_SIZE + j] = '0';
 		}
 	}
 	for (j = 0; j < (input_len - 1) % STORAGE_UNIT_SIZE + 1; j++) {
-		if ((input->field[bitnslots - 1] >> j) & 1LU)
+		if ((BITSLOTBYNO(input, bitnslots - 1) >> j) & 1LU)
 			output[(bitnslots - 1) * STORAGE_UNIT_SIZE + j] = '1';
 		else
 			output[(bitnslots - 1) * STORAGE_UNIT_SIZE + j] = '0';
@@ -647,14 +647,14 @@ void bf2str_ip(const struct bitfield *input, char *output)
 	unsigned int i, j;
 	for (i = 0; i < bitnslots - 1; i++) {
 		for (j = 0; j < STORAGE_UNIT_SIZE; j++) {
-			if ((input->field[i] >> j) & 1LU)
+			if ((BITSLOTBYNO(input, i) >> j) & 1LU)
 				output[i * STORAGE_UNIT_SIZE + j] = '1';
 			else
 				output[i * STORAGE_UNIT_SIZE + j] = '0';
 		}
 	}
 	for (j = 0; j < (BFSIZE(input) - 1) % STORAGE_UNIT_SIZE + 1; j++) {
-		if ((input->field[bitnslots - 1] >> j) & 1LU)
+		if ((BITSLOTBYNO(input, bitnslots - 1) >> j) & 1LU)
 			output[(bitnslots - 1) * STORAGE_UNIT_SIZE + j] = '1';
 		else
 			output[(bitnslots - 1) * STORAGE_UNIT_SIZE + j] = '0';
@@ -816,7 +816,7 @@ struct bitfield *bfnew_quick(const unsigned int size)
 		free(instance);
 		return NULL;
 	}
-	instance->field[BITNSLOTS(size) - 1] = 0UL;	//because the tail should be zeroed anyway
+	BITSLOTBYNO(instance, BITNSLOTS(size) - 1) = 0UL;	//because the tail should be zeroed anyway
 	return instance;
 }
 
@@ -872,7 +872,7 @@ static inline void bfand__(struct bitfield *input1,
 	int bitnslots = BITNSLOTS(size);
 	int i;
 	for (i = 0; i < bitnslots; i++)
-		input1->field[i] &= input2->field[i];
+		BITSLOTBYNO(input1, i) &= BITSLOTBYNO(input2, i);
 }
 
 struct bitfield *bfand_(unsigned int count, ...)
@@ -901,7 +901,7 @@ struct bitfield *bfnot(const struct bitfield *input)
 	if (!output)
 		return NULL;
 	for (i = 0; i < bitnslots; i++)
-		output->field[i] = ~input->field[i];
+		BITSLOTBYNO(output, i) = ~BITSLOTBYNO(input, i);
 	/* make sure to clear the trailing bits, if there are any */
 	bfcleartail(output);
 	return output;
@@ -912,7 +912,7 @@ void bfnot_ip(struct bitfield *instance)
 	int bitnslots = BITNSLOTS(BFSIZE(instance));
 	int i;
 	for (i = 0; i < bitnslots; i++)
-		instance->field[i] = ~instance->field[i];
+		BITSLOTBYNO(instance, i) = ~BITSLOTBYNO(instance, i);
 	/* make sure to clear the trailing bits, if there are any */
 	bfcleartail(instance);
 }
@@ -927,7 +927,7 @@ static inline void bfor__(struct bitfield *input1,
 	int bitnslots = BITNSLOTS(size);
 	int i;
 	for (i = 0; i < bitnslots; i++)
-		input1->field[i] |= input2->field[i];
+		BITSLOTBYNO(input1, i) |= BITSLOTBYNO(input2, i);
 }
 
 struct bitfield *bfor_(unsigned int count, ...)
@@ -958,7 +958,7 @@ static inline void bfxor__(struct bitfield *input1,
 	int bitnslots = BITNSLOTS(size);
 	int i;
 	for (i = 0; i < bitnslots; i++)
-		input1->field[i] ^= input2->field[i];
+		BITSLOTBYNO(input1, i) ^= BITSLOTBYNO(input2, i);
 }
 
 struct bitfield *bfxor_(unsigned int count, ...)
@@ -993,7 +993,7 @@ static inline struct bitfield *bfcat__(const struct bitfield *input1,
 		return NULL;
 	/* copy the first input to output as is */
 	for (i = 0; i < BITNSLOTS(BFSIZE(input1)); i++) {
-		output->field[i] |= input1->field[i];
+		BITSLOTBYNO(output, i) |= BITSLOTBYNO(input1, i);
 	}
 
 	/* find offset bit and offset slot */
@@ -1001,8 +1001,8 @@ static inline struct bitfield *bfcat__(const struct bitfield *input1,
 	unsigned int offset_slot = BFSIZE(input1) / STORAGE_UNIT_SIZE;
 
 	for (i = 0; i < BITNSLOTS(BFSIZE(input2)); i++) {
-		output->field[i + offset_slot] |=
-		    (input2->field[i] << offset_bit);
+		BITSLOTBYNO(output, i + offset_slot) |=
+		    (BITSLOTBYNO(input2, i) << offset_bit);
 	}
 
 	/*
@@ -1023,14 +1023,14 @@ static inline struct bitfield *bfcat__(const struct bitfield *input1,
 	if ((output_size - 1) % STORAGE_UNIT_SIZE <
 	    (BFSIZE(input2) - 1) % STORAGE_UNIT_SIZE) {
 		for (i = 0; i < BITNSLOTS(BFSIZE(input2)); i++) {
-			output->field[i + offset_slot + 1] |=
-			    (input2->field[i] >> (STORAGE_UNIT_SIZE - offset_bit));
+			BITSLOTBYNO(output, i + offset_slot + 1) |=
+			    (BITSLOTBYNO(input2, i) >> (STORAGE_UNIT_SIZE - offset_bit));
 		}
 	} else if ((output_size - 1) % STORAGE_UNIT_SIZE >
 		   (BFSIZE(input2) - 1) % STORAGE_UNIT_SIZE) {
 		for (i = 0; i < (BITNSLOTS(BFSIZE(input2)) - 1); i++) {
-			output->field[i + offset_slot + 1] |=
-			    (input2->field[i] >> (STORAGE_UNIT_SIZE - offset_bit));
+			BITSLOTBYNO(output, i + offset_slot + 1) |=
+			    (BITSLOTBYNO(input2, i) >> (STORAGE_UNIT_SIZE - offset_bit));
 		}
 	}
 	return output;
@@ -1071,7 +1071,7 @@ void bfclearall(struct bitfield *instance)
 {
 	unsigned int i;
 	for (i = 0; i < BITNSLOTS(BFSIZE(instance)); i++)
-		instance->field[i] = 0UL;
+		BITSLOTBYNO(instance, i) = 0UL;
 }
 
 struct bitfield *bfclone(const struct bitfield *input)
@@ -1105,7 +1105,7 @@ unsigned int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
 	int i;
 	int bitnslots = BITNSLOTS(BFSIZE(input1));
 	for (i = 0; i < (bitnslots - 1); i++) {	//leaving the last slot for later
-		if (input1->field[i] != input2->field[i]) {
+		if (BITSLOTBYNO(input1, i) != BITSLOTBYNO(input2, i)) {
 			msg = "Bitfields differ";
 			retcode = 1;
 			goto error;
@@ -1116,7 +1116,7 @@ unsigned int bfcmp(const struct bitfield *input1, const struct bitfield *input2,
 	    ((BFSIZE(input1) % STORAGE_UNIT_SIZE) == 0) ?
 	    -STORAGE_UNIT_PREFIX(1) :
 	    (STORAGE_UNIT_PREFIX(1) << (input1-> size % STORAGE_UNIT_SIZE)) - STORAGE_UNIT_PREFIX(1);
-	if ((input1->field[(BFSIZE(input1) - 1) / STORAGE_UNIT_SIZE] & mask) !=
+	if ((BITSLOTBYNO(input1, (BFSIZE(input1) - 1) / STORAGE_UNIT_SIZE) & mask) !=
 	    ((input2->field)[(BFSIZE(input2) - 1) / STORAGE_UNIT_SIZE] & mask)) {
 		msg = "Bitfields differ";
 		retcode = 1;
@@ -1137,7 +1137,7 @@ unsigned int bfcpy(const struct bitfield *src, struct bitfield *dest)
 		return 1;
 	unsigned int i;
 	for (i = 0; i < BITNSLOTS(BFSIZE(src)); i++)
-		dest->field[i] = src->field[i];
+		BITSLOTBYNO(dest, i) = BITSLOTBYNO(src, i);
 	return 0;
 }
 
@@ -1152,21 +1152,21 @@ unsigned int bffs(const struct bitfield *instance)
 	for (i = 0; i < bitnslots; i++) {
 #if (STORAGE_UNIT_SIZE <= (SIZEOF_UNSIGNED_INT * CHAR_BIT))
 #if defined(HAVE_BUILTIN_FFS)
-		tmp = __builtin_ffs((unsigned int) instance->field[i]);
+		tmp = __builtin_ffs((unsigned int) BITSLOTBYNO(instance, i));
 #elif defined(HAVE_FFS)
-		tmp = ffs((unsigned int) instance->field[i]);
+		tmp = ffs((unsigned int) BITSLOTBYNO(instance, i));
 #elif defined(HAVE_BUILTIN_FFSL)
-		tmp = __builtin_ffsl((unsigned long) instance->field[i]);
+		tmp = __builtin_ffsl((unsigned long) BITSLOTBYNO(instance, i));
 #elif defined(HAVE_FFSL)
-		tmp = ffsl((unsigned long) instance->field[i]);
+		tmp = ffsl((unsigned long) BITSLOTBYNO(instance, i));
 #else
 #error No ffs function available.
 #endif
 #else
 #if defined(HAVE_BUILTIN_FFSL)
-		tmp = __builtin_ffsl((unsigned long) instance->field[i]);
+		tmp = __builtin_ffsl((unsigned long) BITSLOTBYNO(instance, i));
 #elif defined(HAVE_FFSL)
-		tmp = ffsl((unsigned long) instance->field[i]);
+		tmp = ffsl((unsigned long) BITSLOTBYNO(instance, i));
 #else
 #error No ffs function available.
 #endif
@@ -1196,7 +1196,7 @@ unsigned int bfls(const struct bitfield *instance)
 	unsigned int bitnslots = BITNSLOTS(BFSIZE(instance));
 	unsigned int tmp;
 	for (i = bitnslots - 1; i >= 0; i--) {
-		tmp = flsl(instance->field[i]);
+		tmp = flsl(BITSLOTBYNO(instance, i));
 		if (tmp)
 			return i * STORAGE_UNIT_SIZE + tmp;
 	}
@@ -1219,7 +1219,7 @@ unsigned int bflz(const struct bitfield *instance)
 	unsigned int bitnslots = BITNSLOTS(BFSIZE(instance));
 	unsigned int tmp;
 	for (i = bitnslots - 1; i >= 0; i--) {
-		tmp = flsl(~instance->field[i]);
+		tmp = flsl(~BITSLOTBYNO(instance, i));
 		if (tmp)
 			return i * STORAGE_UNIT_SIZE + tmp;
 	}
@@ -1406,7 +1406,7 @@ unsigned int bfisempty(const struct bitfield *instance)
 	unsigned int i;
 	unsigned int bitnslots = BITNSLOTS(BFSIZE(instance));
 	for (i = 0; i < bitnslots; i++) {
-		if (instance->field[i] != 0UL)
+		if (BITSLOTBYNO(instance, i) != 0UL)
 			return 1;
 	}
 	return 0;
@@ -1447,7 +1447,7 @@ unsigned int bfpopcount(const struct bitfield *instance)
 			m4 = 0x0F0F0F0F;
 			h01 = 0x01010101;
 		}
-		tmp = instance->field[i];
+		tmp = BITSLOTBYNO(instance, i);
 		tmp -= (tmp >> 1) & m1;
 		tmp = (tmp & m2) + ((tmp >> 2) & m2);
 		tmp = (tmp + (tmp >> 4)) & m4;
@@ -1546,7 +1546,7 @@ void bfrev_ip(struct bitfield *instance)
 	unsigned int bitnslots = BITNSLOTS(size);
 	for (i = 0; i < (bitnslots - 1); i++) {
 		for (j = 0; j < STORAGE_UNIT_SIZE; j++) {
-			if ((instance->field[i] >> j) & STORAGE_UNIT_PREFIX(1))
+			if ((BITSLOTBYNO(instance, i) >> j) & STORAGE_UNIT_PREFIX(1))
 				BITSET(tmp,
 				       size - i * STORAGE_UNIT_SIZE - j - 1);
 			else
@@ -1577,15 +1577,15 @@ struct bitfield *bfrev(const struct bitfield *input)
 		return NULL;
 	for (i = 0; i < bitnslots; i++) {
 		/* taken from http://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious */
-		storage_unit v = input->field[bitnslots - i - 1];	// the source slot to be reversed
-		output->field[i] = v;	// the destination slot; will be reversed bits of v; first get LSB of v
+		storage_unit v = BITSLOTBYNO(input, bitnslots - i - 1);	// the source slot to be reversed
+		BITSLOTBYNO(output, i) = v;	// the destination slot; will be reversed bits of v; first get LSB of v
 		int s = STORAGE_UNIT_SIZE - 1;	// extra shift needed at end
 		for (v >>= 1; v; v >>= 1) {
-			output->field[i] <<= STORAGE_UNIT_PREFIX(1);
-			output->field[i] |= v & STORAGE_UNIT_PREFIX(1);
+			BITSLOTBYNO(output, i) <<= STORAGE_UNIT_PREFIX(1);
+			BITSLOTBYNO(output, i) |= v & STORAGE_UNIT_PREFIX(1);
 			s--;
 		}
-		output->field[i] <<= s;	// shift when v's highest bits are zero
+		BITSLOTBYNO(output, i) <<= s;	// shift when v's highest bits are zero
 	}
 	int tail = bitnslots * STORAGE_UNIT_SIZE - size;
 	BFSIZE(output) = bitnslots * STORAGE_UNIT_SIZE;
@@ -1598,7 +1598,7 @@ void bfsetall(struct bitfield *instance)
 {
 	unsigned int i;
 	for (i = 0; i < BITNSLOTS(BFSIZE(instance)); i++)
-		instance->field[i] = -STORAGE_UNIT_PREFIX(1);
+		BITSLOTBYNO(instance, i) = -STORAGE_UNIT_PREFIX(1);
 	bfcleartail(instance);
 }
 
@@ -1697,12 +1697,12 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 		if (start_offset != 0) {	// need to move them one by one
 			int i;
 			for (i = 0; i < output_slots - 1; i++) {
-				output->field[i] =
-				    input->field[start_slot +
-						 i] >> start_offset;
-				output->field[i] |=
-				    input->field[start_slot + i +
-						 1] << (STORAGE_UNIT_SIZE -
+				BITSLOTBYNO(output, i) =
+				    BITSLOTBYNO(input, start_slot +
+						 i) >> start_offset;
+				BITSLOTBYNO(output, i) |=
+				    BITSLOTBYNO(input, start_slot + i +
+						 1) << (STORAGE_UNIT_SIZE -
 							start_offset);
 			}
 		} else
@@ -1724,11 +1724,11 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
      *  to the beginning of the last slot in input (i.e. start_offset bits to left).
  **/
 	if (start_offset > end_offset) {
-		output->field[(end - start - 1) / STORAGE_UNIT_SIZE] =
-		    (input->field)[end_slot - 1] >> start_offset;
+		BITSLOTBYNO(output, (end - start - 1) / STORAGE_UNIT_SIZE) =
+		    BITSLOTBYNO(input, end_slot - 1) >> start_offset;
 		storage_unit mask = (STORAGE_UNIT_PREFIX(1) << (end_offset + 1)) - STORAGE_UNIT_PREFIX(1);	// mask cannot be full, so no need to check
-		output->field[(end - start - 1) / STORAGE_UNIT_SIZE] |=
-		    ((input->field)[end_slot] & mask) << (STORAGE_UNIT_SIZE -
+		BITSLOTBYNO(output, (end - start - 1) / STORAGE_UNIT_SIZE) |=
+		    (BITSLOTBYNO(input, end_slot) & mask) << (STORAGE_UNIT_SIZE -
 							  start_offset);
 	} else if (start_offset == 0) {
 		storage_unit mask =
@@ -1737,11 +1737,11 @@ struct bitfield *bfsub(const struct bitfield *input, const unsigned int start,
 		     1) ? -STORAGE_UNIT_PREFIX(1) : (STORAGE_UNIT_PREFIX(1) <<
 						     (end_offset + 1)) -
 		    STORAGE_UNIT_PREFIX(1);
-		output->field[(end - start - 1) / STORAGE_UNIT_SIZE] =
-		    (input->field[end_slot] & mask);
+		BITSLOTBYNO(output, (end - start - 1) / STORAGE_UNIT_SIZE) =
+		    (BITSLOTBYNO(input, end_slot) & mask);
 	} else {
 		storage_unit mask = (STORAGE_UNIT_PREFIX(1) << (end_offset - start_offset + 1)) - STORAGE_UNIT_PREFIX(1);	/* +1, because end_offset is the bit _included_ in selection */
-		output->field[(end - start - 1) / STORAGE_UNIT_SIZE] |=
+		BITSLOTBYNO(output, (end - start - 1) / STORAGE_UNIT_SIZE) |=
 		    ((input->field)[end_slot] & (mask << start_offset)) >>
 		    start_offset;
 	}
@@ -1769,7 +1769,7 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 			/* special check for tail chunks (may be underfull) */
 			if (j == bitnslots - 1 && length_last_chunk != 0) {
 				/* this can probably be optimized */
-				chunk_a = output->field[j];
+				chunk_a = BITSLOTBYNO(output, j);
 				tmp1 =
 				    bfshift(input,
 					    size - length_last_chunk - i);
@@ -1780,15 +1780,15 @@ struct bitfield *bfnormalize(const struct bitfield *input)
 					bfdel(tmp1);
 					goto error;
 				}
-				chunk_b = tmp2->field[0];
+				chunk_b = BITSLOTBYNO(tmp2, 0);
 				bfdel(tmp1);
 				bfdel(tmp2);
 			} else {
 				/* this can probably be optimized */
-				chunk_a = output->field[j];
+				chunk_a = BITSLOTBYNO(output, j);
 				tmp1 = bfshift(input, -i);
 				if (!tmp1) goto error;
-				chunk_b = tmp1->field[j];
+				chunk_b = BITSLOTBYNO(tmp1, j);
 				bfdel(tmp1);
 			}
 			/* compare. if a is greater, offset i becomes new best candidate. move to next i */
